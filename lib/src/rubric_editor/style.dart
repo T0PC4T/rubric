@@ -16,13 +16,14 @@ class RubricEditorStyle {
     this.paddingUnit = 12,
     this.borderRadius = 12,
     this.fontSize = 14,
-    this.primaryColor = const Color.fromARGB(255, 71, 151, 255),
+    this.primaryColor = const Color.fromARGB(255, 148, 195, 255),
     this.foregroundColor = const Color.fromARGB(255, 0, 0, 0),
     this.backgroundColor = const Color.fromARGB(255, 255, 255, 255),
     this.borderColor = const Color.fromARGB(255, 212, 212, 212),
   });
 
-  static RubricEditorStyle? of(BuildContext context) {
-    return RubricEditorState.of(context).widget.style;
+  static RubricEditorStyle of(BuildContext context) {
+    final result = RubricEditorState.of(context).widget.style;
+    return result;
   }
 }

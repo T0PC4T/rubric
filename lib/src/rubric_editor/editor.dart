@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:rubric/src/models/editor.dart';
 import 'package:rubric/src/models/elements.dart';
 import 'package:rubric/src/rubric_editor/sidebar/sidebar.dart';
+import 'package:rubric/src/rubric_editor/style.dart';
 import 'package:rubric/src/rubric_editor/viewer/viewer.dart';
-import 'package:rubric/src/shared/style.dart';
 
 class RubricEditor extends StatefulWidget {
   final RubricEditorStyle style;
