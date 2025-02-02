@@ -28,7 +28,6 @@ class RubricSideBarState extends State<RubricSideBar> {
   @override
   Widget build(BuildContext context) {
     final editorState = RubricEditorState.depend(context);
-    final tile = editorState.edits.gridSize.pixelsPerLine.toDouble();
     return Container(
       decoration: BoxDecoration(
         color: const Color.fromARGB(255, 231, 231, 231),
@@ -36,6 +35,7 @@ class RubricSideBarState extends State<RubricSideBar> {
       width: RubricSideBar.sideBarSize,
       height: double.infinity,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Row(
             children: [
@@ -59,73 +59,3 @@ class RubricSideBarState extends State<RubricSideBar> {
     );
   }
 }
-
-// class RubricSidebarButton extends StatefulWidget {
-//   final ElementTypes type;
-//   final double width;
-
-//   const RubricSidebarButton({
-//     super.key,
-//     required this.type,
-//     required this.width,
-//   });
-
-//   @override
-//   State<RubricSidebarButton> createState() => _RubricSidebarButtonState();
-// }
-
-// class _RubricSidebarButtonState extends State<RubricSidebarButton> {
-//   bool hovered = false;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     final editorState = RubricEditorState.depend(context);
-//     final style = RubricEditorStyle.of(context)!;
-//     final tile = editorState.edits.gridSize.pixelsPerLine.toDouble();
-//     return GestureDetector(
-//       onTap: () {
-//         final state = RubricEditorState.depend(context);
-//         state.addElementAndFocus(
-//           ElementModel(
-//             id: UniqueKey().toString(),
-//             type: widget.type,
-//             x: tile,
-//             y: tile * 4,
-//             width: tile,
-//             height: tile,
-//             properties:
-//                 BoxElementModel(
-//                   color: const Color.fromARGB(255, 114, 227, 255),
-//                 ).toJson(),
-//           ),
-//         );
-//       },
-
-//       child: MouseRegion(
-//         onEnter: (event) {
-//           setState(() {
-//             hovered = true;
-//           });
-//         },
-
-//         onExit: (event) {
-//           setState(() {
-//             hovered = false;
-//           });
-//         },
-
-//         child: Container(
-//           padding: EdgeInsets.all(15),
-//           // box decoration with border radisu
-//           color:
-//               hovered
-//                   ? Color.lerp(style.backgroundColor, style.primaryColor, 0.4)
-//                   : style.backgroundColor,
-//           width: widget.width,
-//           height: widget.width,
-//           child:
-//         ),
-//       ),
-//     );
-//   }
-// }

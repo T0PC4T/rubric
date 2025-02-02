@@ -162,20 +162,21 @@ class RubricEditorViewerState extends State<RubricEditorViewer> {
             onPointerHover: (event, result) {},
             key: ValueKey("ViewerStack"),
             children: [
-              RubricPositioned(
-                key: ValueKey("background"),
-                height: double.infinity,
-                width: double.infinity,
-                x: 0,
-                y: 0,
-                child: CustomPaint(
-                  key: ValueKey("grid"),
-                  painter: GridPainter(
-                    editorState.edits.gridSize.pixelsPerLine,
+              if (editorState.edits.gridSize != GridSizes.none)
+                RubricPositioned(
+                  key: ValueKey("background"),
+                  height: double.infinity,
+                  width: double.infinity,
+                  x: 0,
+                  y: 0,
+                  child: CustomPaint(
+                    key: ValueKey("grid"),
+                    painter: GridPainter(
+                      editorState.edits.gridSize.pixelsPerLine,
+                    ),
+                    size: Size.infinite,
                   ),
-                  size: Size.infinite,
                 ),
-              ),
 
               for (var element in editorState.canvas.elements)
                 ElementWidget(key: ValueKey(element.id), element: element),

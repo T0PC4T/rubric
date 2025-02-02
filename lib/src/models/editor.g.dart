@@ -28,7 +28,7 @@ Map<String, dynamic> _$$CanvasEditingModelImplToJson(
 };
 
 const _$GridSizesEnumMap = {
-  GridSizes.free: 'free',
+  GridSizes.none: 'free',
   GridSizes.small: 'small',
   GridSizes.medium: 'medium',
   GridSizes.large: 'large',

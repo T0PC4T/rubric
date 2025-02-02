@@ -36,6 +36,12 @@ class RubricEditorState extends State<RubricEditor> {
     // );
   }
 
+  editEditor(CanvasEditingModel edits) {
+    setState(() {
+      this.edits = edits;
+    });
+  }
+
   changeProperties(ElementModel element, Map<String, dynamic> newPropeties) {
     setState(() {
       element.properties = newPropeties;

@@ -8,17 +8,18 @@ part 'editor.g.dart';
 These models are dedicated to the editor state. This state does not affect the actual lesson being built but only the current users editing view.
  */
 enum GridSizes {
-  free(GridSizes.pageSize / 100),
-  small(GridSizes.pageSize / 20),
-  medium(GridSizes.pageSize / 15),
-  large(GridSizes.pageSize / 10),
-  extraLarge(GridSizes.pageSize / 5);
+  none("Free", GridSizes.pageSize / 100),
+  small("Small", GridSizes.pageSize / 50),
+  medium("Medium", GridSizes.pageSize / 20),
+  large("Large", GridSizes.pageSize / 15),
+  extraLarge("Extra Large", GridSizes.pageSize / 10);
 
-  static const double pageSize = 1000;
+  static const double pageSize = 1500;
 
   final double pixelsPerLine;
+  final String pretty;
 
-  const GridSizes(this.pixelsPerLine);
+  const GridSizes(this.pretty, this.pixelsPerLine);
 }
 
 @freezed
