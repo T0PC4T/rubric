@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rubric/rubric.dart';
-import 'package:rubric/src/elements/box/model_box.dart';
-import 'package:rubric/src/models/elements.dart';
+import 'package:rubric/src/elements/box/box_model.dart';
+import 'package:rubric/src/elements/models/elements.dart';
 
 class FocusBoxWidget extends StatelessWidget {
   final ElementModel element;

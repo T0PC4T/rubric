@@ -2,7 +2,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:rubric/src/models/elements.dart';
+import 'package:rubric/src/elements/models/elements.dart';
 
 class StackEventResult {
   ElementModel? element;

@@ -3,14 +3,14 @@ import 'dart:math' as math;
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:rubric/rubric.dart';
-import 'package:rubric/src/models/editor.dart';
-import 'package:rubric/src/models/elements.dart';
+import 'package:rubric/src/elements/models/elements.dart';
+import 'package:rubric/src/rubric_editor/models/editor.dart';
 import 'package:rubric/src/rubric_editor/models/stack.dart';
 import 'package:rubric/src/rubric_editor/viewer/items/element.dart';
+import 'package:rubric/src/rubric_editor/viewer/items/grid.dart';
 import 'package:rubric/src/rubric_editor/viewer/items/position.dart';
 import 'package:rubric/src/rubric_editor/viewer/items/scalar.dart';
 import 'package:rubric/src/rubric_editor/viewer/stack/element_stack.dart';
-import 'package:rubric/src/rubric_editor/viewer/stack/grid.dart';
 
 class RubricEditorViewer extends StatefulWidget {
   const RubricEditorViewer({super.key});
@@ -191,6 +191,7 @@ class RubricEditorViewerState extends State<RubricEditorViewer> {
     );
   }
 }
+
 
 
 

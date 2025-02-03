@@ -2,8 +2,8 @@ import 'dart:ui';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'model_box.freezed.dart';
-part 'model_box.g.dart';
+part 'box_model.freezed.dart';
+part 'box_model.g.dart';
 
 @freezed
 class BoxElementModel with _$BoxElementModel {

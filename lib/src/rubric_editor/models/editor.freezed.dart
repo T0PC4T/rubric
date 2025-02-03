@@ -23,6 +23,7 @@ CanvasEditingModel _$CanvasEditingModelFromJson(Map<String, dynamic> json) {
 mixin _$CanvasEditingModel {
   // required Color backgroundColor,
   ElementModel? get selected => throw _privateConstructorUsedError;
+  ElementModel? get focused => throw _privateConstructorUsedError;
   GridSizes get gridSize => throw _privateConstructorUsedError;
   bool get showGrid => throw _privateConstructorUsedError;
 
@@ -43,9 +44,15 @@ abstract class $CanvasEditingModelCopyWith<$Res> {
     $Res Function(CanvasEditingModel) then,
   ) = _$CanvasEditingModelCopyWithImpl<$Res, CanvasEditingModel>;
   @useResult
-  $Res call({ElementModel? selected, GridSizes gridSize, bool showGrid});
+  $Res call({
+    ElementModel? selected,
+    ElementModel? focused,
+    GridSizes gridSize,
+    bool showGrid,
+  });
 
   $ElementModelCopyWith<$Res>? get selected;
+  $ElementModelCopyWith<$Res>? get focused;
 }
 
 /// @nodoc
@@ -64,6 +71,7 @@ class _$CanvasEditingModelCopyWithImpl<$Res, $Val extends CanvasEditingModel>
   @override
   $Res call({
     Object? selected = freezed,
+    Object? focused = freezed,
     Object? gridSize = null,
     Object? showGrid = null,
   }) {
@@ -73,6 +81,11 @@ class _$CanvasEditingModelCopyWithImpl<$Res, $Val extends CanvasEditingModel>
                 freezed == selected
                     ? _value.selected
                     : selected // ignore: cast_nullable_to_non_nullable
+                        as ElementModel?,
+            focused:
+                freezed == focused
+                    ? _value.focused
+                    : focused // ignore: cast_nullable_to_non_nullable
                         as ElementModel?,
             gridSize:
                 null == gridSize
@@ -102,6 +115,20 @@ class _$CanvasEditingModelCopyWithImpl<$Res, $Val extends CanvasEditingModel>
       return _then(_value.copyWith(selected: value) as $Val);
     });
   }
+
+  /// Create a copy of CanvasEditingModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $ElementModelCopyWith<$Res>? get focused {
+    if (_value.focused == null) {
+      return null;
+    }
+
+    return $ElementModelCopyWith<$Res>(_value.focused!, (value) {
+      return _then(_value.copyWith(focused: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -113,10 +140,17 @@ abstract class _$$CanvasEditingModelImplCopyWith<$Res>
   ) = __$$CanvasEditingModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({ElementModel? selected, GridSizes gridSize, bool showGrid});
+  $Res call({
+    ElementModel? selected,
+    ElementModel? focused,
+    GridSizes gridSize,
+    bool showGrid,
+  });
 
   @override
   $ElementModelCopyWith<$Res>? get selected;
+  @override
+  $ElementModelCopyWith<$Res>? get focused;
 }
 
 /// @nodoc
@@ -134,6 +168,7 @@ class __$$CanvasEditingModelImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? selected = freezed,
+    Object? focused = freezed,
     Object? gridSize = null,
     Object? showGrid = null,
   }) {
@@ -143,6 +178,11 @@ class __$$CanvasEditingModelImplCopyWithImpl<$Res>
             freezed == selected
                 ? _value.selected
                 : selected // ignore: cast_nullable_to_non_nullable
+                    as ElementModel?,
+        focused:
+            freezed == focused
+                ? _value.focused
+                : focused // ignore: cast_nullable_to_non_nullable
                     as ElementModel?,
         gridSize:
             null == gridSize
@@ -164,6 +204,7 @@ class __$$CanvasEditingModelImplCopyWithImpl<$Res>
 class _$CanvasEditingModelImpl implements _CanvasEditingModel {
   const _$CanvasEditingModelImpl({
     this.selected,
+    this.focused,
     this.gridSize = GridSizes.medium,
     this.showGrid = true,
   });
@@ -175,6 +216,8 @@ class _$CanvasEditingModelImpl implements _CanvasEditingModel {
   @override
   final ElementModel? selected;
   @override
+  final ElementModel? focused;
+  @override
   @JsonKey()
   final GridSizes gridSize;
   @override
@@ -183,7 +226,7 @@ class _$CanvasEditingModelImpl implements _CanvasEditingModel {
 
   @override
   String toString() {
-    return 'CanvasEditingModel(selected: $selected, gridSize: $gridSize, showGrid: $showGrid)';
+    return 'CanvasEditingModel(selected: $selected, focused: $focused, gridSize: $gridSize, showGrid: $showGrid)';
   }
 
   @override
@@ -193,6 +236,7 @@ class _$CanvasEditingModelImpl implements _CanvasEditingModel {
             other is _$CanvasEditingModelImpl &&
             (identical(other.selected, selected) ||
                 other.selected == selected) &&
+            (identical(other.focused, focused) || other.focused == focused) &&
             (identical(other.gridSize, gridSize) ||
                 other.gridSize == gridSize) &&
             (identical(other.showGrid, showGrid) ||
@@ -201,7 +245,8 @@ class _$CanvasEditingModelImpl implements _CanvasEditingModel {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, selected, gridSize, showGrid);
+  int get hashCode =>
+      Object.hash(runtimeType, selected, focused, gridSize, showGrid);
 
   /// Create a copy of CanvasEditingModel
   /// with the given fields replaced by the non-null parameter values.
@@ -223,6 +268,7 @@ class _$CanvasEditingModelImpl implements _CanvasEditingModel {
 abstract class _CanvasEditingModel implements CanvasEditingModel {
   const factory _CanvasEditingModel({
     final ElementModel? selected,
+    final ElementModel? focused,
     final GridSizes gridSize,
     final bool showGrid,
   }) = _$CanvasEditingModelImpl;
@@ -233,6 +279,8 @@ abstract class _CanvasEditingModel implements CanvasEditingModel {
   // required Color backgroundColor,
   @override
   ElementModel? get selected;
+  @override
+  ElementModel? get focused;
   @override
   GridSizes get gridSize;
   @override

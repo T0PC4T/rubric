@@ -1,9 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:rubric/src/rubric_editor/style.dart';
+import 'package:rubric/src/rubric_editor/models/style.dart';
+
+enum TextType {
+  title(1.3),
+  paragraph(1),
+  small(0.8);
+
+  final double sizeMultiplier;
+  const TextType(this.sizeMultiplier);
+}
 
 class RubricText extends StatelessWidget {
   final String text;
-  const RubricText(this.text, {super.key});
+  final TextType textType;
+  const RubricText(this.text, {super.key, this.textType = TextType.paragraph});
 
   @override
   Widget build(BuildContext context) {
@@ -11,8 +21,8 @@ class RubricText extends StatelessWidget {
     return Text(
       text,
       style: TextStyle(
-        color: styles.foregroundColor,
-        fontSize: styles.fontSize,
+        color: styles.dark,
+        fontSize: styles.fontSize * textType.sizeMultiplier,
       ),
     );
   }

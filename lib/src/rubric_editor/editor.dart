@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:rubric/src/models/editor.dart';
-import 'package:rubric/src/models/elements.dart';
+import 'package:rubric/src/elements/models/elements.dart';
+import 'package:rubric/src/rubric_editor/models/editor.dart';
+import 'package:rubric/src/rubric_editor/models/style.dart';
 import 'package:rubric/src/rubric_editor/sidebar/sidebar.dart';
-import 'package:rubric/src/rubric_editor/style.dart';
+import 'package:rubric/src/rubric_editor/tab_bar/element_toolbar.dart';
+import 'package:rubric/src/rubric_editor/topbar/topbar.dart';
 import 'package:rubric/src/rubric_editor/viewer/viewer.dart';
 
 class RubricEditor extends StatefulWidget {
@@ -85,12 +87,33 @@ class RubricEditorState extends State<RubricEditor> {
     return RubricEditorInheritedWidget(
       canvas: canvas,
       child: DefaultTextStyle(
-        style: TextStyle(
-          color: style.foregroundColor,
-          fontSize: style.fontSize,
-        ),
-        child: Row(
-          children: [RubricSideBar(), Expanded(child: RubricEditorViewer())],
+        style: TextStyle(color: style.dark, fontSize: style.fontSize),
+        child: Column(
+          children: [
+            TopBarWidget(),
+            Expanded(
+              child: Row(
+                children: [
+                  RubricSideBar(),
+                  Expanded(
+                    child: Stack(
+                      fit: StackFit.expand,
+                      children: [
+                        RubricEditorViewer(),
+                        if (edits.selected case ElementModel element)
+                          Positioned(
+                            left: 0,
+                            top: 0,
+                            right: 0,
+                            child: ElementToolbarWidget(element: element),
+                          ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );

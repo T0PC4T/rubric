@@ -1,7 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:rubric/src/models/elements.dart';
+import 'package:rubric/src/elements/models/elements.dart';
 import 'package:rubric/src/rubric_editor/models/stack.dart';
 import 'package:rubric/src/rubric_editor/viewer/items/element.dart';
 import 'package:rubric/src/rubric_editor/viewer/items/scalar.dart';
@@ -177,7 +177,11 @@ class RenderRubricElementStack extends RenderBox
 
   @override
   bool hitTestChildren(BoxHitTestResult result, {required Offset position}) {
+    // ? always hit the canvas even if it is empty
+    result.add(BoxHitTestEntry(this, position));
     return defaultHitTestChildren(result, position: position);
+
+    // return r;
   }
 
   @override

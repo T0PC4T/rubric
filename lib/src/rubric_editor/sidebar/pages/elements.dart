@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rubric/rubric.dart';
-import 'package:rubric/src/elements/box/model_box.dart';
-import 'package:rubric/src/models/elements.dart';
+import 'package:rubric/src/elements/box/box_model.dart';
+import 'package:rubric/src/elements/models/elements.dart';
 import 'package:rubric/src/rubric_editor/sidebar/sidebar.dart';
 import 'package:rubric/src/shared/atoms/button.dart';
 
@@ -10,6 +10,7 @@ class ElementPageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final buttonSize = RubricSideBar.sideBarSize * 0.5;
     final editorState = RubricEditorState.depend(context);
     final tile = editorState.edits.gridSize.pixelsPerLine.toDouble();
     return Wrap(
@@ -18,15 +19,10 @@ class ElementPageWidget extends StatelessWidget {
           RubricButton(
             padding: EdgeInsets.all(15),
 
-            backgroundColor: editorState.style.backgroundColor,
-            width: RubricSideBar.sideBarSize * 0.5,
-            height: RubricSideBar.sideBarSize * 0.5,
-            hoverColor:
-                Color.lerp(
-                  editorState.style.primaryColor,
-                  editorState.style.backgroundColor,
-                  0.4,
-                )!,
+            backgroundColor: editorState.style.light,
+            width: buttonSize,
+            height: buttonSize,
+            hoverColor: editorState.style.primary4,
             onTap: () {
               final state = RubricEditorState.depend(context);
               state.addElementAndFocus(
@@ -44,7 +40,15 @@ class ElementPageWidget extends StatelessWidget {
                 ),
               );
             },
-            child: Row(children: [Icon(element.icon), Text(element.name)]),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              spacing: editorState.style.paddingUnit * 0.5,
+              children: [
+                Icon(element.icon, size: buttonSize * 0.4),
+                Text(element.name),
+              ],
+            ),
           ),
       ],
     );

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rubric/src/rubric_editor/style.dart';
+import 'package:rubric/src/rubric_editor/models/style.dart';
 
 class RubricDropdown<T> extends StatelessWidget {
   final List<DropdownMenuItem<T>>? items;
@@ -18,15 +18,12 @@ class RubricDropdown<T> extends StatelessWidget {
     final styles = RubricEditorStyle.of(context);
     return DropdownButton<T>(
       isDense: true,
-      borderRadius: BorderRadius.circular(styles.borderRadius),
+      borderRadius: BorderRadius.circular(styles.radius),
       items: items,
       selectedItemBuilder: selectedItemBuilder,
       onChanged: onChanged,
-      dropdownColor: styles.backgroundColor,
-      style: TextStyle(
-        color: styles.foregroundColor,
-        fontSize: styles.fontSize,
-      ),
+      dropdownColor: styles.light,
+      style: TextStyle(color: styles.dark, fontSize: styles.fontSize),
     );
   }
 }

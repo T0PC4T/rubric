@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:rubric/src/elements/box/model_box.dart';
+import 'package:rubric/src/elements/box/box_model.dart';
+import 'package:rubric/src/elements/box/box_tooltip.dart';
 import 'package:rubric/src/elements/elements.dart';
 
 part 'elements.freezed.dart';
@@ -25,18 +26,35 @@ class CanvasModel with _$CanvasModel {
     element.y = offset.dy;
   }
 
+  updateElement(ElementModel element, Map<String, dynamic> properties) {
+    element.properties = properties;
+  }
+
   factory CanvasModel.fromJson(Map<String, dynamic> json) =>
       _$CanvasModelFromJson(json);
 }
 
 // enum ElementTypes { text, box, image, video }
 enum ElementTypes {
-  box("Box", Icons.check_box_outline_blank_rounded, RuBoxEditorElement.new);
+  box(
+    "Box",
+    Icons.check_box_outline_blank_rounded,
+    RuBoxEditorElement.new,
+    BoxTooltipWidget.new,
+  );
 
   final String title;
   final IconData icon;
-  final Widget Function({Key? key, required ElementModel element}) builder;
-  const ElementTypes(this.title, this.icon, this.builder);
+  final Widget Function({Key? key, required ElementModel element})
+  editorBuilder;
+  final Widget Function({Key? key, required ElementModel element})
+  toolbarBuilder;
+  const ElementTypes(
+    this.title,
+    this.icon,
+    this.editorBuilder,
+    this.toolbarBuilder,
+  );
 }
 
 @unfreezed

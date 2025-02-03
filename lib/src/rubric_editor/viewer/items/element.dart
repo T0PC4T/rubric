@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:rubric/src/models/elements.dart';
+import 'package:rubric/src/elements/models/elements.dart';
 import 'package:rubric/src/rubric_editor/viewer/items/position.dart';
 
 class ElementRenderProxyBox extends RenderProxyBox {
@@ -23,7 +23,7 @@ class ElementWidget extends StatelessWidget {
       height: element.height,
       child: ElementRenderObjectWidget(
         element: element,
-        child: element.type.builder(element: element),
+        child: element.type.editorBuilder(element: element),
       ),
     );
   }
@@ -53,7 +53,4 @@ class ElementRenderObjectWidget extends SingleChildRenderObjectWidget {
     renderObject.markNeedsLayout();
     // }
   }
-
-  @override
-  Widget? get child => element.type.builder(element: element);
 }

@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:rubric/src/models/elements.dart';
+import 'package:rubric/src/elements/models/elements.dart';
 
 part 'editor.freezed.dart';
 part 'editor.g.dart';
@@ -27,6 +27,7 @@ class CanvasEditingModel with _$CanvasEditingModel {
   const factory CanvasEditingModel({
     // required Color backgroundColor,
     ElementModel? selected,
+    ElementModel? focused,
     @Default(GridSizes.medium) GridSizes gridSize,
     @Default(true) bool showGrid,
   }) = _CanvasEditingModel;

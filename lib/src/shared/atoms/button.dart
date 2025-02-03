@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rubric/src/rubric_editor/style.dart';
+import 'package:rubric/src/rubric_editor/models/style.dart';
 
 class RubricButton extends StatefulWidget {
   // Styles
@@ -32,8 +32,8 @@ class RubricButtonState extends State<RubricButton> {
   @override
   Widget build(BuildContext context) {
     final styles = RubricEditorStyle.of(context);
-    final backgroundColor = widget.backgroundColor ?? styles.backgroundColor;
-    final hoverColor = widget.hoverColor ?? styles.primaryColor;
+    final backgroundColor = widget.backgroundColor ?? styles.light;
+    final hoverColor = widget.hoverColor ?? styles.theme;
 
     return GestureDetector(
       onTap: widget.onTap,
