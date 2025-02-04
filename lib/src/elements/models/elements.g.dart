@@ -40,4 +40,7 @@ Map<String, dynamic> _$$ElementModelImplToJson(_$ElementModelImpl instance) =>
       'properties': instance.properties,
     };
 
-const _$ElementTypesEnumMap = {ElementTypes.box: 'box'};
+const _$ElementTypesEnumMap = {
+  ElementTypes.box: 'box',
+  ElementTypes.text: 'text',
+};

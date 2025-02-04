@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:rubric/src/rubric_editor/models/style.dart';
 import 'package:rubric/src/shared/shared.dart';
 
-class TopBarWidget extends StatelessWidget {
-  static const double topBarHeight = 50;
-  const TopBarWidget({super.key});
+class NavbarWidget extends StatelessWidget {
+  static const double navbarHeight = 40;
+  const NavbarWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -41,22 +41,22 @@ class TopBarActions extends StatelessWidget {
       children: [
         RubricIconButton(
           iconData: Icons.undo,
-          size: TopBarWidget.topBarHeight,
+          size: NavbarWidget.navbarHeight,
           onTap: () {},
         ),
         RubricIconButton(
           iconData: Icons.redo,
-          size: TopBarWidget.topBarHeight,
+          size: NavbarWidget.navbarHeight,
           onTap: () {},
         ),
         RubricIconButton(
           iconData: Icons.remove_red_eye_rounded,
-          size: TopBarWidget.topBarHeight,
+          size: NavbarWidget.navbarHeight,
           onTap: () {},
         ),
         RubricIconButton(
           iconData: Icons.save,
-          size: TopBarWidget.topBarHeight,
+          size: NavbarWidget.navbarHeight,
           onTap: () {},
         ),
       ],

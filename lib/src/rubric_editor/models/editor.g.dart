@@ -17,6 +17,11 @@ _$CanvasEditingModelImpl _$$CanvasEditingModelImplFromJson(
       json['focused'] == null
           ? null
           : ElementModel.fromJson(json['focused'] as Map<String, dynamic>),
+  steps:
+      (json['steps'] as List<dynamic>?)
+          ?.map((e) => CanvasModel.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      const [],
   gridSize:
       $enumDecodeNullable(_$GridSizesEnumMap, json['gridSize']) ??
       GridSizes.medium,
@@ -28,6 +33,7 @@ Map<String, dynamic> _$$CanvasEditingModelImplToJson(
 ) => <String, dynamic>{
   'selected': instance.selected,
   'focused': instance.focused,
+  'steps': instance.steps,
   'gridSize': _$GridSizesEnumMap[instance.gridSize]!,
   'showGrid': instance.showGrid,
 };

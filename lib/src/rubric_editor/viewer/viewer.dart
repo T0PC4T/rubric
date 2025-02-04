@@ -7,6 +7,7 @@ import 'package:rubric/src/elements/models/elements.dart';
 import 'package:rubric/src/rubric_editor/models/editor.dart';
 import 'package:rubric/src/rubric_editor/models/stack.dart';
 import 'package:rubric/src/rubric_editor/viewer/items/element.dart';
+import 'package:rubric/src/rubric_editor/viewer/items/focused.dart';
 import 'package:rubric/src/rubric_editor/viewer/items/grid.dart';
 import 'package:rubric/src/rubric_editor/viewer/items/position.dart';
 import 'package:rubric/src/rubric_editor/viewer/items/scalar.dart';
@@ -24,7 +25,7 @@ class RubricEditorViewerState extends State<RubricEditorViewer> {
   ElementModel? scaling;
   double desiredOffset = 0;
   late ScrollController _scrollController;
-
+  late RubricEditorState editorState;
   @override
   void initState() {
     _scrollController = ScrollController();
@@ -97,9 +98,63 @@ class RubricEditorViewerState extends State<RubricEditorViewer> {
     });
   }
 
+  _handlePointerDown(PointerDownEvent event, StackEventResult result) {
+    switch (result) {
+      case StackEventResult(cancel: true):
+        {
+          editorState.selectElement(null);
+        }
+      case StackEventResult(element: ElementModel element):
+        {
+          editorState.selectElement(element);
+        }
+    }
+  }
+
+  _handlePointerMove(PointerMoveEvent event, StackEventResult result) {
+    switch (result) {
+      case StackEventResult(cancel: true):
+        {
+          return;
+        }
+      case StackEventResult(
+        element: ElementModel element,
+        stackHitOffset: Offset stackHitOffset,
+        scalarIndex: int scalarIndex,
+      ):
+        {
+          _handleScale(editorState, element, stackHitOffset, scalarIndex);
+        }
+      case StackEventResult(
+        element: ElementModel element,
+        elementHitOffset: Offset elementHitOffset,
+        stackHitOffset: Offset stackHitOffset,
+      ):
+        {
+          if (editorState.edits.focused == element) {
+            return;
+          }
+          final tile = editorState.edits.gridSize.pixelsPerLine;
+          // stack offset - element offset goes to the top left corner of the element
+          // so you can add half a tile to make the movement from the center of the tile.
+          final newLocation = _getIntuitiveLocation(
+            stackHitOffset,
+            elementHitOffset,
+            tile,
+            element,
+          );
+          if (element.x != newLocation.dx || element.y != newLocation.dy) {
+            setState(() {
+              editorState.canvas.moveElement(element, newLocation);
+            });
+          }
+        }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final editorState = RubricEditorState.depend(context);
+    editorState = RubricEditorState.depend(context);
     // todo calculate the actual size
     final double pageHeight = 2000;
     return SingleChildScrollView(
@@ -126,63 +181,63 @@ class RubricEditorViewerState extends State<RubricEditorViewer> {
                 // );
               }
             },
-            onPointerDown: (event, result) {
-              editorState.selectElement(result.element);
-            },
-            onPointerMove: (event, result) {
-              if (result case StackEventResult(
-                element: ElementModel element,
-                stackHitOffset: Offset stackHitOffset,
-                scalarIndex: int scalarIndex,
-              )) {
-                _handleScale(editorState, element, stackHitOffset, scalarIndex);
-              } else if (result case StackEventResult(
-                element: ElementModel element,
-                elementHitOffset: Offset elementHitOffset,
-                stackHitOffset: Offset stackHitOffset,
-              )) {
-                final tile = editorState.edits.gridSize.pixelsPerLine;
-                // stack offset - element offset goes to the top left corner of the element
-                // so you can add half a tile to make the movement from the center of the tile.
-                final newLocation = _getIntuitiveLocation(
-                  stackHitOffset,
-                  elementHitOffset,
-                  tile,
-                  element,
-                );
-                if (element.x != newLocation.dx ||
-                    element.y != newLocation.dy) {
-                  setState(() {
-                    editorState.canvas.moveElement(element, newLocation);
-                  });
-                }
+            onPointerDown: _handlePointerDown,
+            onPointerMove: _handlePointerMove,
+
+            onPointerUp: (event, result) {
+              switch (result) {
+                case StackEventResult(cancel: true):
+                  {
+                    if (editorState.edits.focused != null) {
+                      if (result.cancel) {
+                        editorState.selectElement(null);
+                      }
+                      return;
+                    }
+                  }
               }
             },
-            onPointerUp: (event, result) {},
-            onPointerHover: (event, result) {},
+            onPointerHover: (event, result) {
+              switch (result) {
+                case StackEventResult(cancel: true):
+                  {
+                    if (editorState.edits.focused != null) {
+                      if (result.cancel) {
+                        editorState.selectElement(null);
+                      }
+                      return;
+                    }
+                  }
+              }
+            },
             key: ValueKey("ViewerStack"),
             children: [
               if (editorState.edits.gridSize != GridSizes.none)
-                RubricPositioned(
-                  key: ValueKey("background"),
-                  height: double.infinity,
-                  width: double.infinity,
-                  x: 0,
-                  y: 0,
-                  child: CustomPaint(
-                    key: ValueKey("grid"),
-                    painter: GridPainter(
-                      editorState.edits.gridSize.pixelsPerLine,
-                    ),
-                    size: Size.infinite,
+                CustomPaint(
+                  key: ValueKey("grid"),
+                  painter: GridPainter(
+                    editorState.edits.gridSize.pixelsPerLine,
                   ),
+                  size: Size.infinite,
                 ),
 
               for (var element in editorState.canvas.elements)
+                if (editorState.edits.focused != element &&
+                    editorState.edits.selected != element)
+                  ElementWidget(key: ValueKey(element.id), element: element),
+              if (editorState.edits.selected case ElementModel element)
                 ElementWidget(key: ValueKey(element.id), element: element),
-              if (editorState.edits.selected case ElementModel element) ...[
-                ScalarWidget(element: element, scalarIndex: 0),
-                ScalarWidget(element: element, scalarIndex: 1),
+
+              if (editorState.edits.focused case ElementModel element) ...[
+                CancelSelectionWidget(cancels: true),
+                RubricPositioned(
+                  x: element.x,
+                  y: element.y,
+                  width: element.width,
+                  height: element.height,
+                  child: CancelSelectionWidget(cancels: false),
+                ),
+                ElementWidget(key: ValueKey(element.id), element: element),
               ],
             ],
           ),
@@ -191,86 +246,3 @@ class RubricEditorViewerState extends State<RubricEditorViewer> {
     );
   }
 }
-
-
-
-
-// Listener(
-//       onPointerSignal: (event) {
-//         if (event is PointerScrollEvent) {
-//           final delta = event.scrollDelta;
-//           setState(() {
-//             state.edits = state.edits.copyWith(
-//               viewOffset: state.edits.viewOffset + delta.dy,
-//             );
-//           });
-//         }
-//       },
-//       onPointerDown: (event) {
-//         final box = context.findRenderObject() as RenderBox;
-//         final localPosition = box.globalToLocal(event.position);
-//         final BoxHitTestResult result = BoxHitTestResult();
-//         final hit = box.hitTest(result, position: localPosition);
-//         if (hit) {
-//           for (var result in result.path) {
-//             if (result.target is ElementRenderProxyBox) {
-//               localHit = (result.target as RenderBox).globalToLocal(
-//                 event.position,
-//               );
-//               state.selectElement(
-//                 (result.target as ElementRenderProxyBox).element,
-//               );
-//               return;
-//             }
-//             if (result.target is ScalarRenderProxyBox) {
-//               final element = (result.target as ScalarRenderProxyBox).element;
-//               scaling = element;
-//               state.selectElement(element);
-//               localHit = (result.target as RenderBox).globalToLocal(
-//                 event.position,
-//               );
-//               return;
-//             }
-//           }
-//         }
-//         state.selectElement(null);
-//       },
-//       onPointerUp: (event) {
-//         state.saveStep();
-//         scaling = null;
-//         localHit = null;
-//       },
-//       onPointerMove: (event) {
-//         final state = RubricEditorState.of(context);
-//         if ((scaling, localHit) case (ElementModel element, Offset hit)) {
-//           final tile = state.edits.gridSize.getCell(1);
-//           double width = ((event.localPosition.dx) - element.x);
-//           double height =
-//               ((event.localPosition.dy) - element.y) + state.edits.viewOffset;
-
-//           width -= width % tile;
-//           height -= height % tile;
-
-//           width = math.max(width, tile);
-//           height = math.max(height, tile);
-//           setState(() {
-//             state.canvas.scaleElement(element, Offset(width, height));
-//           });
-//         } else if ((state.edits.selected, localHit) case (
-//           ElementModel element,
-//           Offset hit,
-//         )) {
-//           setState(() {
-//             final tile = state.edits.gridSize.getCell(1);
-//             Offset newLocation =
-//                 (event.localPosition - hit) + Offset(0, state.edits.viewOffset);
-
-//             newLocation = Offset(
-//               newLocation.dx - newLocation.dx % tile,
-//               newLocation.dy - newLocation.dy % tile,
-//             );
-
-//             state.canvas.moveElement(element, newLocation);
-//           });
-//         }
-//       },

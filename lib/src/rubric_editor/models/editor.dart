@@ -14,7 +14,7 @@ enum GridSizes {
   large("Large", GridSizes.pageSize / 15),
   extraLarge("Extra Large", GridSizes.pageSize / 10);
 
-  static const double pageSize = 1500;
+  static const double pageSize = 1000;
 
   final double pixelsPerLine;
   final String pretty;
@@ -28,6 +28,7 @@ class CanvasEditingModel with _$CanvasEditingModel {
     // required Color backgroundColor,
     ElementModel? selected,
     ElementModel? focused,
+    @Default([]) List<CanvasModel> steps,
     @Default(GridSizes.medium) GridSizes gridSize,
     @Default(true) bool showGrid,
   }) = _CanvasEditingModel;

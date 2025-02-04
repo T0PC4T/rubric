@@ -4,6 +4,7 @@ import 'package:flutter/rendering.dart';
 import 'package:rubric/src/elements/models/elements.dart';
 import 'package:rubric/src/rubric_editor/models/stack.dart';
 import 'package:rubric/src/rubric_editor/viewer/items/element.dart';
+import 'package:rubric/src/rubric_editor/viewer/items/focused.dart';
 import 'package:rubric/src/rubric_editor/viewer/items/scalar.dart';
 import 'package:rubric/src/rubric_editor/viewer/stack/parent_data.dart';
 
@@ -48,14 +49,11 @@ class RubricElementStack extends MultiChildRenderObjectWidget {
   }
 }
 
+// this manager events and hitTests.
 class RenderRubricElementStack extends RenderBox
     with
         ContainerRenderObjectMixin<RenderBox, RuPositionParentData>,
         RenderBoxContainerDefaultsMixin<RenderBox, RuPositionParentData> {
-  /// Creates a stack render object.
-  ///
-  /// By default, the non-positioned children of the stack are aligned by their
-  /// top left corners.
   final PointerSignalEventListener onPointerSignal;
   final PointerUpElement onPointerUp;
   final PointerDownElement onPointerDown;
@@ -120,16 +118,28 @@ class RenderRubricElementStack extends RenderBox
       final BoxHitTestResult result = BoxHitTestResult();
       final hit = hitTest(result, position: localPosition);
       if (hit) {
-        for (var result in result.path) {
-          if (result.target case ElementRenderProxyBox target) {
+        for (var item in result.path) {
+          if (item.target case RenderCancelSelectionWidget target) {
+            return StackEventResult(
+              stackHitOffset: _stackHitOffset,
+              cancel: target.cancels,
+            );
+          }
+          if (item.target case ElementRenderProxyBox target) {
             _elementHitOffset = target.globalToLocal(event.position);
             _mouseDownHit = target.element;
+            if (target.focused) {
+              return StackEventResult(
+                stackHitOffset: _stackHitOffset,
+                cancel: false,
+              );
+            }
             return StackEventResult(
               element: _mouseDownHit,
               elementHitOffset: _elementHitOffset,
               stackHitOffset: _stackHitOffset,
             );
-          } else if (result.target case ScalarRenderProxyBox target) {
+          } else if (item.target case ScalarRenderProxyBox target) {
             _elementHitOffset = target.globalToLocal(event.position);
             _mouseDownHit = target.element;
             _scalarIndex = target.scalarIndex;
@@ -142,7 +152,7 @@ class RenderRubricElementStack extends RenderBox
           }
         }
       }
-      return StackEventResult(stackHitOffset: _stackHitOffset);
+      return StackEventResult(stackHitOffset: _stackHitOffset, cancel: true);
     }
     // its not a pointer down,
     final result = StackEventResult(
@@ -178,7 +188,7 @@ class RenderRubricElementStack extends RenderBox
   @override
   bool hitTestChildren(BoxHitTestResult result, {required Offset position}) {
     // ? always hit the canvas even if it is empty
-    result.add(BoxHitTestEntry(this, position));
+    // result.add(BoxHitTestEntry(this, position));
     return defaultHitTestChildren(result, position: position);
 
     // return r;

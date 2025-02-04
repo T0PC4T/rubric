@@ -24,6 +24,7 @@ mixin _$CanvasEditingModel {
   // required Color backgroundColor,
   ElementModel? get selected => throw _privateConstructorUsedError;
   ElementModel? get focused => throw _privateConstructorUsedError;
+  List<CanvasModel> get steps => throw _privateConstructorUsedError;
   GridSizes get gridSize => throw _privateConstructorUsedError;
   bool get showGrid => throw _privateConstructorUsedError;
 
@@ -47,6 +48,7 @@ abstract class $CanvasEditingModelCopyWith<$Res> {
   $Res call({
     ElementModel? selected,
     ElementModel? focused,
+    List<CanvasModel> steps,
     GridSizes gridSize,
     bool showGrid,
   });
@@ -72,6 +74,7 @@ class _$CanvasEditingModelCopyWithImpl<$Res, $Val extends CanvasEditingModel>
   $Res call({
     Object? selected = freezed,
     Object? focused = freezed,
+    Object? steps = null,
     Object? gridSize = null,
     Object? showGrid = null,
   }) {
@@ -87,6 +90,11 @@ class _$CanvasEditingModelCopyWithImpl<$Res, $Val extends CanvasEditingModel>
                     ? _value.focused
                     : focused // ignore: cast_nullable_to_non_nullable
                         as ElementModel?,
+            steps:
+                null == steps
+                    ? _value.steps
+                    : steps // ignore: cast_nullable_to_non_nullable
+                        as List<CanvasModel>,
             gridSize:
                 null == gridSize
                     ? _value.gridSize
@@ -143,6 +151,7 @@ abstract class _$$CanvasEditingModelImplCopyWith<$Res>
   $Res call({
     ElementModel? selected,
     ElementModel? focused,
+    List<CanvasModel> steps,
     GridSizes gridSize,
     bool showGrid,
   });
@@ -169,6 +178,7 @@ class __$$CanvasEditingModelImplCopyWithImpl<$Res>
   $Res call({
     Object? selected = freezed,
     Object? focused = freezed,
+    Object? steps = null,
     Object? gridSize = null,
     Object? showGrid = null,
   }) {
@@ -184,6 +194,11 @@ class __$$CanvasEditingModelImplCopyWithImpl<$Res>
                 ? _value.focused
                 : focused // ignore: cast_nullable_to_non_nullable
                     as ElementModel?,
+        steps:
+            null == steps
+                ? _value._steps
+                : steps // ignore: cast_nullable_to_non_nullable
+                    as List<CanvasModel>,
         gridSize:
             null == gridSize
                 ? _value.gridSize
@@ -205,9 +220,10 @@ class _$CanvasEditingModelImpl implements _CanvasEditingModel {
   const _$CanvasEditingModelImpl({
     this.selected,
     this.focused,
+    final List<CanvasModel> steps = const [],
     this.gridSize = GridSizes.medium,
     this.showGrid = true,
-  });
+  }) : _steps = steps;
 
   factory _$CanvasEditingModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$CanvasEditingModelImplFromJson(json);
@@ -217,6 +233,15 @@ class _$CanvasEditingModelImpl implements _CanvasEditingModel {
   final ElementModel? selected;
   @override
   final ElementModel? focused;
+  final List<CanvasModel> _steps;
+  @override
+  @JsonKey()
+  List<CanvasModel> get steps {
+    if (_steps is EqualUnmodifiableListView) return _steps;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_steps);
+  }
+
   @override
   @JsonKey()
   final GridSizes gridSize;
@@ -226,7 +251,7 @@ class _$CanvasEditingModelImpl implements _CanvasEditingModel {
 
   @override
   String toString() {
-    return 'CanvasEditingModel(selected: $selected, focused: $focused, gridSize: $gridSize, showGrid: $showGrid)';
+    return 'CanvasEditingModel(selected: $selected, focused: $focused, steps: $steps, gridSize: $gridSize, showGrid: $showGrid)';
   }
 
   @override
@@ -237,6 +262,7 @@ class _$CanvasEditingModelImpl implements _CanvasEditingModel {
             (identical(other.selected, selected) ||
                 other.selected == selected) &&
             (identical(other.focused, focused) || other.focused == focused) &&
+            const DeepCollectionEquality().equals(other._steps, _steps) &&
             (identical(other.gridSize, gridSize) ||
                 other.gridSize == gridSize) &&
             (identical(other.showGrid, showGrid) ||
@@ -245,8 +271,14 @@ class _$CanvasEditingModelImpl implements _CanvasEditingModel {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, selected, focused, gridSize, showGrid);
+  int get hashCode => Object.hash(
+    runtimeType,
+    selected,
+    focused,
+    const DeepCollectionEquality().hash(_steps),
+    gridSize,
+    showGrid,
+  );
 
   /// Create a copy of CanvasEditingModel
   /// with the given fields replaced by the non-null parameter values.
@@ -269,6 +301,7 @@ abstract class _CanvasEditingModel implements CanvasEditingModel {
   const factory _CanvasEditingModel({
     final ElementModel? selected,
     final ElementModel? focused,
+    final List<CanvasModel> steps,
     final GridSizes gridSize,
     final bool showGrid,
   }) = _$CanvasEditingModelImpl;
@@ -281,6 +314,8 @@ abstract class _CanvasEditingModel implements CanvasEditingModel {
   ElementModel? get selected;
   @override
   ElementModel? get focused;
+  @override
+  List<CanvasModel> get steps;
   @override
   GridSizes get gridSize;
   @override

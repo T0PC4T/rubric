@@ -51,7 +51,7 @@ class RubricSideBarState extends State<RubricSideBar> {
                 ),
             ],
           ),
-          SingleChildScrollView(child: RubricSideBar.pages[pageIndex]),
+          Expanded(child: RubricSideBar.pages[pageIndex]),
         ],
       ),
     );

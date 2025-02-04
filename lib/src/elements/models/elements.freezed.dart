@@ -22,7 +22,9 @@ CanvasModel _$CanvasModelFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$CanvasModel {
   // required Color backgroundColor,
-  List<ElementModel> get elements => throw _privateConstructorUsedError;
+  List<ElementModel> get elements =>
+      throw _privateConstructorUsedError; // required Color backgroundColor,
+  set elements(List<ElementModel> value) => throw _privateConstructorUsedError;
 
   /// Serializes this CanvasModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -102,7 +104,7 @@ class __$$CanvasModelImplCopyWithImpl<$Res>
       _$CanvasModelImpl(
         elements:
             null == elements
-                ? _value._elements
+                ? _value.elements
                 : elements // ignore: cast_nullable_to_non_nullable
                     as List<ElementModel>,
       ),
@@ -113,41 +115,20 @@ class __$$CanvasModelImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$CanvasModelImpl extends _CanvasModel {
-  const _$CanvasModelImpl({final List<ElementModel> elements = const []})
-    : _elements = elements,
-      super._();
+  _$CanvasModelImpl({this.elements = const []}) : super._();
 
   factory _$CanvasModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$CanvasModelImplFromJson(json);
 
   // required Color backgroundColor,
-  final List<ElementModel> _elements;
-  // required Color backgroundColor,
   @override
   @JsonKey()
-  List<ElementModel> get elements {
-    if (_elements is EqualUnmodifiableListView) return _elements;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_elements);
-  }
+  List<ElementModel> elements;
 
   @override
   String toString() {
     return 'CanvasModel(elements: $elements)';
   }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$CanvasModelImpl &&
-            const DeepCollectionEquality().equals(other._elements, _elements));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_elements));
 
   /// Create a copy of CanvasModel
   /// with the given fields replaced by the non-null parameter values.
@@ -164,16 +145,16 @@ class _$CanvasModelImpl extends _CanvasModel {
 }
 
 abstract class _CanvasModel extends CanvasModel {
-  const factory _CanvasModel({final List<ElementModel> elements}) =
-      _$CanvasModelImpl;
-  const _CanvasModel._() : super._();
+  factory _CanvasModel({List<ElementModel> elements}) = _$CanvasModelImpl;
+  _CanvasModel._() : super._();
 
   factory _CanvasModel.fromJson(Map<String, dynamic> json) =
       _$CanvasModelImpl.fromJson;
 
   // required Color backgroundColor,
   @override
-  List<ElementModel> get elements;
+  List<ElementModel> get elements; // required Color backgroundColor,
+  set elements(List<ElementModel> value);
 
   /// Create a copy of CanvasModel
   /// with the given fields replaced by the non-null parameter values.

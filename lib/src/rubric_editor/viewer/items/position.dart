@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:rubric/src/elements/models/elements.dart';
 import 'package:rubric/src/rubric_editor/viewer/stack/parent_data.dart';
 
 class RubricPositioned extends ParentDataWidget<RuPositionParentData> {
@@ -16,6 +17,19 @@ class RubricPositioned extends ParentDataWidget<RuPositionParentData> {
   final double y;
   final double width;
   final double height;
+
+  factory RubricPositioned.fromElement({
+    required ElementModel element,
+    required Widget child,
+  }) {
+    return RubricPositioned(
+      x: element.x,
+      y: element.y,
+      width: element.width,
+      height: element.height,
+      child: child,
+    );
+  }
 
   @override
   void applyParentData(RenderObject renderObject) {

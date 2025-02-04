@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:rubric/src/elements/box/box_model.dart';
-import 'package:rubric/src/elements/box/box_tooltip.dart';
 import 'package:rubric/src/elements/elements.dart';
+import 'package:rubric/src/elements/text/text_elements.dart';
+import 'package:rubric/src/elements/text/text_model.dart';
 
 part 'elements.freezed.dart';
 part 'elements.g.dart';
 
-@freezed
+@unfreezed
 class CanvasModel with _$CanvasModel {
-  const CanvasModel._();
-  const factory CanvasModel({
+  CanvasModel._();
+  factory CanvasModel({
     // required Color backgroundColor,
     @Default([]) List<ElementModel> elements,
   }) = _CanvasModel;
@@ -30,31 +31,59 @@ class CanvasModel with _$CanvasModel {
     element.properties = properties;
   }
 
+  reorderElements(int oldIndex, int newIndex) {
+    // ? I switched this around because the list is reverse beware.
+    if (oldIndex > newIndex) {
+      newIndex += 1;
+    }
+    final ElementModel item = elements.removeAt(oldIndex);
+    elements.insert(newIndex, item);
+  }
+
+  deleteElement(ElementModel element) {
+    elements.remove(element);
+  }
+
   factory CanvasModel.fromJson(Map<String, dynamic> json) =>
       _$CanvasModelFromJson(json);
 }
 
 // enum ElementTypes { text, box, image, video }
+typedef ElementBuilderFunction =
+    Widget Function({Key? key, required ElementModel element});
+
 enum ElementTypes {
   box(
     "Box",
     Icons.check_box_outline_blank_rounded,
-    RuBoxEditorElement.new,
-    BoxTooltipWidget.new,
+    editorBuilder: BoxEditorElement.new,
+    layerBuilder: BoxEditorElement.new,
+    readerBuilder: BoxEditorElement.new,
+    focusBuilder: BoxEditorElement.new,
+  ),
+  text(
+    "Text",
+    Icons.text_snippet_outlined,
+    editorBuilder: TextEditorElement.new,
+    layerBuilder: TextLayerWidget.new,
+    readerBuilder: TextEditorElement.new,
+    focusBuilder: TextEditorElement.new,
   );
 
   final String title;
   final IconData icon;
-  final Widget Function({Key? key, required ElementModel element})
-  editorBuilder;
-  final Widget Function({Key? key, required ElementModel element})
-  toolbarBuilder;
+  final ElementBuilderFunction editorBuilder;
+  final ElementBuilderFunction focusBuilder;
+  final ElementBuilderFunction layerBuilder;
+  final ElementBuilderFunction readerBuilder;
   const ElementTypes(
     this.title,
-    this.icon,
-    this.editorBuilder,
-    this.toolbarBuilder,
-  );
+    this.icon, {
+    required this.editorBuilder,
+    required this.focusBuilder,
+    required this.readerBuilder,
+    required this.layerBuilder,
+  });
 }
 
 @unfreezed
@@ -74,6 +103,7 @@ class ElementModel with _$ElementModel {
     return switch (type) {
           // ElementTypes.text => TextElementModel(properties),
           ElementTypes.box => BoxElementModel.fromJson(properties),
+          ElementTypes.text => TextElementModel.fromJson(properties),
           // ElementTypes.image => ImageElementModel(properties),
           // ElementTypes.video => VideoElementModel(properties),
         }

@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:rubric/src/elements/models/elements.dart';
 import 'package:rubric/src/rubric_editor/models/editor.dart';
 import 'package:rubric/src/rubric_editor/models/style.dart';
+import 'package:rubric/src/rubric_editor/navbar/navbar.dart';
 import 'package:rubric/src/rubric_editor/sidebar/sidebar.dart';
-import 'package:rubric/src/rubric_editor/tab_bar/element_toolbar.dart';
-import 'package:rubric/src/rubric_editor/topbar/topbar.dart';
+import 'package:rubric/src/rubric_editor/toolbar/element_toolbar.dart';
 import 'package:rubric/src/rubric_editor/viewer/viewer.dart';
 
 class RubricEditor extends StatefulWidget {
   final RubricEditorStyle style;
-  final CanvasModel canvas;
+  final CanvasModel? canvas;
   const RubricEditor({
     super.key,
     this.style = const RubricEditorStyle(),
-    this.canvas = const CanvasModel(),
+    this.canvas,
   });
   @override
   State<RubricEditor> createState() => RubricEditorState();
@@ -23,16 +23,21 @@ class RubricEditorState extends State<RubricEditor> {
   late CanvasModel canvas;
   late CanvasEditingModel edits = CanvasEditingModel();
   late RubricEditorStyle style;
-
+  OverlayEntry? currentBar;
+  late BuildContext innerContext;
   @override
   void initState() {
     super.initState();
-    canvas = widget.canvas;
+    canvas = widget.canvas ?? CanvasModel();
     style = widget.style;
   }
 
   saveStep() {
-    setState(() {});
+    final newElements = List<CanvasModel>.from(edits.steps);
+    setState(() {
+      edits = edits.copyWith(steps: newElements..add(canvas));
+      canvas = canvas.copyWith();
+    });
     // edits = edits.copyWith(
     //   selected: newElements.firstWhere((e) => e.id == element.id),
     // );
@@ -50,9 +55,41 @@ class RubricEditorState extends State<RubricEditor> {
     });
   }
 
+  removeToolbar() {
+    currentBar?.remove();
+    currentBar?.dispose();
+    currentBar = null;
+  }
+
+  showToolbar(ElementModel element, {Widget? child}) {
+    removeToolbar();
+    currentBar = OverlayEntry(
+      canSizeOverlay: true,
+      builder: (context) {
+        return Container(
+          padding: EdgeInsets.only(top: NavbarWidget.navbarHeight),
+          alignment: Alignment.topCenter,
+          child: ElementToolbarWidget(element: element, child: child),
+        );
+      },
+    );
+    Overlay.of(innerContext).insert(currentBar!);
+  }
+
   selectElement(ElementModel? element) {
     setState(() {
-      edits = edits.copyWith(selected: element);
+      edits = edits.copyWith(selected: element, focused: null);
+    });
+    if (edits.selected case ElementModel element) {
+      showToolbar(element);
+    } else {
+      removeToolbar();
+    }
+  }
+
+  focusElement(ElementModel element) {
+    setState(() {
+      edits = edits.copyWith(selected: null, focused: element);
     });
   }
 
@@ -86,35 +123,30 @@ class RubricEditorState extends State<RubricEditor> {
   Widget build(BuildContext context) {
     return RubricEditorInheritedWidget(
       canvas: canvas,
-      child: DefaultTextStyle(
-        style: TextStyle(color: style.dark, fontSize: style.fontSize),
-        child: Column(
-          children: [
-            TopBarWidget(),
-            Expanded(
-              child: Row(
-                children: [
-                  RubricSideBar(),
-                  Expanded(
-                    child: Stack(
-                      fit: StackFit.expand,
-                      children: [
-                        RubricEditorViewer(),
-                        if (edits.selected case ElementModel element)
-                          Positioned(
-                            left: 0,
-                            top: 0,
-                            right: 0,
-                            child: ElementToolbarWidget(element: element),
-                          ),
-                      ],
+      child: Overlay(
+        initialEntries: [
+          OverlayEntry(
+            builder: (ctx) {
+              innerContext = ctx;
+              return DefaultTextStyle(
+                style: TextStyle(color: style.dark, fontSize: style.fontSize),
+                child: Column(
+                  children: [
+                    NavbarWidget(),
+                    Expanded(
+                      child: Row(
+                        children: [
+                          RubricSideBar(),
+                          Expanded(child: RubricEditorViewer()),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
+                  ],
+                ),
+              );
+            },
+          ),
+        ],
       ),
     );
   }

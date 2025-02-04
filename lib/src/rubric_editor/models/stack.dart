@@ -9,11 +9,13 @@ class StackEventResult {
   Offset? elementHitOffset;
   Offset stackHitOffset;
   int? scalarIndex;
+  bool cancel;
   StackEventResult({
     this.element,
     this.elementHitOffset,
     this.scalarIndex,
     required this.stackHitOffset,
+    this.cancel = false,
   });
 
   get isScaler => scalarIndex != null;
