@@ -4,6 +4,7 @@ import 'package:rubric/rubric.dart';
 import 'package:rubric/src/elements/box/box_model.dart';
 import 'package:rubric/src/elements/models/elements.dart';
 import 'package:rubric/src/elements/text/text_model.dart';
+import 'package:rubric/src/rubric_editor/models/editor.dart';
 import 'package:rubric/src/rubric_editor/sidebar/sidebar.dart';
 import 'package:rubric/src/shared/atoms/button.dart';
 
@@ -40,14 +41,16 @@ class ElementPageWidget extends StatelessWidget {
             hoverColor: editorState.style.primary4,
             onTap: () {
               final state = RubricEditorState.depend(context);
+              final width = GridSizes.pageSize * 0.5;
+              final height = GridSizes.pageSize * 0.35;
               state.addElementAndFocus(
                 ElementModel(
                   id: UniqueKey().toString(),
                   type: element,
                   x: tile,
                   y: tile * 4,
-                  width: tile,
-                  height: tile,
+                  width: width - (width % tile),
+                  height: height - (height % tile),
                   properties: _getDefaultForType(context, element),
                 ),
               );

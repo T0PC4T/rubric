@@ -32,6 +32,19 @@ class RubricEditorState extends State<RubricEditor> {
     style = widget.style;
   }
 
+  undo() {
+    if (edits.steps.isNotEmpty) {
+      setState(() {
+        canvas = edits.steps.last;
+        edits = edits.copyWith(
+          steps: edits.steps.sublist(0, edits.steps.length - 1),
+        );
+      });
+    } else {
+      print("NO BACK");
+    }
+  }
+
   saveStep() {
     final newElements = List<CanvasModel>.from(edits.steps);
     setState(() {

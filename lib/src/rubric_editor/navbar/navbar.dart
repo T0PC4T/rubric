@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rubric/rubric.dart';
 import 'package:rubric/src/rubric_editor/models/style.dart';
 import 'package:rubric/src/shared/shared.dart';
 
@@ -34,6 +35,7 @@ class TopBarActions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final editorState = RubricEditorState.of(context);
     final style = RubricEditorStyle.of(context);
 
     return Row(
@@ -42,7 +44,9 @@ class TopBarActions extends StatelessWidget {
         RubricIconButton(
           iconData: Icons.undo,
           size: NavbarWidget.navbarHeight,
-          onTap: () {},
+          onTap: () {
+            editorState.undo();
+          },
         ),
         RubricIconButton(
           iconData: Icons.redo,

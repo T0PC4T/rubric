@@ -196,6 +196,7 @@ class RubricEditorViewerState extends State<RubricEditorViewer> {
                     }
                   }
               }
+              editorState.saveStep();
             },
             onPointerHover: (event, result) {
               switch (result) {

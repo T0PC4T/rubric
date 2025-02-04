@@ -26,21 +26,18 @@ class TextEditorElementState extends State<TextEditorElement> {
     controller = FleatherController(document: textElement.document);
     controller.addListener(_onChange);
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      RubricEditorState.of(context).showToolbar(
-        widget.element,
-        child: TextTooltipWidget(
-          element: widget.element,
-          controller: controller,
-        ),
-      );
+      if (editorState.edits.focused == widget.element) {
+        focusNode.requestFocus();
+        editorState.showToolbar(
+          widget.element,
+          child: TextTooltipWidget(
+            element: widget.element,
+            controller: controller,
+          ),
+        );
+      }
     });
-
     super.initState();
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
   }
 
   void _onChange() {
@@ -62,6 +59,7 @@ class TextEditorElementState extends State<TextEditorElement> {
   Widget build(BuildContext context) {
     editorState = RubricEditorState.of(context);
     final editable = editorState.edits.focused == widget.element;
+
     if (!editable) {
       focusNode.unfocus();
     }
