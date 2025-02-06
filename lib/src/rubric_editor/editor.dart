@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:rubric/src/models/canvas.dart';
 import 'package:rubric/src/models/canvas_notifier.dart';
@@ -14,10 +16,12 @@ import 'package:rubric/src/rubric_editor/viewer/viewer.dart';
 class RubricEditor extends StatefulWidget {
   final RubricEditorStyle style;
   final CanvasModel? canvas;
+  final Future<String> Function(Uint8List bytes) getImageURL;
   const RubricEditor({
     super.key,
     this.style = const RubricEditorStyle(),
     this.canvas,
+    required this.getImageURL,
   });
   @override
   State<RubricEditor> createState() => RubricEditorState();

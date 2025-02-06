@@ -25,12 +25,26 @@ class ImageEditorElementState extends SelectableState<ImageEditorElement> {
 
   @override
   Widget build(BuildContext context) {
-    final boxElement = widget.element.getProperties<ImageElementModel>();
-    return Container(
+    final imageProperties = widget.element.getProperties<ImageElementModel>();
+    return DecoratedBox(
       decoration: BoxDecoration(
-        // color: boxElement.color,
-        borderRadius: BorderRadius.circular(boxElement.borderRadius),
+        image: DecorationImage(
+          image: NetworkImage(imageProperties.imageUrl),
+          fit: BoxFit.cover,
+        ),
+        borderRadius: BorderRadius.circular(imageProperties.borderRadius),
       ),
     );
+  }
+}
+
+class ImageLayerWidget extends StatelessWidget {
+  final ElementModel element;
+  const ImageLayerWidget({super.key, required this.element});
+
+  @override
+  Widget build(BuildContext context) {
+    final imageProperties = element.getProperties<ImageElementModel>();
+    return Image.network(imageProperties.imageUrl);
   }
 }

@@ -8,7 +8,10 @@ class RubricButton extends StatefulWidget {
   final double? width;
   final double? height;
   final EdgeInsetsGeometry? padding;
+  final EdgeInsetsGeometry? margin;
   final double? radius;
+  final Color? borderColor;
+  final double? borderWidth;
   // Core
   final VoidCallback onTap;
   final Widget child;
@@ -22,6 +25,9 @@ class RubricButton extends StatefulWidget {
     this.radius,
     required this.onTap,
     this.padding,
+    this.margin,
+    this.borderColor,
+    this.borderWidth,
   });
 
   @override
@@ -53,14 +59,21 @@ class RubricButtonState extends State<RubricButton> {
         },
 
         child: Container(
+          margin: widget.margin,
           alignment: Alignment.center,
           padding: widget.padding,
           width: widget.width,
           height: widget.height,
-
           decoration: BoxDecoration(
             color: hovered ? hoverColor : backgroundColor,
             borderRadius: BorderRadius.circular(widget.radius ?? 0),
+            border:
+                widget.borderWidth == null
+                    ? null
+                    : Border.all(
+                      color: widget.borderColor ?? styles.borderColor,
+                      width: widget.borderWidth!,
+                    ),
           ),
           child: widget.child,
         ),

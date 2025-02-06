@@ -7,6 +7,7 @@ class ElementToolbarWidget extends StatelessWidget {
   final ElementModel element;
   final Widget? child;
   static const double elementToolbarHeight = 40;
+  static const double iconSize = 25;
   const ElementToolbarWidget({super.key, required this.element, this.child});
 
   @override

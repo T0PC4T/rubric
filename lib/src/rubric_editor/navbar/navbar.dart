@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rubric/rubric.dart';
+import 'package:rubric/src/components/shared.dart';
 import 'package:rubric/src/rubric_editor/models/style.dart';
-import 'package:rubric/src/shared/shared.dart';
 
 class NavbarWidget extends StatelessWidget {
   static const double navbarHeight = 40;
@@ -12,7 +12,7 @@ class NavbarWidget extends StatelessWidget {
     final style = RubricEditorStyle.of(context);
 
     return ColoredBox(
-      color: style.light8,
+      color: style.dark,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -42,6 +42,7 @@ class TopBarActions extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         RubricIconButton(
+          isDark: true,
           iconData: Icons.undo,
           size: NavbarWidget.navbarHeight,
           onTap: () {
@@ -49,16 +50,19 @@ class TopBarActions extends StatelessWidget {
           },
         ),
         RubricIconButton(
+          isDark: true,
           iconData: Icons.redo,
           size: NavbarWidget.navbarHeight,
           onTap: () {},
         ),
         RubricIconButton(
+          isDark: true,
           iconData: Icons.remove_red_eye_rounded,
           size: NavbarWidget.navbarHeight,
           onTap: () {},
         ),
         RubricIconButton(
+          isDark: true,
           iconData: Icons.save,
           size: NavbarWidget.navbarHeight,
           onTap: () {},

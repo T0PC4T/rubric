@@ -21,9 +21,9 @@ class RubricEditorStyle {
     this.elevation = 6,
     this.theme = const Color.fromARGB(
       255,
-      211,
-      68,
-      255,
+      89,
+      176,
+      227,
     ), // color picker text should be black
     this.dark = const Color.fromARGB(255, 0, 0, 0),
     this.light = const Color.fromARGB(255, 255, 255, 255),
@@ -37,6 +37,7 @@ class RubricEditorStyle {
   Color get light4 => Color.lerp(dark, light, 0.4)!;
   Color get light6 => Color.lerp(dark, light, 0.6)!;
   Color get light8 => Color.lerp(dark, light, 0.8)!;
+  Color get light95 => Color.lerp(dark, light, 0.95)!;
 
   EdgeInsets get padding => EdgeInsets.all(paddingUnit);
   BorderRadius get borderRadius => BorderRadius.circular(radius);

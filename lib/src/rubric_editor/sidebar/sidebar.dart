@@ -1,15 +1,15 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:rubric/src/components/shared.dart';
 import 'package:rubric/src/rubric_editor/models/style.dart';
 import 'package:rubric/src/rubric_editor/sidebar/pages/elements.dart';
 import 'package:rubric/src/rubric_editor/sidebar/pages/general.dart';
 import 'package:rubric/src/rubric_editor/sidebar/pages/layers.dart';
-import 'package:rubric/src/shared/shared.dart';
 
 class RubricSideBar extends StatefulWidget {
   const RubricSideBar({super.key});
 
-  static const double sideBarSize = 200;
+  static const double sideBarSize = 250;
 
   static const pages = [
     ElementPageWidget(),
@@ -29,7 +29,7 @@ class RubricSideBarState extends State<RubricSideBar> {
   Widget build(BuildContext context) {
     final style = RubricEditorStyle.of(context);
     return Container(
-      decoration: BoxDecoration(color: style.light8),
+      decoration: BoxDecoration(color: style.light95),
       width: RubricSideBar.sideBarSize,
       height: double.infinity,
       child: Column(

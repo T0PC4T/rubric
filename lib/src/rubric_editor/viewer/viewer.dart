@@ -135,7 +135,9 @@ class RubricEditorViewerState extends State<RubricEditorViewer> {
         }
     }
     _dragged = false;
-    editorState.canvas.commitIfChange(editorState.edits.lastStep);
+    if (editorState.edits.canUndo) {
+      editorState.canvas.commitIfChange(editorState.edits.lastStep);
+    }
   }
 
   _handlePointerMove(PointerMoveEvent event, StackEventResult result) {

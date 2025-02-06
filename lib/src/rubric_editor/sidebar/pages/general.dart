@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rubric/rubric.dart';
+import 'package:rubric/src/components/shared.dart';
 import 'package:rubric/src/models/editor_models.dart';
-import 'package:rubric/src/shared/shared.dart';
 
 class GeneralSettingsPageWidget extends StatelessWidget {
   const GeneralSettingsPageWidget({super.key});

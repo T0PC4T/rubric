@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:rubric/rubric.dart';
+import 'package:rubric/src/elements/base/states.dart';
 import 'package:rubric/src/elements/text/text_model.dart';
 import 'package:rubric/src/elements/text/text_tooltip.dart';
 import 'package:rubric/src/models/elements.dart';
@@ -14,11 +15,11 @@ class TextEditorElement extends StatefulWidget {
   State<TextEditorElement> createState() => TextEditorElementState();
 }
 
-class TextEditorElementState extends State<TextEditorElement> {
+class TextEditorElementState
+    extends SelectableAndFocusableState<TextEditorElement> {
   late QuillController controller;
   late ScrollController _scrollController;
   late FocusNode focusNode;
-  late RubricEditorState editorState;
 
   @override
   void initState() {
@@ -33,17 +34,11 @@ class TextEditorElementState extends State<TextEditorElement> {
 
       configurations: QuillControllerConfigurations(),
     );
-    controller.addListener(_onChange);
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      // todo
-      editorState.edits.focusNotifier.addListener(_onFocus);
-      _onFocus();
-    });
-
     super.initState();
   }
 
-  void _onFocus() {
+  @override
+  void onFocus() {
     if (editorState.edits.isFocused(widget.element)) {
       controller.readOnly = false;
       editorState.showToolbar(
@@ -55,6 +50,11 @@ class TextEditorElementState extends State<TextEditorElement> {
       );
       focusNode.requestFocus();
     } else {
+      controller.updateSelection(
+        TextSelection.collapsed(offset: 0),
+        ChangeSource.silent,
+      );
+
       focusNode.unfocus();
       controller.readOnly = true;
       editorState.removeToolbar();
@@ -65,14 +65,18 @@ class TextEditorElementState extends State<TextEditorElement> {
     }
   }
 
-  void _onChange() {}
+  @override
+  onSelect() {
+    if (editorState.edits.isSelected(widget.element)) {
+      editorState.removeToolbar();
+    }
+  }
 
   @override
   void dispose() {
     _scrollController.dispose();
     controller.dispose();
     focusNode.dispose();
-    editorState.edits.focusNotifier.removeListener(_onFocus);
     super.dispose();
   }
 

@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:rubric/rubric.dart';
 
@@ -32,7 +34,12 @@ class MyApp extends StatelessWidget {
         // tested with just a hot reload.
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: Scaffold(body: RubricEditor()),
+      home: Scaffold(body: RubricEditor(
+        getImageURL: (Uint8List bytes) async {
+          await Future.delayed(Duration(seconds: 2));
+          return "https://images.rawpixel.com/image_png_800/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvam9iNjc5LTEwMy1wLWwxNjd4ZGdvLnBuZw.png";
+        },
+      )),
     );
   }
 }

@@ -25,6 +25,8 @@ class RubricDropdownState<T> extends State<RubricDropdown<T>> {
   Widget build(BuildContext context) {
     final styles = RubricEditorStyle.of(context);
     return DropdownButton<T>(
+      padding: EdgeInsets.all(styles.paddingUnit * 0.5),
+      underline: SizedBox(),
       isDense: true,
       value: value ?? widget.value,
       borderRadius: BorderRadius.circular(styles.radius),

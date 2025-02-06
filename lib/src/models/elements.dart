@@ -1,9 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_quill/flutter_quill.dart' show Document;
 import 'package:rubric/src/elements/box/box_model.dart';
 import 'package:rubric/src/elements/elements.dart';
+import 'package:rubric/src/elements/image/image_model.dart';
 import 'package:rubric/src/elements/text/text_model.dart';
 
 class ElementModel {
@@ -29,7 +28,7 @@ class ElementModel {
           // ElementTypes.text => TextElementModel(properties),
           ElementTypes.box => BoxElementModel.fromJson(properties),
           ElementTypes.text => TextElementModel.fromJson(properties),
-          // ElementTypes.image => ImageElementModel(properties),
+          ElementTypes.image => ImageElementModel.fromJson(properties),
           // ElementTypes.video => VideoElementModel(properties),
         }
         as T;
@@ -109,21 +108,6 @@ class ElementModel {
         height.hashCode ^
         properties.hashCode;
   }
-}
-
-Map<String, dynamic> generateDefaultProperties(
-  BuildContext context,
-  ElementTypes elementType,
-) {
-  return switch (elementType) {
-    ElementTypes.box =>
-      BoxElementModel(color: Colors.green, borderRadius: 0).toJson(),
-    ElementTypes.text =>
-      TextElementModel(
-        document: Document()..insert(0, "[Insert your text here]"),
-      ).toJson(),
-    _ => throw "Not implemented properties for this type",
-  };
 }
 
 final example = {

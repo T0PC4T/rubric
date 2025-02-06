@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rubric/rubric.dart';
+import 'package:rubric/src/components/atoms/container.dart';
 import 'package:rubric/src/models/elements.dart';
-import 'package:rubric/src/shared/atoms/container.dart';
-import 'package:rubric/src/shared/atoms/text.dart';
 
 class LayersPageWidget extends StatelessWidget {
   const LayersPageWidget({super.key});
@@ -20,7 +19,6 @@ class LayersPageWidget extends StatelessWidget {
         return Padding(
           padding: EdgeInsets.all(editorState.style.paddingUnit),
           child: ReorderableListView(
-            header: RubricText("Layers", textType: TextType.title),
             onReorder: (oldIndex, newIndex) {
               int listLength = canvas.elements.length;
               int reversedOldIndex = reverseIndex(oldIndex, listLength);
@@ -50,16 +48,21 @@ class LayersPageWidget extends StatelessWidget {
 class LayerWidget extends StatelessWidget {
   const LayerWidget({super.key, required this.element});
   static const double layerBoundary = 20;
-  static const double layerHeight = 40;
+  static const double layerHeight = 50;
   final ElementModel element;
 
   @override
   Widget build(BuildContext context) {
+    final editorState = RubricEditorState.of(context);
     return GestureDetector(
       onTap: () {
-        RubricEditorState.of(context).edits.selectElement(element);
+        editorState.edits.selectElement(element);
       },
       child: RubricContainer(
+        margin: EdgeInsets.symmetric(
+          vertical: editorState.style.paddingUnit * 0.5,
+        ),
+        color: editorState.style.light,
         height: layerHeight,
         width: double.infinity,
         child: element.type.layerBuilder(element: element),
