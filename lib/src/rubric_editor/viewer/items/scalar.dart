@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:rubric/src/elements/models/elements.dart';
+import 'package:rubric/src/models/elements.dart';
 
 class ScalarRenderProxyBox extends RenderProxyBox {
   int scalarIndex;

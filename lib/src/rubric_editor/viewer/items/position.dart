@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:rubric/src/elements/models/elements.dart';
+import 'package:rubric/src/models/elements.dart';
 import 'package:rubric/src/rubric_editor/viewer/stack/parent_data.dart';
 
 class RubricPositioned extends ParentDataWidget<RuPositionParentData> {

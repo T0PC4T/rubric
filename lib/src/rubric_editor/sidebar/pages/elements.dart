@@ -2,9 +2,9 @@ import 'package:fleather/fleather.dart';
 import 'package:flutter/material.dart';
 import 'package:rubric/rubric.dart';
 import 'package:rubric/src/elements/box/box_model.dart';
-import 'package:rubric/src/elements/models/elements.dart';
 import 'package:rubric/src/elements/text/text_model.dart';
-import 'package:rubric/src/rubric_editor/models/editor.dart';
+import 'package:rubric/src/models/editor_models.dart';
+import 'package:rubric/src/models/elements.dart';
 import 'package:rubric/src/rubric_editor/sidebar/sidebar.dart';
 import 'package:rubric/src/shared/atoms/button.dart';
 
@@ -27,8 +27,7 @@ class ElementPageWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final buttonSize = RubricSideBar.sideBarSize * 0.5;
-    final editorState = RubricEditorState.depend(context);
-    final tile = editorState.edits.gridSize.pixelsPerLine.toDouble();
+    final editorState = RubricEditorState.of(context);
     return Wrap(
       children: [
         for (var element in ElementTypes.values)
@@ -40,10 +39,11 @@ class ElementPageWidget extends StatelessWidget {
             height: buttonSize,
             hoverColor: editorState.style.primary4,
             onTap: () {
-              final state = RubricEditorState.depend(context);
+              final editorState = RubricEditorState.of(context);
               final width = GridSizes.pageSize * 0.5;
               final height = GridSizes.pageSize * 0.35;
-              state.addElementAndFocus(
+              final tile = editorState.edits.value.gridSize.pixelsPerLock;
+              editorState.canvas.addElement(
                 ElementModel(
                   id: UniqueKey().toString(),
                   type: element,

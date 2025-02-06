@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rubric/rubric.dart';
 import 'package:rubric/src/elements/box/box_model.dart';
-import 'package:rubric/src/elements/models/elements.dart';
+import 'package:rubric/src/models/elements.dart';
 import 'package:rubric/src/rubric_editor/toolbar/element_toolbar.dart';
 import 'package:rubric/src/shared/shared.dart';
 
@@ -25,7 +25,6 @@ class BoxTooltipWidget extends StatelessWidget {
                   color: Color.fromARGB(255, element.x.toInt(), 41, 26),
                 );
             editorState.canvas.updateElement(element, properties.toJson());
-            editorState.saveStep();
           },
           iconData: Icons.color_lens,
         ),

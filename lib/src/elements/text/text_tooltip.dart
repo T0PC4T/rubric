@@ -1,7 +1,7 @@
 import 'package:fleather/fleather.dart';
 import 'package:flutter/material.dart';
 import 'package:rubric/rubric.dart';
-import 'package:rubric/src/elements/models/elements.dart';
+import 'package:rubric/src/models/elements.dart';
 
 class TextTooltipWidget extends StatelessWidget {
   final ElementModel element;

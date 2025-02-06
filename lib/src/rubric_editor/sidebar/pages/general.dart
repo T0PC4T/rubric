@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rubric/rubric.dart';
-import 'package:rubric/src/rubric_editor/models/editor.dart';
+import 'package:rubric/src/models/editor_models.dart';
 import 'package:rubric/src/shared/shared.dart';
 
 class GeneralSettingsPageWidget extends StatelessWidget {
@@ -8,22 +8,26 @@ class GeneralSettingsPageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final editorState = RubricEditorState.depend(context);
+    final editorState = RubricEditorState.of(context);
+    // todo, make this listen to editor
     return Column(
       spacing: editorState.style.paddingUnit,
       children: [
         RubricText("General Settings Page"),
-        RubricDropdown(
-          items: [
-            for (var grid in GridSizes.values)
-              DropdownMenuItem(value: grid, child: Text(grid.pretty)),
-          ],
-          onChanged: (value) {
-            if (value case GridSizes value) {
-              editorState.editEditor(
-                editorState.edits.copyWith(gridSize: value),
-              );
-            }
+        ValueListenableBuilder(
+          valueListenable: editorState.edits,
+          builder: (context, edits, child) {
+            return RubricDropdown(
+              items: [
+                for (var grid in GridSizes.values)
+                  DropdownMenuItem(value: grid, child: Text(grid.pretty)),
+              ],
+              onChanged: (value) {
+                if (value case GridSizes value) {
+                  // todo
+                }
+              },
+            );
           },
         ),
       ],

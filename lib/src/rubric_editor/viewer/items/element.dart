@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:rubric/rubric.dart';
-import 'package:rubric/src/elements/models/elements.dart';
+import 'package:rubric/src/models/elements.dart';
 import 'package:rubric/src/rubric_editor/viewer/items/handler.dart';
 import 'package:rubric/src/rubric_editor/viewer/items/position.dart';
 
@@ -12,8 +12,8 @@ class ElementWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final editorState = RubricEditorState.of(context);
-    final selected = editorState.edits.selected == element;
-    final focused = editorState.edits.focused == element;
+    final selected = editorState.edits.value.selected == element;
+    final focused = editorState.edits.value.focused == element;
 
     ElementBuilderFunction builder;
     if (selected) {
@@ -29,7 +29,7 @@ class ElementWidget extends StatelessWidget {
     return RubricPositioned.fromElement(
       element: element,
       child: ElementRenderObjectWidget(
-        focused: editorState.edits.focused == element,
+        focused: editorState.edits.value.focused == element,
         element: element,
         child: builder(element: element),
       ),

@@ -1,9 +1,9 @@
 import 'package:fleather/fleather.dart';
 import 'package:flutter/material.dart';
 import 'package:rubric/rubric.dart';
-import 'package:rubric/src/elements/models/elements.dart';
 import 'package:rubric/src/elements/text/text_model.dart';
 import 'package:rubric/src/elements/text/text_tooltip.dart';
+import 'package:rubric/src/models/elements.dart';
 import 'package:rubric/src/rubric_editor/sidebar/pages/layers.dart';
 
 class TextEditorElement extends StatefulWidget {
@@ -26,7 +26,7 @@ class TextEditorElementState extends State<TextEditorElement> {
     controller = FleatherController(document: textElement.document);
     controller.addListener(_onChange);
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (editorState.edits.focused == widget.element) {
+      if (editorState.edits.isFocused(widget.element)) {
         focusNode.requestFocus();
         editorState.showToolbar(
           widget.element,
@@ -45,7 +45,6 @@ class TextEditorElementState extends State<TextEditorElement> {
       widget.element,
       TextElementModel(document: controller.document).toJson(),
     );
-    editorState.saveStep();
   }
 
   @override
@@ -58,7 +57,7 @@ class TextEditorElementState extends State<TextEditorElement> {
   @override
   Widget build(BuildContext context) {
     editorState = RubricEditorState.of(context);
-    final editable = editorState.edits.focused == widget.element;
+    final editable = editorState.edits.isFocused(widget.element);
 
     if (!editable) {
       focusNode.unfocus();
@@ -67,6 +66,7 @@ class TextEditorElementState extends State<TextEditorElement> {
       focusNode: focusNode,
       padding: const EdgeInsets.all(16),
       readOnly: !editable,
+      scrollable: false,
       enableInteractiveSelection: editable,
       controller: controller,
     );

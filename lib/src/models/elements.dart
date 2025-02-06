@@ -1,52 +1,10 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:rubric/src/elements/box/box_elements.dart';
 import 'package:rubric/src/elements/box/box_model.dart';
-import 'package:rubric/src/elements/elements.dart';
 import 'package:rubric/src/elements/text/text_elements.dart';
 import 'package:rubric/src/elements/text/text_model.dart';
-
-part 'elements.freezed.dart';
-part 'elements.g.dart';
-
-@unfreezed
-class CanvasModel with _$CanvasModel {
-  CanvasModel._();
-  factory CanvasModel({
-    // required Color backgroundColor,
-    @Default([]) List<ElementModel> elements,
-  }) = _CanvasModel;
-
-  // ? Element are editable, they edit until a fixed point then the entire object is copied
-  scaleElement(ElementModel element, Offset offset) {
-    element.width = offset.dx;
-    element.height = offset.dy;
-  }
-
-  moveElement(ElementModel element, Offset offset) {
-    element.x = offset.dx;
-    element.y = offset.dy;
-  }
-
-  updateElement(ElementModel element, Map<String, dynamic> properties) {
-    element.properties = properties;
-  }
-
-  reorderElements(int oldIndex, int newIndex) {
-    // ? I switched this around because the list is reverse beware.
-    if (oldIndex > newIndex) {
-      newIndex += 1;
-    }
-    final ElementModel item = elements.removeAt(oldIndex);
-    elements.insert(newIndex, item);
-  }
-
-  deleteElement(ElementModel element) {
-    elements.remove(element);
-  }
-
-  factory CanvasModel.fromJson(Map<String, dynamic> json) =>
-      _$CanvasModelFromJson(json);
-}
 
 // enum ElementTypes { text, box, image, video }
 typedef ElementBuilderFunction =
@@ -84,20 +42,34 @@ enum ElementTypes {
     required this.readerBuilder,
     required this.layerBuilder,
   });
+
+  // from name function
+  static ElementTypes fromName(String map) {
+    return switch (map) {
+      'box' => ElementTypes.box,
+      'text' => ElementTypes.text,
+      _ => throw Exception('Unknown element type: $map'),
+    };
+  }
 }
 
-@unfreezed
-class ElementModel with _$ElementModel {
-  ElementModel._();
-  factory ElementModel({
-    required String id,
-    required ElementTypes type,
-    required double x,
-    required double y,
-    required double width,
-    required double height,
-    required Map<String, dynamic> properties,
-  }) = _ElementModel;
+class ElementModel {
+  String id;
+  ElementTypes type;
+  double x;
+  double y;
+  double width;
+  double height;
+  Map<String, dynamic> properties;
+  ElementModel({
+    required this.id,
+    required this.type,
+    required this.x,
+    required this.y,
+    required this.width,
+    required this.height,
+    required this.properties,
+  });
 
   T getProperties<T>() {
     return switch (type) {
@@ -110,8 +82,80 @@ class ElementModel with _$ElementModel {
         as T;
   }
 
-  factory ElementModel.fromJson(Map<String, dynamic> json) =>
-      _$ElementModelFromJson(json);
+  ElementModel copyWith({
+    String? id,
+    ElementTypes? type,
+    double? x,
+    double? y,
+    double? width,
+    double? height,
+    Map<String, dynamic>? properties,
+  }) {
+    return ElementModel(
+      id: id ?? this.id,
+      type: type ?? this.type,
+      x: x ?? this.x,
+      y: y ?? this.y,
+      width: width ?? this.width,
+      height: height ?? this.height,
+      properties: Map.from(properties ?? this.properties),
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'id': id,
+      'type': type.name,
+      'x': x,
+      'y': y,
+      'width': width,
+      'height': height,
+      'properties': properties,
+    };
+  }
+
+  factory ElementModel.fromMap(Map<String, dynamic> map) {
+    return ElementModel(
+      id: map['id'] as String,
+      type: ElementTypes.fromName(map['type'] as String),
+      x: map['x'] as double,
+      y: map['y'] as double,
+      width: map['width'] as double,
+      height: map['height'] as double,
+      properties: Map<String, dynamic>.from(
+        (map['properties'] as Map<String, dynamic>),
+      ),
+    );
+  }
+
+  @override
+  String toString() {
+    return 'ElementModel(id: $id, type: $type, x: $x, y: $y, width: $width, height: $height, properties: $properties)';
+  }
+
+  @override
+  bool operator ==(covariant ElementModel other) {
+    if (identical(this, other)) return true;
+
+    return other.id == id &&
+        other.type == type &&
+        other.x == x &&
+        other.y == y &&
+        other.width == width &&
+        other.height == height &&
+        mapEquals(other.properties, properties);
+  }
+
+  @override
+  int get hashCode {
+    return id.hashCode ^
+        type.hashCode ^
+        x.hashCode ^
+        y.hashCode ^
+        width.hashCode ^
+        height.hashCode ^
+        properties.hashCode;
+  }
 }
 
 final example = {

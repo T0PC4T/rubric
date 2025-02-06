@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rubric/src/elements/models/elements.dart';
+import 'package:rubric/src/models/elements.dart';
 import 'package:rubric/src/rubric_editor/models/style.dart';
 import 'package:rubric/src/rubric_editor/viewer/items/scalar.dart';
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rubric/rubric.dart';
-import 'package:rubric/src/elements/models/elements.dart';
+import 'package:rubric/src/models/elements.dart';
 import 'package:rubric/src/shared/atoms/container.dart';
 import 'package:rubric/src/shared/atoms/text.dart';
 
@@ -13,32 +13,36 @@ class LayersPageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final editorState = RubricEditorState.depend(context);
-    return Padding(
-      padding: EdgeInsets.all(editorState.style.paddingUnit),
-      child: ReorderableListView(
-        header: RubricText("Layers", textType: TextType.title),
-        onReorder: (oldIndex, newIndex) {
-          int listLength = editorState.canvas.elements.length;
-          int reversedOldIndex = reverseIndex(oldIndex, listLength);
-          int reversedNewIndex = reverseIndex(newIndex, listLength);
-          editorState.canvas.reorderElements(
-            reversedOldIndex,
-            reversedNewIndex,
-          );
-          editorState.saveStep();
-        },
-        padding: EdgeInsets.symmetric(
-          vertical: editorState.style.paddingUnit * 0.5,
-        ),
-        itemExtent: LayerWidget.layerHeight,
+    final editorState = RubricEditorState.of(context);
+    return ValueListenableBuilder(
+      valueListenable: editorState.canvas,
+      builder: (context, canvas, child) {
+        return Padding(
+          padding: EdgeInsets.all(editorState.style.paddingUnit),
+          child: ReorderableListView(
+            header: RubricText("Layers", textType: TextType.title),
+            onReorder: (oldIndex, newIndex) {
+              int listLength = canvas.elements.length;
+              int reversedOldIndex = reverseIndex(oldIndex, listLength);
+              int reversedNewIndex = reverseIndex(newIndex, listLength);
+              editorState.canvas.reorderElements(
+                reversedOldIndex,
+                reversedNewIndex,
+              );
+            },
+            padding: EdgeInsets.symmetric(
+              vertical: editorState.style.paddingUnit * 0.5,
+            ),
+            itemExtent: LayerWidget.layerHeight,
 
-        children: [
-          for (var i = editorState.canvas.elements.length - 1; i >= 0; i--)
-            if (editorState.canvas.elements[i] case ElementModel element)
-              LayerWidget(key: ValueKey(element.id), element: element),
-        ],
-      ),
+            children: [
+              for (var i = canvas.elements.length - 1; i >= 0; i--)
+                if (canvas.elements[i] case ElementModel element)
+                  LayerWidget(key: ValueKey(element.id), element: element),
+            ],
+          ),
+        );
+      },
     );
   }
 }
@@ -53,8 +57,7 @@ class LayerWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        final editorState = RubricEditorState.depend(context);
-        editorState.selectElement(element);
+        RubricEditorState.of(context).edits.selectElement(element);
       },
       child: RubricContainer(
         height: layerHeight,

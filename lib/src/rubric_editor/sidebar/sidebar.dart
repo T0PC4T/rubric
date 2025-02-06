@@ -1,6 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-import 'package:rubric/rubric.dart';
+import 'package:rubric/src/rubric_editor/models/style.dart';
 import 'package:rubric/src/rubric_editor/sidebar/pages/elements.dart';
 import 'package:rubric/src/rubric_editor/sidebar/pages/general.dart';
 import 'package:rubric/src/rubric_editor/sidebar/pages/layers.dart';
@@ -27,9 +27,9 @@ class RubricSideBarState extends State<RubricSideBar> {
   int pageIndex = 0;
   @override
   Widget build(BuildContext context) {
-    final editorState = RubricEditorState.depend(context);
+    final style = RubricEditorStyle.of(context);
     return Container(
-      decoration: BoxDecoration(color: editorState.style.light6),
+      decoration: BoxDecoration(color: style.light6),
       width: RubricSideBar.sideBarSize,
       height: double.infinity,
       child: Column(
