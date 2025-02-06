@@ -55,8 +55,6 @@ class CanvasEditingModel {
     GridSizes? gridSize,
     bool? showGrid,
   }) {
-    print("SETTING SELECTED WAS ${this.selected}");
-    print("SETTING SELECTED TO $selected");
     return CanvasEditingModel(
       selected: selected,
       focused: focused,

@@ -29,7 +29,7 @@ class RubricSideBarState extends State<RubricSideBar> {
   Widget build(BuildContext context) {
     final style = RubricEditorStyle.of(context);
     return Container(
-      decoration: BoxDecoration(color: style.light6),
+      decoration: BoxDecoration(color: style.light8),
       width: RubricSideBar.sideBarSize,
       height: double.infinity,
       child: Column(

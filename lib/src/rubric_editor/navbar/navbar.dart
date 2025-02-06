@@ -12,7 +12,7 @@ class NavbarWidget extends StatelessWidget {
     final style = RubricEditorStyle.of(context);
 
     return ColoredBox(
-      color: style.light6,
+      color: style.light8,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

@@ -1,21 +1,21 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'box_model.dart';
+part of 'image_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$BoxElementModelImpl _$$BoxElementModelImplFromJson(
+_$ImageElementModelImpl _$$ImageElementModelImplFromJson(
   Map<String, dynamic> json,
-) => _$BoxElementModelImpl(
-  color: _colorFromJson((json['color'] as num).toInt()),
+) => _$ImageElementModelImpl(
+  imageUrl: json['imageUrl'] as String,
   borderRadius: (json['borderRadius'] as num).toDouble(),
 );
 
-Map<String, dynamic> _$$BoxElementModelImplToJson(
-  _$BoxElementModelImpl instance,
+Map<String, dynamic> _$$ImageElementModelImplToJson(
+  _$ImageElementModelImpl instance,
 ) => <String, dynamic>{
-  'color': _colorToJson(instance.color),
+  'imageUrl': instance.imageUrl,
   'borderRadius': instance.borderRadius,
 };

@@ -6,7 +6,7 @@ import 'package:rubric/src/rubric_editor/models/style.dart';
 class ElementToolbarWidget extends StatelessWidget {
   final ElementModel element;
   final Widget? child;
-  static const double elementToolbarHeight = 35;
+  static const double elementToolbarHeight = 40;
   const ElementToolbarWidget({super.key, required this.element, this.child});
 
   @override
@@ -30,17 +30,7 @@ class ElementToolbarWidget extends StatelessWidget {
           ),
         ],
       ),
-      child: Row(
-        spacing: style.paddingUnit * 0.5,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          VerticalDivider(width: 1, color: style.light6),
-          if (child case Widget child) ...[
-            child,
-            VerticalDivider(width: 1, color: style.light6),
-          ],
-        ],
-      ),
+      child: child,
     );
   }
 }

@@ -145,14 +145,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.9.3+3"
-  fleather:
-    dependency: transitive
-    description:
-      name: fleather
-      sha256: f819156c338dbbabe314a170efe20c227b0262a0c622d68e965c5674a317a3ee
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.20.0"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -357,22 +349,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.16.0"
-  parchment:
-    dependency: transitive
-    description:
-      name: parchment
-      sha256: "5d9451fc7244b3d634db89a4d03946de59e2100edc2ad1b7b92df3a4ad81f32a"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.20.0"
-  parchment_delta:
-    dependency: transitive
-    description:
-      name: parchment_delta
-      sha256: "8b360d0138eb591c7fe193670e2d05466e482792af9c5b4d3f568c5c61530f08"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.0"
   path:
     dependency: transitive
     description:

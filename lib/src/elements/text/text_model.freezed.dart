@@ -22,7 +22,7 @@ TextElementModel _$TextElementModelFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$TextElementModel {
   @JsonKey(toJson: _documentToString, fromJson: _documentFromString)
-  ParchmentDocument get document => throw _privateConstructorUsedError;
+  Document get document => throw _privateConstructorUsedError;
 
   /// Serializes this TextElementModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -43,7 +43,7 @@ abstract class $TextElementModelCopyWith<$Res> {
   @useResult
   $Res call({
     @JsonKey(toJson: _documentToString, fromJson: _documentFromString)
-    ParchmentDocument document,
+    Document document,
   });
 }
 
@@ -68,7 +68,7 @@ class _$TextElementModelCopyWithImpl<$Res, $Val extends TextElementModel>
                 null == document
                     ? _value.document
                     : document // ignore: cast_nullable_to_non_nullable
-                        as ParchmentDocument,
+                        as Document,
           )
           as $Val,
     );
@@ -86,7 +86,7 @@ abstract class _$$TextElementModelImplCopyWith<$Res>
   @useResult
   $Res call({
     @JsonKey(toJson: _documentToString, fromJson: _documentFromString)
-    ParchmentDocument document,
+    Document document,
   });
 }
 
@@ -110,7 +110,7 @@ class __$$TextElementModelImplCopyWithImpl<$Res>
             null == document
                 ? _value.document
                 : document // ignore: cast_nullable_to_non_nullable
-                    as ParchmentDocument,
+                    as Document,
       ),
     );
   }
@@ -130,7 +130,7 @@ class _$TextElementModelImpl implements _TextElementModel {
 
   @override
   @JsonKey(toJson: _documentToString, fromJson: _documentFromString)
-  final ParchmentDocument document;
+  final Document document;
 
   @override
   String toString() {
@@ -170,7 +170,7 @@ class _$TextElementModelImpl implements _TextElementModel {
 abstract class _TextElementModel implements TextElementModel {
   const factory _TextElementModel({
     @JsonKey(toJson: _documentToString, fromJson: _documentFromString)
-    required final ParchmentDocument document,
+    required final Document document,
   }) = _$TextElementModelImpl;
 
   factory _TextElementModel.fromJson(Map<String, dynamic> json) =
@@ -178,7 +178,7 @@ abstract class _TextElementModel implements TextElementModel {
 
   @override
   @JsonKey(toJson: _documentToString, fromJson: _documentFromString)
-  ParchmentDocument get document;
+  Document get document;
 
   /// Create a copy of TextElementModel
   /// with the given fields replaced by the non-null parameter values.

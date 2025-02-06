@@ -1,57 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:rubric/src/elements/box/box_elements.dart';
+import 'package:flutter_quill/flutter_quill.dart' show Document;
 import 'package:rubric/src/elements/box/box_model.dart';
-import 'package:rubric/src/elements/text/text_elements.dart';
+import 'package:rubric/src/elements/elements.dart';
 import 'package:rubric/src/elements/text/text_model.dart';
-
-// enum ElementTypes { text, box, image, video }
-typedef ElementBuilderFunction =
-    Widget Function({Key? key, required ElementModel element});
-
-enum ElementTypes {
-  box(
-    "Box",
-    Icons.check_box_outline_blank_rounded,
-    editorBuilder: BoxEditorElement.new,
-    layerBuilder: BoxEditorElement.new,
-    readerBuilder: BoxEditorElement.new,
-    focusBuilder: BoxEditorElement.new,
-  ),
-  text(
-    "Text",
-    Icons.text_snippet_outlined,
-    editorBuilder: TextEditorElement.new,
-    layerBuilder: TextLayerWidget.new,
-    readerBuilder: TextEditorElement.new,
-    focusBuilder: TextEditorElement.new,
-  );
-
-  final String title;
-  final IconData icon;
-  final ElementBuilderFunction editorBuilder;
-  final ElementBuilderFunction focusBuilder;
-  final ElementBuilderFunction layerBuilder;
-  final ElementBuilderFunction readerBuilder;
-  const ElementTypes(
-    this.title,
-    this.icon, {
-    required this.editorBuilder,
-    required this.focusBuilder,
-    required this.readerBuilder,
-    required this.layerBuilder,
-  });
-
-  // from name function
-  static ElementTypes fromName(String map) {
-    return switch (map) {
-      'box' => ElementTypes.box,
-      'text' => ElementTypes.text,
-      _ => throw Exception('Unknown element type: $map'),
-    };
-  }
-}
 
 class ElementModel {
   String id;
@@ -156,6 +109,21 @@ class ElementModel {
         height.hashCode ^
         properties.hashCode;
   }
+}
+
+Map<String, dynamic> generateDefaultProperties(
+  BuildContext context,
+  ElementTypes elementType,
+) {
+  return switch (elementType) {
+    ElementTypes.box =>
+      BoxElementModel(color: Colors.green, borderRadius: 0).toJson(),
+    ElementTypes.text =>
+      TextElementModel(
+        document: Document()..insert(0, "[Insert your text here]"),
+      ).toJson(),
+    _ => throw "Not implemented properties for this type",
+  };
 }
 
 final example = {

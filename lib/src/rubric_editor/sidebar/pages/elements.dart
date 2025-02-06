@@ -1,8 +1,6 @@
-import 'package:fleather/fleather.dart';
 import 'package:flutter/material.dart';
 import 'package:rubric/rubric.dart';
-import 'package:rubric/src/elements/box/box_model.dart';
-import 'package:rubric/src/elements/text/text_model.dart';
+import 'package:rubric/src/elements/elements.dart';
 import 'package:rubric/src/models/editor_models.dart';
 import 'package:rubric/src/models/elements.dart';
 import 'package:rubric/src/rubric_editor/sidebar/sidebar.dart';
@@ -10,19 +8,6 @@ import 'package:rubric/src/shared/atoms/button.dart';
 
 class ElementPageWidget extends StatelessWidget {
   const ElementPageWidget({super.key});
-
-  // TODO move this into element file.
-  Map<String, dynamic> _getDefaultForType(
-    BuildContext context,
-    ElementTypes elementType,
-  ) {
-    return switch (elementType) {
-      ElementTypes.box => BoxElementModel(color: Colors.green).toJson(),
-      ElementTypes.text =>
-        TextElementModel(document: ParchmentDocument()).toJson(),
-      _ => throw "Not implemented properties for this type",
-    };
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +36,7 @@ class ElementPageWidget extends StatelessWidget {
                   y: tile * 4,
                   width: width - (width % tile),
                   height: height - (height % tile),
-                  properties: _getDefaultForType(context, element),
+                  properties: generateDefaultProperties(context, element),
                 ),
               );
             },

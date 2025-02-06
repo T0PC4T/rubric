@@ -47,6 +47,14 @@ class RubricElementStack extends MultiChildRenderObjectWidget {
       onPointerHover: onPointerHover,
     );
   }
+
+  @override
+  void updateRenderObject(
+    BuildContext context,
+    covariant RenderObject renderObject,
+  ) {
+    super.updateRenderObject(context, renderObject);
+  }
 }
 
 // this manager events and hitTests.
@@ -119,40 +127,41 @@ class RenderRubricElementStack extends RenderBox
       final hit = hitTest(result, position: localPosition);
       if (hit) {
         for (var item in result.path) {
-          if (item.target case RenderCancelSelectionWidget target) {
-            return StackEventResult(
-              stackHitOffset: _stackHitOffset,
-              cancel: target.cancels,
-            );
-          }
-          if (item.target case ElementRenderProxyBox target) {
-            _elementHitOffset = target.globalToLocal(event.position);
-            _mouseDownHit = target.element;
-            if (target.focused) {
-              return StackEventResult(
-                stackHitOffset: _stackHitOffset,
-                cancel: false,
-              );
-            }
-            return StackEventResult(
-              element: _mouseDownHit,
-              elementHitOffset: _elementHitOffset,
-              stackHitOffset: _stackHitOffset,
-            );
-          } else if (item.target case ScalarRenderProxyBox target) {
-            _elementHitOffset = target.globalToLocal(event.position);
-            _mouseDownHit = target.element;
-            _scalarIndex = target.scalarIndex;
-            return StackEventResult(
-              element: _mouseDownHit,
-              elementHitOffset: _elementHitOffset,
-              stackHitOffset: _stackHitOffset,
-              scalarIndex: target.scalarIndex,
-            );
+          switch (item.target) {
+            case RenderCancelSelectionWidget target:
+              {
+                return StackEventResult(
+                  stackHitOffset: _stackHitOffset,
+                  cancel: target.cancels,
+                );
+              }
+            case ElementHandlerRender target:
+              {
+                _elementHitOffset = target.globalToLocal(event.position);
+                _mouseDownHit = target.element;
+
+                return StackEventResult(
+                  element: _mouseDownHit,
+                  elementHitOffset: _elementHitOffset,
+                  stackHitOffset: _stackHitOffset,
+                );
+              }
+            case ScalarRenderProxyBox target:
+              {
+                _elementHitOffset = target.globalToLocal(event.position);
+                _mouseDownHit = target.element;
+                _scalarIndex = target.scalarIndex;
+                return StackEventResult(
+                  element: _mouseDownHit,
+                  elementHitOffset: _elementHitOffset,
+                  stackHitOffset: _stackHitOffset,
+                  scalarIndex: target.scalarIndex,
+                );
+              }
           }
         }
       }
-      return StackEventResult(stackHitOffset: _stackHitOffset, cancel: true);
+      return StackEventResult(stackHitOffset: _stackHitOffset);
     }
     // its not a pointer down,
     final result = StackEventResult(
@@ -190,8 +199,6 @@ class RenderRubricElementStack extends RenderBox
     // ? always hit the canvas even if it is empty
     // result.add(BoxHitTestEntry(this, position));
     return defaultHitTestChildren(result, position: position);
-
-    // return r;
   }
 
   @override

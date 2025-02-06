@@ -23,6 +23,7 @@ class RubricIconButton extends StatelessWidget {
     return RubricButton(
       width: size,
       height: size,
+      radius: size,
       backgroundColor: background ? style.light : style.light2,
       hoverColor: style.light6,
       onTap: onTap,

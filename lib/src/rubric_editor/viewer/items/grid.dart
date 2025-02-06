@@ -8,7 +8,7 @@ class GridPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final paint =
         Paint()
-          ..color = Colors.grey.shade300
+          ..color = const Color.fromARGB(50, 0, 0, 0)
           ..strokeWidth = 1;
 
     for (double i = 0; i < size.width; i += pixelsPerLine) {

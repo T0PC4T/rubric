@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:rubric/src/models/canvas.dart';
+import 'package:rubric/src/models/canvas_notifier.dart';
 import 'package:rubric/src/models/editor_models.dart';
+import 'package:rubric/src/models/editor_notifier.dart';
 import 'package:rubric/src/models/elements.dart';
-import 'package:rubric/src/models/notifier.dart';
 import 'package:rubric/src/rubric_editor/models/style.dart';
 import 'package:rubric/src/rubric_editor/navbar/navbar.dart';
 import 'package:rubric/src/rubric_editor/sidebar/sidebar.dart';
 import 'package:rubric/src/rubric_editor/toolbar/element_toolbar.dart';
+import 'package:rubric/src/rubric_editor/viewer/keyboard/keyboard_listener.dart';
 import 'package:rubric/src/rubric_editor/viewer/viewer.dart';
 
 class RubricEditor extends StatefulWidget {
@@ -30,13 +32,19 @@ class RubricEditorState extends State<RubricEditor> {
   @override
   void initState() {
     super.initState();
-    // print(cav.elements.hashCode);
-    // print(cav.copyWith().elements.hashCode);
+    canvas = CanvasNotifier(widget.canvas?.copyWith() ?? CanvasModel());
+    canvas.addListener(_canvasListener);
 
-    canvas = CanvasNotifier(widget.canvas?.copyWith() ?? CanvasModel())
-      ..addListener(_saveStep);
     edits = EditorNotifier(CanvasEditingModel(steps: [canvas.clone()]));
+    edits.addListener(_editorListener);
+
     style = widget.style;
+  }
+
+  _editorListener() {
+    if (edits.value.selected == null && edits.value.focused == null) {
+      removeToolbar();
+    }
   }
 
   undo() {
@@ -44,15 +52,24 @@ class RubricEditorState extends State<RubricEditor> {
     canvas.value = edits.lastStep;
   }
 
-  _saveStep() {
+  _canvasListener() {
     edits.saveStep(canvas.clone());
-    // print(edits.value.steps);
   }
 
   removeToolbar() {
     currentBar?.remove();
     currentBar?.dispose();
     currentBar = null;
+  }
+
+  @override
+  void dispose() {
+    canvas.removeListener(_canvasListener);
+    edits.removeListener(_editorListener);
+    removeToolbar();
+    canvas.dispose();
+    edits.dispose();
+    super.dispose();
   }
 
   showToolbar(ElementModel element, {Widget? child}) {
@@ -85,20 +102,22 @@ class RubricEditorState extends State<RubricEditor> {
         OverlayEntry(
           builder: (ctx) {
             innerContext = ctx;
-            return DefaultTextStyle(
-              style: TextStyle(color: style.dark, fontSize: style.fontSize),
-              child: Column(
-                children: [
-                  NavbarWidget(),
-                  Expanded(
-                    child: Row(
-                      children: [
-                        RubricSideBar(),
-                        Expanded(child: RubricEditorViewer()),
-                      ],
+            return RubricKeyboardListenerWidget(
+              child: DefaultTextStyle(
+                style: TextStyle(color: style.dark, fontSize: style.fontSize),
+                child: Column(
+                  children: [
+                    NavbarWidget(),
+                    Expanded(
+                      child: Row(
+                        children: [
+                          RubricSideBar(),
+                          Expanded(child: RubricEditorViewer()),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             );
           },

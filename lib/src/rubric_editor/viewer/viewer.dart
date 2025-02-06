@@ -9,6 +9,7 @@ import 'package:rubric/src/rubric_editor/models/stack.dart';
 import 'package:rubric/src/rubric_editor/viewer/items/element.dart';
 import 'package:rubric/src/rubric_editor/viewer/items/focused.dart';
 import 'package:rubric/src/rubric_editor/viewer/items/grid.dart';
+import 'package:rubric/src/rubric_editor/viewer/items/handler.dart';
 import 'package:rubric/src/rubric_editor/viewer/items/position.dart';
 import 'package:rubric/src/rubric_editor/viewer/items/scalar.dart';
 import 'package:rubric/src/rubric_editor/viewer/stack/element_stack.dart';
@@ -21,9 +22,8 @@ class RubricEditorViewer extends StatefulWidget {
 }
 
 class RubricEditorViewerState extends State<RubricEditorViewer> {
-  Offset? localHit;
   ElementModel? scaling;
-  double desiredOffset = 0;
+  bool _dragged = false;
   late ScrollController _scrollController;
   late RubricEditorState editorState;
   @override
@@ -112,19 +112,10 @@ class RubricEditorViewerState extends State<RubricEditorViewer> {
         {
           editorState.edits.selectElement(null);
         }
-      case StackEventResult(element: ElementModel element):
-        {
-          if (editorState.edits.isSelected(element)) {
-            editorState.edits.focusElement(element);
-          } else {
-            editorState.edits.selectElement(element);
-          }
-        }
     }
   }
 
   _handlePointerUp(PointerUpEvent event, StackEventResult result) {
-    print("CANCELING: ${result.cancel}");
     switch (result) {
       case StackEventResult(cancel: true):
         {
@@ -132,17 +123,23 @@ class RubricEditorViewerState extends State<RubricEditorViewer> {
             if (result.cancel) {
               editorState.edits.selectElement(null);
             }
-            return;
           }
         }
-      default:
+      case StackEventResult(element: ElementModel element):
         {
-          editorState.canvas.commitIfChange(editorState.edits.lastStep);
+          if (editorState.edits.isSelected(element) && _dragged == false) {
+            editorState.edits.focusElement(element);
+          } else {
+            editorState.edits.selectElement(element);
+          }
         }
     }
+    _dragged = false;
+    editorState.canvas.commitIfChange(editorState.edits.lastStep);
   }
 
   _handlePointerMove(PointerMoveEvent event, StackEventResult result) {
+    _dragged = true;
     switch (result) {
       case StackEventResult(cancel: true):
         {
@@ -207,10 +204,8 @@ class RubricEditorViewerState extends State<RubricEditorViewer> {
                 // Todo implement again.
                 onPointerSignal: (event) {
                   if (event is PointerScrollEvent) {
-                    // print(event.scrollDelta);
                     // desiredOffset += event.scrollDelta.dy;
                     // desiredOffset = desiredOffset.clamp(0, pageHeight);
-                    // print(desiredOffset);
                     // _scrollController.jumpTo(desiredOffset);
                     // _scrollController.animateTo(
                     //   desiredOffset,
@@ -234,6 +229,12 @@ class RubricEditorViewerState extends State<RubricEditorViewer> {
                     ),
                     size: Size.infinite,
                   ),
+                  if (editorState.edits.value.focused == null)
+                    CancelSelectionWidget(
+                      key: ValueKey("canceller"),
+                      cancels: true,
+                      amount: 0,
+                    ),
 
                   for (var element in canvas.elements)
                     if (!editorState.edits.isFocused(element))
@@ -242,9 +243,18 @@ class RubricEditorViewerState extends State<RubricEditorViewer> {
                         element: element,
                       ),
 
+                  for (var element in canvas.elements)
+                    ElementHandlerWidget(
+                      key: ValueKey("${element.id} handler"),
+                      element: element,
+                    ),
+
                   if (editorState.edits.value.focused
                       case ElementModel element) ...[
-                    CancelSelectionWidget(cancels: true),
+                    CancelSelectionWidget(
+                      key: ValueKey("canceller"),
+                      cancels: true,
+                    ),
                     RubricPositioned(
                       x: element.x,
                       y: element.y,

@@ -36,7 +36,9 @@ class RubricEditorStyle {
   Color get light2 => Color.lerp(dark, light, 0.2)!;
   Color get light4 => Color.lerp(dark, light, 0.4)!;
   Color get light6 => Color.lerp(dark, light, 0.6)!;
+  Color get light8 => Color.lerp(dark, light, 0.8)!;
 
+  EdgeInsets get padding => EdgeInsets.all(paddingUnit);
   BorderRadius get borderRadius => BorderRadius.circular(radius);
 
   static RubricEditorStyle of(BuildContext context) {

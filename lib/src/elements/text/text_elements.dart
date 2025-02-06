@@ -1,5 +1,5 @@
-import 'package:fleather/fleather.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_quill/flutter_quill.dart';
 import 'package:rubric/rubric.dart';
 import 'package:rubric/src/elements/text/text_model.dart';
 import 'package:rubric/src/elements/text/text_tooltip.dart';
@@ -15,7 +15,8 @@ class TextEditorElement extends StatefulWidget {
 }
 
 class TextEditorElementState extends State<TextEditorElement> {
-  late FleatherController controller;
+  late QuillController controller;
+  late ScrollController _scrollController;
   late FocusNode focusNode;
   late RubricEditorState editorState;
 
@@ -23,52 +24,66 @@ class TextEditorElementState extends State<TextEditorElement> {
   void initState() {
     final textElement = widget.element.getProperties<TextElementModel>();
     focusNode = FocusNode();
-    controller = FleatherController(document: textElement.document);
+    _scrollController = ScrollController();
+    controller = QuillController(
+      document: textElement.document,
+      selection: TextSelection(baseOffset: 0, extentOffset: 0),
+      readOnly: false,
+      editorFocusNode: focusNode,
+
+      configurations: QuillControllerConfigurations(),
+    );
     controller.addListener(_onChange);
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (editorState.edits.isFocused(widget.element)) {
-        focusNode.requestFocus();
-        editorState.showToolbar(
-          widget.element,
-          child: TextTooltipWidget(
-            element: widget.element,
-            controller: controller,
-          ),
-        );
-      }
+      // todo
+      editorState.edits.focusNotifier.addListener(_onFocus);
+      _onFocus();
     });
+
     super.initState();
   }
 
-  void _onChange() {
-    editorState.canvas.updateElement(
-      widget.element,
-      TextElementModel(document: controller.document).toJson(),
-    );
+  void _onFocus() {
+    if (editorState.edits.isFocused(widget.element)) {
+      controller.readOnly = false;
+      editorState.showToolbar(
+        widget.element,
+        child: TextTooltipWidget(
+          element: widget.element,
+          controller: controller,
+        ),
+      );
+      focusNode.requestFocus();
+    } else {
+      focusNode.unfocus();
+      controller.readOnly = true;
+      editorState.removeToolbar();
+      editorState.canvas.updateElement(
+        widget.element,
+        TextElementModel(document: controller.document).toJson(),
+      );
+    }
   }
+
+  void _onChange() {}
 
   @override
   void dispose() {
+    _scrollController.dispose();
     controller.dispose();
     focusNode.dispose();
+    editorState.edits.focusNotifier.removeListener(_onFocus);
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     editorState = RubricEditorState.of(context);
-    final editable = editorState.edits.isFocused(widget.element);
-
-    if (!editable) {
-      focusNode.unfocus();
-    }
-    return FleatherEditor(
-      focusNode: focusNode,
-      padding: const EdgeInsets.all(16),
-      readOnly: !editable,
-      scrollable: false,
-      enableInteractiveSelection: editable,
+    return QuillEditor(
+      scrollController: _scrollController,
       controller: controller,
+      focusNode: focusNode,
+      configurations: QuillEditorConfigurations(),
     );
   }
 }
