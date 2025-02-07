@@ -21,7 +21,7 @@ BoxElementModel _$BoxElementModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$BoxElementModel {
-  @JsonKey(toJson: _colorToJson, fromJson: _colorFromJson)
+  @JsonKey(toJson: colorToJson, fromJson: colorFromJson)
   Color get color => throw _privateConstructorUsedError;
   double get borderRadius => throw _privateConstructorUsedError;
 
@@ -43,7 +43,7 @@ abstract class $BoxElementModelCopyWith<$Res> {
   ) = _$BoxElementModelCopyWithImpl<$Res, BoxElementModel>;
   @useResult
   $Res call({
-    @JsonKey(toJson: _colorToJson, fromJson: _colorFromJson) Color color,
+    @JsonKey(toJson: colorToJson, fromJson: colorFromJson) Color color,
     double borderRadius,
   });
 }
@@ -91,7 +91,7 @@ abstract class _$$BoxElementModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call({
-    @JsonKey(toJson: _colorToJson, fromJson: _colorFromJson) Color color,
+    @JsonKey(toJson: colorToJson, fromJson: colorFromJson) Color color,
     double borderRadius,
   });
 }
@@ -132,8 +132,7 @@ class __$$BoxElementModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$BoxElementModelImpl implements _BoxElementModel {
   const _$BoxElementModelImpl({
-    @JsonKey(toJson: _colorToJson, fromJson: _colorFromJson)
-    required this.color,
+    @JsonKey(toJson: colorToJson, fromJson: colorFromJson) required this.color,
     required this.borderRadius,
   });
 
@@ -141,7 +140,7 @@ class _$BoxElementModelImpl implements _BoxElementModel {
       _$$BoxElementModelImplFromJson(json);
 
   @override
-  @JsonKey(toJson: _colorToJson, fromJson: _colorFromJson)
+  @JsonKey(toJson: colorToJson, fromJson: colorFromJson)
   final Color color;
   @override
   final double borderRadius;
@@ -184,7 +183,7 @@ class _$BoxElementModelImpl implements _BoxElementModel {
 
 abstract class _BoxElementModel implements BoxElementModel {
   const factory _BoxElementModel({
-    @JsonKey(toJson: _colorToJson, fromJson: _colorFromJson)
+    @JsonKey(toJson: colorToJson, fromJson: colorFromJson)
     required final Color color,
     required final double borderRadius,
   }) = _$BoxElementModelImpl;
@@ -193,7 +192,7 @@ abstract class _BoxElementModel implements BoxElementModel {
       _$BoxElementModelImpl.fromJson;
 
   @override
-  @JsonKey(toJson: _colorToJson, fromJson: _colorFromJson)
+  @JsonKey(toJson: colorToJson, fromJson: colorFromJson)
   Color get color;
   @override
   double get borderRadius;

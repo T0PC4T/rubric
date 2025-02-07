@@ -13,33 +13,37 @@ class ElementPageWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final editorState = RubricEditorState.of(context);
     final buttonSize =
-        RubricSideBar.sideBarSize * 0.5 - editorState.style.paddingUnit * 1.5;
+        RubricSideBar.sideBarSize * 0.5 - RubricEditorStyle.paddingUnit * 1.5;
 
     return Padding(
-      padding: EdgeInsets.all(editorState.style.paddingUnit * 0.5),
+      padding: EdgeInsets.all(RubricEditorStyle.paddingUnit * 0.5),
       child: Wrap(
         children: [
           for (var element in ElementTypes.values)
             RubricButton(
-              borderColor: editorState.style.light6,
+              borderColor: editorState.style.light7,
               borderWidth: 1,
-              margin: EdgeInsets.all(editorState.style.paddingUnit * 0.5),
+              margin: EdgeInsets.all(RubricEditorStyle.paddingUnit * 0.5),
               padding: editorState.style.padding,
               backgroundColor: editorState.style.light,
               width: buttonSize,
               height: buttonSize,
-              hoverColor: editorState.style.primary4,
+              radius: editorState.style.radius,
+              hoverColor: editorState.style.theme4,
               onTap: () {
                 final editorState = RubricEditorState.of(context);
                 final width = GridSizes.pageSize * 0.5;
                 final height = GridSizes.pageSize * 0.35;
                 final tile = editorState.edits.value.gridSize.pixelsPerLock;
+
                 editorState.canvas.addElement(
                   ElementModel(
                     id: UniqueKey().toString(),
                     type: element,
                     x: tile,
-                    y: tile * 4,
+                    y:
+                        editorState.edits.scrollOffset -
+                        (editorState.edits.scrollOffset % tile),
                     width: width - (width % tile),
                     height: height - (height % tile),
                     properties: generateDefaultProperties(context, element),
@@ -49,7 +53,7 @@ class ElementPageWidget extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
-                spacing: editorState.style.paddingUnit * 0.5,
+                spacing: RubricEditorStyle.paddingUnit * 0.5,
                 children: [
                   Icon(element.icon, size: buttonSize * 0.4),
                   Text(element.title),

@@ -18,12 +18,12 @@ class RubricBorderRadiusDropdown extends StatelessWidget {
     final style = RubricEditorStyle.of(context);
 
     return Padding(
-      padding: EdgeInsets.all(style.paddingUnit * 0.5),
+      padding: EdgeInsets.all(RubricEditorStyle.paddingUnit * 0.5),
       child: Row(
-        spacing: style.paddingUnit,
+        spacing: RubricEditorStyle.paddingUnit * 0.5,
         children: [
           Icon(
-            Icons.signal_cellular_4_bar_rounded,
+            Icons.check_box_outline_blank_rounded,
             size: ElementToolbarWidget.iconSize,
           ),
           RubricDropdown<double>(

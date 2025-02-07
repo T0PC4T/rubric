@@ -18,7 +18,7 @@ class ImageEditorElementState extends SelectableState<ImageEditorElement> {
     if (editorState.edits.isSelected(widget.element)) {
       editorState.showToolbar(
         widget.element,
-        child: ImageTooltipWidget(element: widget.element),
+        ImageTooltipWidget(element: widget.element),
       );
     }
   }
@@ -38,9 +38,20 @@ class ImageEditorElementState extends SelectableState<ImageEditorElement> {
   }
 }
 
-class ImageLayerWidget extends StatelessWidget {
+class ImageLayerElement extends StatelessWidget {
   final ElementModel element;
-  const ImageLayerWidget({super.key, required this.element});
+  const ImageLayerElement({super.key, required this.element});
+
+  @override
+  Widget build(BuildContext context) {
+    final imageProperties = element.getProperties<ImageElementModel>();
+    return Image.network(imageProperties.imageUrl);
+  }
+}
+
+class ImageReaderElement extends StatelessWidget {
+  final ElementModel element;
+  const ImageReaderElement({super.key, required this.element});
 
   @override
   Widget build(BuildContext context) {

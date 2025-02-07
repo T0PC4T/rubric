@@ -20,7 +20,7 @@ class TextTooltipWidget extends StatelessWidget {
     return QuillSimpleToolbar(
       controller: controller,
       configurations: QuillSimpleToolbarConfigurations(
-        color: editorState.style.primary4,
+        color: editorState.style.theme4,
         toolbarSize: ElementToolbarWidget.elementToolbarHeight - 20,
         showFontFamily: false,
         showCodeBlock: false,

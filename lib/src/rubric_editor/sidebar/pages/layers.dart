@@ -17,7 +17,7 @@ class LayersPageWidget extends StatelessWidget {
       valueListenable: editorState.canvas,
       builder: (context, canvas, child) {
         return Padding(
-          padding: EdgeInsets.all(editorState.style.paddingUnit),
+          padding: EdgeInsets.all(RubricEditorStyle.paddingUnit),
           child: ReorderableListView(
             onReorder: (oldIndex, newIndex) {
               int listLength = canvas.elements.length;
@@ -29,7 +29,7 @@ class LayersPageWidget extends StatelessWidget {
               );
             },
             padding: EdgeInsets.symmetric(
-              vertical: editorState.style.paddingUnit * 0.5,
+              vertical: RubricEditorStyle.paddingUnit * 0.5,
             ),
             itemExtent: LayerWidget.layerHeight,
 
@@ -47,7 +47,7 @@ class LayersPageWidget extends StatelessWidget {
 
 class LayerWidget extends StatelessWidget {
   const LayerWidget({super.key, required this.element});
-  static const double layerBoundary = 20;
+  static const double layerBoundary = 40;
   static const double layerHeight = 50;
   final ElementModel element;
 
@@ -60,8 +60,15 @@ class LayerWidget extends StatelessWidget {
       },
       child: RubricContainer(
         margin: EdgeInsets.symmetric(
-          vertical: editorState.style.paddingUnit * 0.5,
+          vertical: RubricEditorStyle.paddingUnit * 0.5,
         ),
+        padding: EdgeInsets.only(
+          left: 10,
+          right: layerBoundary,
+          top: 10,
+          bottom: 10,
+        ),
+
         color: editorState.style.light,
         height: layerHeight,
         width: double.infinity,

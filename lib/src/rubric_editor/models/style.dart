@@ -5,9 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:rubric/rubric.dart';
 
 class RubricEditorStyle {
+  static const paddingUnit = 10.0;
+
+  final String logoUrl;
   final double radius;
-  final double paddingUnit;
   final double fontSize;
+  final FontWeight fontWeight;
   final double elevation;
   final Color theme;
   final Color dark;
@@ -15,9 +18,10 @@ class RubricEditorStyle {
   final Color borderColor;
 
   const RubricEditorStyle({
-    this.paddingUnit = 10,
-    this.radius = 10,
+    required this.logoUrl,
+    this.radius = 8,
     this.fontSize = 14,
+    this.fontWeight = FontWeight.w500,
     this.elevation = 6,
     this.theme = const Color.fromARGB(
       255,
@@ -30,15 +34,16 @@ class RubricEditorStyle {
     this.borderColor = const Color.fromARGB(255, 212, 212, 212),
   });
 
-  Color get primary4 => Color.lerp(theme, light, 0.4)!;
+  Color get theme4 => Color.lerp(theme, light, 0.4)!; // for theme hover
 
   Color get light1 => Color.lerp(dark, light, 0.1)!;
   Color get light2 => Color.lerp(dark, light, 0.2)!;
   Color get light4 => Color.lerp(dark, light, 0.4)!;
-  Color get light6 => Color.lerp(dark, light, 0.6)!;
-  Color get light8 => Color.lerp(dark, light, 0.8)!;
+  Color get light7 => Color.lerp(dark, light, 0.7)!; // borders
+  Color get light9 => Color.lerp(dark, light, 0.9)!; // light hoverover
   Color get light95 => Color.lerp(dark, light, 0.95)!;
 
+  double get paddingD => paddingUnit;
   EdgeInsets get padding => EdgeInsets.all(paddingUnit);
   BorderRadius get borderRadius => BorderRadius.circular(radius);
 

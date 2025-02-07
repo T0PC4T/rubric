@@ -103,7 +103,7 @@ class RenderRubricElementStack extends RenderBox
       if (child.parentData case RuPositionParentData childParentData) {
         final BoxConstraints childConstraints = childParentData
             .positionedChildConstraints(size);
-        child.layout(childConstraints, parentUsesSize: true);
+        child.layout(childConstraints, parentUsesSize: false);
 
         childParentData.offset = Offset(
           childParentData.x ?? 0,

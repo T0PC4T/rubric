@@ -1,34 +1,19 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:rubric/rubric.dart';
 import 'package:rubric/src/rubric_editor/models/style.dart';
 
 class PopupWidget<T> extends StatefulWidget {
-  static List<OverlayEntry> currentPopup = [];
-
-  static cleanOverlays() {
-    while (currentPopup.isNotEmpty) {
-      final popup = currentPopup.removeAt(0);
-      popup.remove();
-      popup.dispose();
-    }
-  }
-
   static Future<T?> showPopup<T>(
     BuildContext context,
     Widget Function(Function(T value) closeWith) builder,
   ) {
-    cleanOverlays();
     final completer = Completer<T?>();
 
-    final newPopup = OverlayEntry(
-      builder: (context) {
-        return PopupWidget(builder: builder, completer: completer);
-      },
-    );
-
-    Overlay.of(context).insert(newPopup);
-    currentPopup.add(newPopup);
+    RubricEditorState.of(
+      context,
+    ).pushOverlay(PopupWidget(builder: builder, completer: completer));
     return completer.future;
   }
 
@@ -47,7 +32,7 @@ class PopupWidget<T> extends StatefulWidget {
 class _PopupWidgetState<T> extends State<PopupWidget<T>> {
   onCompleter(T value) {
     widget.completer.complete(value);
-    PopupWidget.cleanOverlays();
+    RubricEditorState.of(context).popOverlay();
   }
 
   @override
@@ -56,7 +41,7 @@ class _PopupWidgetState<T> extends State<PopupWidget<T>> {
     return GestureDetector(
       onTap: () {
         widget.completer.complete(null);
-        PopupWidget.cleanOverlays();
+        RubricEditorState.of(context).popOverlay();
       },
       child: Container(
         color: style.dark.withAlpha(10),

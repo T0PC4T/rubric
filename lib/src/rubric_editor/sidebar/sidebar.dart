@@ -9,7 +9,7 @@ import 'package:rubric/src/rubric_editor/sidebar/pages/layers.dart';
 class RubricSideBar extends StatefulWidget {
   const RubricSideBar({super.key});
 
-  static const double sideBarSize = 250;
+  static const double sideBarSize = 260;
 
   static const pages = [
     ElementPageWidget(),
@@ -17,13 +17,18 @@ class RubricSideBar extends StatefulWidget {
     LayersPageWidget(),
   ];
 
-  static const menus = ["Element", "Settings", "Layers"];
-
   @override
   State<RubricSideBar> createState() => RubricSideBarState();
 }
 
 class RubricSideBarState extends State<RubricSideBar> {
+  static const menusIcons = [
+    Icons.shape_line_rounded,
+    Icons.settings,
+    Icons.layers,
+  ];
+  static const menus = ["Elements", "Settings", "Structure"];
+
   int pageIndex = 0;
   @override
   Widget build(BuildContext context) {
@@ -37,16 +42,36 @@ class RubricSideBarState extends State<RubricSideBar> {
         children: [
           Row(
             children: [
-              for (var menu in RubricSideBar.menus)
+              for (var i = 0; i < menus.length; i++)
                 Expanded(
                   child: RubricButton(
-                    height: RubricSideBar.sideBarSize * 0.3,
+                    hoverColor: style.light9,
+
+                    backgroundColor:
+                        i == pageIndex ? style.light9 : style.light,
+                    height: 80,
                     onTap: () {
                       setState(() {
-                        pageIndex = RubricSideBar.menus.indexOf(menu);
+                        pageIndex = i;
                       });
                     },
-                    child: RubricText(menu),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      spacing: RubricEditorStyle.paddingUnit,
+                      children: [
+                        Opacity(
+                          opacity: i == pageIndex ? 1 : 0,
+                          child: Container(
+                            color: style.theme,
+                            height: 5,
+                            width: double.infinity,
+                          ),
+                        ),
+                        Icon(menusIcons[i], size: 25),
+                        RubricText(menus[i]),
+                      ],
+                    ),
                   ),
                 ),
             ],

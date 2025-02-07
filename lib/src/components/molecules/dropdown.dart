@@ -4,6 +4,8 @@ import 'package:rubric/src/rubric_editor/models/style.dart';
 class RubricDropdown<T> extends StatefulWidget {
   final List<DropdownMenuItem<T>>? items;
   final DropdownButtonBuilder? selectedItemBuilder;
+  final double? menuWidth;
+  final double itemHeight;
   final ValueChanged<T?>? onChanged;
   final T? value;
 
@@ -12,6 +14,8 @@ class RubricDropdown<T> extends StatefulWidget {
     this.selectedItemBuilder,
     this.onChanged,
     this.value,
+    this.menuWidth = 90,
+    this.itemHeight = 50,
     super.key,
   });
 
@@ -25,7 +29,9 @@ class RubricDropdownState<T> extends State<RubricDropdown<T>> {
   Widget build(BuildContext context) {
     final styles = RubricEditorStyle.of(context);
     return DropdownButton<T>(
-      padding: EdgeInsets.all(styles.paddingUnit * 0.5),
+      itemHeight: widget.itemHeight,
+      menuWidth: widget.menuWidth,
+      padding: EdgeInsets.all(RubricEditorStyle.paddingUnit * 0.5),
       underline: SizedBox(),
       isDense: true,
       value: value ?? widget.value,

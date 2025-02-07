@@ -4,6 +4,7 @@ import 'package:rubric/src/elements/box/box_model.dart';
 import 'package:rubric/src/elements/elements.dart';
 import 'package:rubric/src/elements/image/image_model.dart';
 import 'package:rubric/src/elements/text/text_model.dart';
+import 'package:rubric/src/elements/video/video_model.dart';
 
 class ElementModel {
   String id;
@@ -25,11 +26,10 @@ class ElementModel {
 
   T getProperties<T>() {
     return switch (type) {
-          // ElementTypes.text => TextElementModel(properties),
           ElementTypes.box => BoxElementModel.fromJson(properties),
           ElementTypes.text => TextElementModel.fromJson(properties),
           ElementTypes.image => ImageElementModel.fromJson(properties),
-          // ElementTypes.video => VideoElementModel(properties),
+          ElementTypes.video => VideoElementModel.fromJson(properties),
         }
         as T;
   }

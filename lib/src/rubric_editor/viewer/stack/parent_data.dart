@@ -13,10 +13,10 @@ class RuPositionParentData extends ContainerBoxParentData<RenderBox> {
 
   BoxConstraints positionedChildConstraints(Size stackSize) {
     if (width!.isInfinite) {
-      width = stackSize.width - x!;
-    }
-    if (height!.isInfinite) {
-      height = stackSize.height - y!;
+      return BoxConstraints.tightFor(
+        width: stackSize.width,
+        height: stackSize.height,
+      );
     }
     return BoxConstraints.tightFor(width: width!, height: height!);
   }

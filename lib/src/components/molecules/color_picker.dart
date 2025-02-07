@@ -39,11 +39,10 @@ class RubricColorPickerState extends State<RubricColorPicker> {
               color = value;
             },
           ),
-          RubricButton(
+          RubricButton.light(
+            style,
             height: 40,
             width: 150,
-            hoverColor: style.light95,
-
             child: RubricText("Complete"),
             onTap: () {
               widget.onComplete(color);

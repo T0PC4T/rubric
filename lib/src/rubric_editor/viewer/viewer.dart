@@ -13,6 +13,7 @@ import 'package:rubric/src/rubric_editor/viewer/items/handler.dart';
 import 'package:rubric/src/rubric_editor/viewer/items/position.dart';
 import 'package:rubric/src/rubric_editor/viewer/items/scalar.dart';
 import 'package:rubric/src/rubric_editor/viewer/stack/element_stack.dart';
+import 'package:rubric/src/rubric_reader/padder.dart';
 
 class RubricEditorViewer extends StatefulWidget {
   const RubricEditorViewer({super.key});
@@ -28,7 +29,10 @@ class RubricEditorViewerState extends State<RubricEditorViewer> {
   late RubricEditorState editorState;
   @override
   void initState() {
-    _scrollController = ScrollController();
+    _scrollController =
+        ScrollController()..addListener(() {
+          editorState.edits.setScrollOffset(_scrollController.offset);
+        });
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final editorState = RubricEditorState.of(context);
       editorState.canvas.addListener(_handler);
@@ -135,9 +139,7 @@ class RubricEditorViewerState extends State<RubricEditorViewer> {
         }
     }
     _dragged = false;
-    if (editorState.edits.canUndo) {
-      editorState.canvas.commitIfChange(editorState.edits.lastStep);
-    }
+    editorState.canvas.commitIfChange(editorState.edits.lastStep);
   }
 
   _handlePointerMove(PointerMoveEvent event, StackEventResult result) {
@@ -190,83 +192,94 @@ class RubricEditorViewerState extends State<RubricEditorViewer> {
   Widget build(BuildContext context) {
     editorState = RubricEditorState.of(context);
     // todo calculate the actual size
-    final double pageHeight = editorState.canvas.pageHeight();
+    final double pageHeight = editorState.canvas.value.editorPageHeight();
     return SingleChildScrollView(
-      // controller: _scrollController,
+      controller: _scrollController,
       // physics: NeverScrollableScrollPhysics(),
-      child: FittedBox(
-        fit: BoxFit.fitWidth,
-        child: SizedBox(
-          width: GridSizes.pageSize,
-          height: pageHeight,
+      child: PagePadderWidget(
+        onTapBackground: () {
+          editorState.edits.clear();
+        },
+        backgroundColor: editorState.style.light7,
+        child: FittedBox(
+          fit: BoxFit.fitWidth,
           child: ValueListenableBuilder(
             valueListenable: editorState.canvas,
             builder: (context, canvas, _) {
-              return RubricElementStack(
-                // Todo implement again.
-                onPointerSignal: (event) {
-                  if (event is PointerScrollEvent) {
-                    // desiredOffset += event.scrollDelta.dy;
-                    // desiredOffset = desiredOffset.clamp(0, pageHeight);
-                    // _scrollController.jumpTo(desiredOffset);
-                    // _scrollController.animateTo(
-                    //   desiredOffset,
-                    //   duration: Duration(milliseconds: 100),
-                    //   curve: Curves.easeInOut,
-                    // );
-                  }
-                },
-                onPointerDown: _handlePointerDown,
-                onPointerMove: _handlePointerMove,
+              return SizedBox(
+                width: GridSizes.pageSize,
+                height: pageHeight,
+                child: RubricElementStack(
+                  // Todo implement again.
+                  onPointerSignal: (event) {
+                    if (event is PointerScrollEvent) {
+                      // desiredOffset += event.scrollDelta.dy;
+                      // desiredOffset = desiredOffset.clamp(0, pageHeight);
+                      // _scrollController.jumpTo(desiredOffset);
+                      // _scrollController.animateTo(
+                      //   desiredOffset,
+                      //   duration: Duration(milliseconds: 100),
+                      //   curve: Curves.easeInOut,
+                      // );
+                    }
+                  },
+                  onPointerDown: _handlePointerDown,
+                  onPointerMove: _handlePointerMove,
 
-                onPointerUp: _handlePointerUp,
+                  onPointerUp: _handlePointerUp,
 
-                onPointerHover: (event, result) {},
-                key: ValueKey("ViewerStack"),
-                children: [
-                  CustomPaint(
-                    key: ValueKey("grid"),
-                    painter: GridPainter(
-                      editorState.edits.value.gridSize.pixelsPerLine,
+                  onPointerHover: (event, result) {},
+                  key: ValueKey("ViewerStack"),
+                  children: [
+                    CustomPaint(
+                      key: ValueKey("grid"),
+                      painter: GridPainter(
+                        backgroundColor: canvas.settings.backgroundColor,
+                        pixelsPerLine:
+                            editorState.edits.value.gridSize.pixelsPerLine,
+                      ),
+                      size: Size(GridSizes.pageSize, pageHeight),
                     ),
-                    size: Size.infinite,
-                  ),
-                  if (editorState.edits.value.focused == null)
-                    CancelSelectionWidget(
-                      key: ValueKey("canceller"),
-                      cancels: true,
-                      amount: 0,
-                    ),
+                    if (editorState.edits.value.focused == null)
+                      CancelSelectionWidget(
+                        key: ValueKey("canceller"),
+                        cancels: true,
+                        amount: 0,
+                      ),
 
-                  for (var element in canvas.elements)
-                    if (!editorState.edits.isFocused(element))
+                    for (var element in canvas.elements)
+                      if (!editorState.edits.isFocused(element))
+                        ElementWidget(
+                          key: ValueKey(element.id),
+                          element: element,
+                        ),
+
+                    for (var element in canvas.elements)
+                      ElementHandlerWidget(
+                        key: ValueKey("${element.id} handler"),
+                        element: element,
+                      ),
+
+                    if (editorState.edits.value.focused
+                        case ElementModel element) ...[
+                      CancelSelectionWidget(
+                        key: ValueKey("canceller"),
+                        cancels: true,
+                      ),
+                      RubricPositioned(
+                        x: element.x,
+                        y: element.y,
+                        width: element.width,
+                        height: element.height,
+                        child: CancelSelectionWidget(cancels: false),
+                      ),
                       ElementWidget(
                         key: ValueKey(element.id),
                         element: element,
                       ),
-
-                  for (var element in canvas.elements)
-                    ElementHandlerWidget(
-                      key: ValueKey("${element.id} handler"),
-                      element: element,
-                    ),
-
-                  if (editorState.edits.value.focused
-                      case ElementModel element) ...[
-                    CancelSelectionWidget(
-                      key: ValueKey("canceller"),
-                      cancels: true,
-                    ),
-                    RubricPositioned(
-                      x: element.x,
-                      y: element.y,
-                      width: element.width,
-                      height: element.height,
-                      child: CancelSelectionWidget(cancels: false),
-                    ),
-                    ElementWidget(key: ValueKey(element.id), element: element),
+                    ],
                   ],
-                ],
+                ),
               );
             },
           ),

@@ -18,7 +18,7 @@ class ElementToolbarWidget extends StatelessWidget {
 
     return Container(
       clipBehavior: Clip.antiAlias,
-      margin: EdgeInsets.all(style.paddingUnit * 2),
+      margin: EdgeInsets.all(RubricEditorStyle.paddingUnit * 2),
       height: elementToolbarHeight,
       decoration: BoxDecoration(
         color: Colors.white,

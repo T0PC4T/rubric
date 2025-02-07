@@ -7,36 +7,48 @@ import 'package:rubric/src/elements/image/image_elements.dart';
 import 'package:rubric/src/elements/image/image_model.dart';
 import 'package:rubric/src/elements/text/text_elements.dart';
 import 'package:rubric/src/elements/text/text_model.dart';
+import 'package:rubric/src/elements/video/video_elements.dart';
+import 'package:rubric/src/elements/video/video_model.dart';
 import 'package:rubric/src/models/elements.dart';
 
 typedef ElementBuilderFunction =
     Widget Function({Key? key, required ElementModel element});
 
 enum ElementTypes {
-  box(
-    "Box",
-    Icons.check_box_outline_blank_rounded,
-    editorBuilder: BoxEditorElement.new,
-    layerBuilder: BoxEditorElement.new,
-    readerBuilder: BoxEditorElement.new,
-    focusable: false,
-  ),
   text(
     "Text",
-    Icons.text_snippet_outlined,
+    Icons.text_fields_rounded,
     editorBuilder: TextEditorElement.new,
     layerBuilder: TextLayerWidget.new,
-    readerBuilder: TextEditorElement.new,
+    readerBuilder: TextReaderWidget.new,
     focusable: true,
   ),
 
   image(
     "Image",
-    Icons.image,
+    Icons.image_outlined,
     editorBuilder: ImageEditorElement.new,
-    layerBuilder: ImageLayerWidget.new,
-    readerBuilder: ImageEditorElement.new,
+    layerBuilder: ImageLayerElement.new,
+    readerBuilder: ImageReaderElement.new,
+    focusable: false,
+  ),
+
+  video(
+    "Video",
+    Icons.ondemand_video_outlined,
+    editorBuilder: VideoEditorElement.new,
+    layerBuilder: VideoLayerElement.new,
+    readerBuilder: VideoReaderElement.new,
     focusable: true,
+  ),
+
+  box(
+    "Box",
+    Icons.check_box_outline_blank_rounded,
+    editorBuilder: BoxEditorElement.new,
+    layerBuilder: BoxEditorElement.new,
+    readerBuilder: BoxReaderElement.new,
+    focusable: false,
   );
 
   final String title;
@@ -69,7 +81,8 @@ enum BorderRadiusPresets {
   none(0),
   small(15),
   medium(30),
-  large(45);
+  large(45),
+  round(1000);
 
   final double radius;
   const BorderRadiusPresets(this.radius);
@@ -89,9 +102,12 @@ Map<String, dynamic> generateDefaultProperties(
     ElementTypes.image =>
       ImageElementModel(
         borderRadius: 0,
-        imageUrl:
-            "https://mtek3d.com/wp-content/uploads/2018/01/image-placeholder-500x500.jpg",
+        imageUrl: "https://t0pc4t.github.io/public/default_image.webp",
       ).toJson(),
-    _ => throw "Not implemented properties for this type",
+    ElementTypes.video =>
+      VideoElementModel(
+        isYoutube: false,
+        videoUrl: "https://t0pc4t.github.io/public/default_video.mp4",
+      ).toJson(),
   };
 }

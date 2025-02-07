@@ -24,7 +24,7 @@ class TextEditorElementState
   @override
   void initState() {
     final textElement = widget.element.getProperties<TextElementModel>();
-    focusNode = FocusNode();
+    focusNode = FocusNode(debugLabel: "Text ${widget.element.id}");
     _scrollController = ScrollController();
     controller = QuillController(
       document: textElement.document,
@@ -43,10 +43,7 @@ class TextEditorElementState
       controller.readOnly = false;
       editorState.showToolbar(
         widget.element,
-        child: TextTooltipWidget(
-          element: widget.element,
-          controller: controller,
-        ),
+        TextTooltipWidget(element: widget.element, controller: controller),
       );
       focusNode.requestFocus();
     } else {
@@ -55,9 +52,8 @@ class TextEditorElementState
         ChangeSource.silent,
       );
 
-      focusNode.unfocus();
       controller.readOnly = true;
-      editorState.removeToolbar();
+      editorState.clearOverlays();
       editorState.canvas.updateElement(
         widget.element,
         TextElementModel(document: controller.document).toJson(),
@@ -68,7 +64,7 @@ class TextEditorElementState
   @override
   onSelect() {
     if (editorState.edits.isSelected(widget.element)) {
-      editorState.removeToolbar();
+      editorState.clearOverlays();
     }
   }
 
@@ -110,6 +106,54 @@ class TextLayerWidget extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
         ),
       ),
+    );
+  }
+}
+
+class TextReaderWidget extends StatefulWidget {
+  final ElementModel element;
+  const TextReaderWidget({super.key, required this.element});
+
+  @override
+  State<TextReaderWidget> createState() => _TextReaderWidgetState();
+}
+
+class _TextReaderWidgetState extends State<TextReaderWidget> {
+  late QuillController controller;
+  late ScrollController _scrollController;
+  late FocusNode focusNode;
+
+  @override
+  void initState() {
+    final textElement = widget.element.getProperties<TextElementModel>();
+    focusNode = FocusNode(debugLabel: "Text ${widget.element.id}");
+    _scrollController = ScrollController();
+    controller = QuillController(
+      document: textElement.document,
+      selection: TextSelection(baseOffset: 0, extentOffset: 0),
+      readOnly: false,
+      editorFocusNode: focusNode,
+
+      configurations: QuillControllerConfigurations(),
+    );
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    controller.dispose();
+    focusNode.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return QuillEditor(
+      scrollController: _scrollController,
+      controller: controller,
+      focusNode: focusNode,
+      configurations: QuillEditorConfigurations(),
     );
   }
 }

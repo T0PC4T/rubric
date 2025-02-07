@@ -9,13 +9,13 @@ part of 'box_model.dart';
 _$BoxElementModelImpl _$$BoxElementModelImplFromJson(
   Map<String, dynamic> json,
 ) => _$BoxElementModelImpl(
-  color: _colorFromJson((json['color'] as num).toInt()),
+  color: colorFromJson((json['color'] as num).toInt()),
   borderRadius: (json['borderRadius'] as num).toDouble(),
 );
 
 Map<String, dynamic> _$$BoxElementModelImplToJson(
   _$BoxElementModelImpl instance,
 ) => <String, dynamic>{
-  'color': _colorToJson(instance.color),
+  'color': colorToJson(instance.color),
   'borderRadius': instance.borderRadius,
 };

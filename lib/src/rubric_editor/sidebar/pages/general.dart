@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:rubric/rubric.dart';
+import 'package:rubric/src/components/atoms/popup.dart';
+import 'package:rubric/src/components/molecules/color_picker.dart';
 import 'package:rubric/src/components/shared.dart';
-import 'package:rubric/src/models/editor_models.dart';
 
 class GeneralSettingsPageWidget extends StatelessWidget {
   const GeneralSettingsPageWidget({super.key});
@@ -10,27 +11,41 @@ class GeneralSettingsPageWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final editorState = RubricEditorState.of(context);
     // todo, make this listen to editor
-    return Column(
-      spacing: editorState.style.paddingUnit,
-      children: [
-        RubricText("General Settings Page"),
-        ValueListenableBuilder(
-          valueListenable: editorState.edits,
-          builder: (context, edits, child) {
-            return RubricDropdown(
-              items: [
-                for (var grid in GridSizes.values)
-                  DropdownMenuItem(value: grid, child: Text(grid.pretty)),
-              ],
-              onChanged: (value) {
-                if (value case GridSizes value) {
-                  // todo
-                }
-              },
-            );
-          },
-        ),
-      ],
+    return ValueListenableBuilder(
+      valueListenable: editorState.canvas,
+      builder: (context, canvas, child) {
+        return Padding(
+          padding: editorState.style.padding,
+          child: Column(
+            spacing: editorState.style.paddingD,
+            children: [
+              Row(
+                children: [
+                  RubricColorButton(
+                    color: canvas.settings.backgroundColor,
+                    onTap: () async {
+                      final newColor = await PopupWidget.showPopup<Color>(
+                        context,
+                        (closeWith) {
+                          return RubricColorPicker(
+                            onComplete: closeWith,
+                            color: canvas.settings.backgroundColor,
+                          );
+                        },
+                      );
+                      if (newColor == null) return;
+                      editorState.canvas.updateSettings(
+                        canvas.settings.copyWith(backgroundColor: newColor),
+                      );
+                    },
+                  ),
+                  RubricText("Background Color"),
+                ],
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

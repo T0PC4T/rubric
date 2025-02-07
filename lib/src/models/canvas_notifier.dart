@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:rubric/src/models/canvas.dart';
-import 'package:rubric/src/models/editor_models.dart';
 import 'package:rubric/src/models/elements.dart';
 
 class CanvasNotifier extends ValueNotifier<CanvasModel> {
@@ -27,10 +26,21 @@ class CanvasNotifier extends ValueNotifier<CanvasModel> {
     notifyListeners();
   }
 
-  commitIfChange(CanvasModel canvas) {
+  commitIfChange(CanvasModel? canvas) {
     if (value != canvas) {
       commit();
     }
+  }
+
+  // updateSettings
+  updateSettings(CanvasSettings settings) {
+    value = value.copyWith(elements: value.elements);
+    value.settings = settings;
+    commit();
+  }
+
+  getElement(String elementID) {
+    return value.elements.firstWhere((element) => element.id == elementID);
   }
 
   // ? Element are editable, they edit until a fixed point then the entire object is copied
@@ -70,18 +80,5 @@ class CanvasNotifier extends ValueNotifier<CanvasModel> {
               .where((element) => deleteElement.id != element.id)
               .toList(),
     );
-  }
-
-  double pageHeight() {
-    return value.elements.fold<double>(GridSizes.pageSize, (
-      previousValue,
-      element,
-    ) {
-      final newHeight = element.y + element.height;
-      if (newHeight > previousValue) {
-        return newHeight;
-      }
-      return previousValue;
-    });
   }
 }

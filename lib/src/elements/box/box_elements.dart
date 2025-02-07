@@ -18,7 +18,7 @@ class BoxEditorElementState extends SelectableState<BoxEditorElement> {
     if (editorState.edits.isSelected(widget.element)) {
       editorState.showToolbar(
         widget.element,
-        child: BoxTooltipWidget(element: widget.element),
+        BoxTooltipWidget(element: widget.element),
       );
     }
   }
@@ -26,7 +26,23 @@ class BoxEditorElementState extends SelectableState<BoxEditorElement> {
   @override
   Widget build(BuildContext context) {
     final boxElement = widget.element.getProperties<BoxElementModel>();
-    return Container(
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: boxElement.color,
+        borderRadius: BorderRadius.circular(boxElement.borderRadius),
+      ),
+    );
+  }
+}
+
+class BoxReaderElement extends StatelessWidget {
+  final ElementModel element;
+  const BoxReaderElement({super.key, required this.element});
+
+  @override
+  Widget build(BuildContext context) {
+    final boxElement = element.getProperties<BoxElementModel>();
+    return DecoratedBox(
       decoration: BoxDecoration(
         color: boxElement.color,
         borderRadius: BorderRadius.circular(boxElement.borderRadius),

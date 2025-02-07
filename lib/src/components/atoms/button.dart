@@ -3,8 +3,8 @@ import 'package:rubric/src/rubric_editor/models/style.dart';
 
 class RubricButton extends StatefulWidget {
   // Styles
-  final Color? backgroundColor;
-  final Color? hoverColor;
+  final Color backgroundColor;
+  final Color hoverColor;
   final double? width;
   final double? height;
   final EdgeInsetsGeometry? padding;
@@ -17,8 +17,8 @@ class RubricButton extends StatefulWidget {
   final Widget child;
   const RubricButton({
     super.key,
-    this.backgroundColor,
-    this.hoverColor,
+    required this.backgroundColor,
+    required this.hoverColor,
     required this.child,
     this.width,
     this.height,
@@ -30,6 +30,87 @@ class RubricButton extends StatefulWidget {
     this.borderWidth,
   });
 
+  factory RubricButton.light(
+    RubricEditorStyle style, {
+    required VoidCallback onTap,
+    required Widget child,
+    double? width,
+    double? height,
+    EdgeInsetsGeometry? padding,
+    EdgeInsetsGeometry? margin,
+    double? radius,
+    Color? borderColor,
+    double? borderWidth,
+  }) {
+    return RubricButton(
+      backgroundColor: style.light,
+      hoverColor: style.light9,
+      onTap: onTap,
+      width: width,
+      height: height,
+      padding: padding,
+      margin: margin,
+      radius: radius,
+      borderColor: borderColor,
+      borderWidth: borderWidth,
+      child: child,
+    );
+  }
+
+  factory RubricButton.dark(
+    RubricEditorStyle style, {
+    required VoidCallback onTap,
+    required Widget child,
+    double? width,
+    double? height,
+    EdgeInsetsGeometry? padding,
+    EdgeInsetsGeometry? margin,
+    double? radius,
+    Color? borderColor,
+    double? borderWidth,
+  }) {
+    return RubricButton(
+      backgroundColor: style.dark,
+      hoverColor: style.theme,
+      onTap: onTap,
+      width: width,
+      height: height,
+      padding: padding,
+      margin: margin,
+      radius: radius,
+      borderColor: borderColor,
+      borderWidth: borderWidth,
+      child: child,
+    );
+  }
+
+  factory RubricButton.theme(
+    RubricEditorStyle style, {
+    required VoidCallback onTap,
+    required Widget child,
+    double? width,
+    double? height,
+    EdgeInsetsGeometry? padding,
+    EdgeInsetsGeometry? margin,
+    double? radius,
+    Color? borderColor,
+    double? borderWidth,
+  }) {
+    return RubricButton(
+      backgroundColor: style.theme,
+      hoverColor: style.theme,
+      onTap: onTap,
+      width: width,
+      height: height,
+      padding: padding,
+      margin: margin,
+      radius: radius,
+      borderColor: borderColor,
+      borderWidth: borderWidth,
+      child: child,
+    );
+  }
+
   @override
   State<RubricButton> createState() => RubricButtonState();
 }
@@ -40,8 +121,6 @@ class RubricButtonState extends State<RubricButton> {
   @override
   Widget build(BuildContext context) {
     final styles = RubricEditorStyle.of(context);
-    final backgroundColor = widget.backgroundColor ?? styles.light;
-    final hoverColor = widget.hoverColor ?? styles.theme;
 
     return GestureDetector(
       onTap: widget.onTap,
@@ -65,7 +144,7 @@ class RubricButtonState extends State<RubricButton> {
           width: widget.width,
           height: widget.height,
           decoration: BoxDecoration(
-            color: hovered ? hoverColor : backgroundColor,
+            color: hovered ? widget.hoverColor : widget.backgroundColor,
             borderRadius: BorderRadius.circular(widget.radius ?? 0),
             border:
                 widget.borderWidth == null

@@ -33,25 +33,26 @@ enum GridSizes {
 }
 
 class CanvasEditingModel {
-  final ElementModel? _selected;
+  final ElementModel? selected;
   final ElementModel? focused;
   final List<CanvasModel> steps;
+  final int undoIndex;
   final GridSizes gridSize;
   final bool showGrid;
   CanvasEditingModel({
-    ElementModel? selected,
+    this.selected,
     this.focused,
     required this.steps,
+    this.undoIndex = 0,
     this.gridSize = GridSizes.medium,
-    this.showGrid = true,
-  }) : _selected = selected;
-
-  ElementModel? get selected => _selected;
+    this.showGrid = false,
+  });
 
   CanvasEditingModel copyWith({
     required ElementModel? selected,
     required ElementModel? focused,
     List<CanvasModel>? steps,
+    int? undoIndex,
     GridSizes? gridSize,
     bool? showGrid,
   }) {
@@ -59,44 +60,15 @@ class CanvasEditingModel {
       selected: selected,
       focused: focused,
       steps: steps ?? this.steps,
+      undoIndex: undoIndex ?? this.undoIndex,
       gridSize: gridSize ?? this.gridSize,
       showGrid: showGrid ?? this.showGrid,
     );
   }
 
-  Map<String, dynamic> toMap() {
-    return <String, dynamic>{
-      'selected': selected?.toMap(),
-      'focused': focused?.toMap(),
-      'steps': steps.map((x) => x.toMap()).toList(),
-      'gridSize': gridSize.name,
-      'showGrid': showGrid,
-    };
-  }
-
-  factory CanvasEditingModel.fromMap(Map<String, dynamic> map) {
-    return CanvasEditingModel(
-      selected:
-          map['selected'] != null
-              ? ElementModel.fromMap(map['selected'] as Map<String, dynamic>)
-              : null,
-      focused:
-          map['focused'] != null
-              ? ElementModel.fromMap(map['focused'] as Map<String, dynamic>)
-              : null,
-      steps: List<CanvasModel>.from(
-        (map['steps'] as List<int>).map<CanvasModel>(
-          (x) => CanvasModel.fromMap(x as Map<String, dynamic>),
-        ),
-      ),
-      gridSize: GridSizes.fromName(map['gridSize']),
-      showGrid: map['showGrid'] as bool,
-    );
-  }
-
   @override
   String toString() {
-    return 'CanvasEditingModel(selected: $selected, focused: $focused, steps: $steps, gridSize: $gridSize, showGrid: $showGrid)';
+    return 'CanvasEditingModel(selected: $selected, focused: $focused, steps: $steps, undoIndex: $undoIndex, gridSize: $gridSize, showGrid: $showGrid)';
   }
 
   @override
@@ -106,6 +78,7 @@ class CanvasEditingModel {
     return other.selected == selected &&
         other.focused == focused &&
         listEquals(other.steps, steps) &&
+        other.undoIndex == undoIndex &&
         other.gridSize == gridSize &&
         other.showGrid == showGrid;
   }
@@ -115,6 +88,7 @@ class CanvasEditingModel {
     return selected.hashCode ^
         focused.hashCode ^
         steps.hashCode ^
+        undoIndex.hashCode ^
         gridSize.hashCode ^
         showGrid.hashCode;
   }
