@@ -98,5 +98,5 @@ class EditorNotifier extends ValueNotifier<CanvasEditingModel> {
     return value.steps[value.undoIndex];
   }
 
-  CanvasModel get lastStep => value.steps[value.steps.length - 1];
+  CanvasModel get lastStep => value.steps[value.undoIndex];
 }

@@ -34,7 +34,6 @@ class CanvasNotifier extends ValueNotifier<CanvasModel> {
 
   // updateSettings
   updateSettings(CanvasSettings settings) {
-    value = value.copyWith(elements: value.elements);
     value.settings = settings;
     commit();
   }
@@ -74,11 +73,9 @@ class CanvasNotifier extends ValueNotifier<CanvasModel> {
   }
 
   deleteElement(ElementModel deleteElement) {
-    value = value.copyWith(
-      elements:
-          value.elements
-              .where((element) => deleteElement.id != element.id)
-              .toList(),
-    );
+    value.elements =
+        value.elements
+            .where((element) => deleteElement.id != element.id)
+            .toList();
   }
 }

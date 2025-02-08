@@ -23,7 +23,7 @@ class ScalarWidget extends StatelessWidget {
     required this.scalarIndex,
   });
 
-  static const double scalarSize = 10;
+  static const double scalarSize = 15;
   @override
   Widget build(BuildContext context) {
     return ScalarRenderWidget(
@@ -35,6 +35,7 @@ class ScalarWidget extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           border: Border.all(width: 1, color: Colors.black),
+          borderRadius: BorderRadius.circular(scalarSize),
         ),
       ),
     );

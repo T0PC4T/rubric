@@ -34,13 +34,16 @@ class CanvasModel {
     ),
   });
 
+  // ! DEEP COPY had to be manually implemented.
   CanvasModel copyWith({
     List<ElementModel>? elements,
     CanvasSettings? settings,
   }) {
     return CanvasModel(
-      elements: elements ?? this.elements,
-      settings: settings ?? this.settings,
+      elements: List<ElementModel>.from(
+        (elements ?? this.elements).map((e) => e.copyWith()),
+      ),
+      settings: (settings ?? this.settings).copyWith(),
     );
   }
 

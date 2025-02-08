@@ -1,5 +1,3 @@
-import 'dart:math' as math;
-
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:rubric/rubric.dart';
@@ -11,7 +9,6 @@ import 'package:rubric/src/rubric_editor/viewer/items/focused.dart';
 import 'package:rubric/src/rubric_editor/viewer/items/grid.dart';
 import 'package:rubric/src/rubric_editor/viewer/items/handler.dart';
 import 'package:rubric/src/rubric_editor/viewer/items/position.dart';
-import 'package:rubric/src/rubric_editor/viewer/items/scalar.dart';
 import 'package:rubric/src/rubric_editor/viewer/stack/element_stack.dart';
 import 'package:rubric/src/rubric_reader/padder.dart';
 
@@ -69,45 +66,82 @@ class RubricEditorViewerState extends State<RubricEditorViewer> {
     int scalarIndex,
   ) {
     // todo there's a smart way to do this by indexes and figuring if it is movable or not.
-    final tile = editorState.edits.value.gridSize.pixelsPerLock;
-    Offset loc;
 
-    if (scalarIndex == 0) {
-      loc = _getIntuitiveLocation(
-        stackHitOffset,
-        Offset(-ScalarWidget.scalarSize, -ScalarWidget.scalarSize),
-        tile,
-        element,
-      );
-      double width = element.width + (element.x - loc.dx);
-      double height = element.height + (element.y - loc.dy);
-      width = math.max(width, tile);
-      height = math.max(height, tile);
-      setState(() {
-        editorState.canvas.moveElement(element, loc);
-        editorState.canvas.scaleElement(element, Offset(width, height));
-      });
-      return;
+    bool movesX = false;
+    bool movesY = false;
+    switch (scalarIndex) {
+      case 0:
+        movesX = true;
+        movesY = true;
+      case 1:
+        movesY = true;
+      case 2:
+        movesX = true;
+    }
+    Offset loc = _getIntuitiveLocation(
+      stackHitOffset,
+      switch (scalarIndex) {
+        1 => Offset(element.width, 0),
+        2 => Offset(0, element.height),
+        3 => Offset(element.width, element.height),
+        _ => Offset(0, 0),
+      },
+      editorState.edits.value.gridSize.pixelsPerLock,
+      element,
+    );
+    double width;
+    double height;
+    double newX;
+    double newY;
+
+    if (movesX) {
+      width = element.width + (element.x - loc.dx);
+      newX = loc.dx;
     } else {
-      loc = Offset(element.x, element.y);
+      width = element.width + (loc.dx - element.x);
+      newX = element.x;
+    }
+    if (movesY) {
+      height = element.height + (element.y - loc.dy);
+      newY = loc.dy;
+    } else {
+      height = element.height + (loc.dy - element.y);
+      newY = element.y;
     }
 
-    double width =
-        ((stackHitOffset.dx) - loc.dx).abs() +
-        (scalarIndex == 0 ? tile * 2 : tile);
-    double height =
-        ((stackHitOffset.dy) - loc.dy).abs() +
-        (scalarIndex == 0 ? tile * 2 : tile);
+    // todo check if they are different.
+    if (element.x != loc.dx || element.y != loc.dy) {
+      setState(() {
+        editorState.canvas.moveElement(element, Offset(newX, newY));
+        editorState.canvas.scaleElement(element, Offset(width, height));
+      });
+    }
 
-    width -= width % tile;
-    height -= height % tile;
+    // if (c == 0) {
+    //   width = math.max(width, tile);
+    //   height = math.max(height, tile);
 
-    width = math.max(width, tile);
-    height = math.max(height, tile);
-    setState(() {
-      editorState.canvas.moveElement(element, loc);
-      editorState.canvas.scaleElement(element, Offset(width, height));
-    });
+    //   return;
+    // } else {
+    //   loc = Offset(element.x, element.y);
+    // }
+
+    // double width =
+    //     ((stackHitOffset.dx) - loc.dx).abs() +
+    //     (scalarIndex == 0 ? tile * 2 : tile);
+    // double height =
+    //     ((stackHitOffset.dy) - loc.dy).abs() +
+    //     (scalarIndex == 0 ? tile * 2 : tile);
+
+    // width -= width % tile;
+    // height -= height % tile;
+
+    // width = math.max(width, tile);
+    // height = math.max(height, tile);
+    // setState(() {
+    //   editorState.canvas.moveElement(element, loc);
+    //   editorState.canvas.scaleElement(element, Offset(width, height));
+    // });
   }
 
   _handlePointerDown(PointerDownEvent event, StackEventResult result) {

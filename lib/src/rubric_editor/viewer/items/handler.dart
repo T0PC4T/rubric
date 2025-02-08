@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rubric/rubric.dart';
 import 'package:rubric/src/models/elements.dart';
-import 'package:rubric/src/rubric_editor/models/style.dart';
 import 'package:rubric/src/rubric_editor/viewer/items/element.dart';
 import 'package:rubric/src/rubric_editor/viewer/items/position.dart';
 import 'package:rubric/src/rubric_editor/viewer/items/scalar.dart';
@@ -14,8 +13,11 @@ class ElementHandlerWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final style = RubricEditorStyle.of(context);
     final editorState = RubricEditorState.of(context);
-    return RubricPositioned.fromElement(
-      element: element,
+    return RubricPositioned(
+      height: element.height + ScalarWidget.scalarSize,
+      width: element.width + ScalarWidget.scalarSize,
+      x: element.x - ScalarWidget.scalarSize * 0.5,
+      y: element.y - ScalarWidget.scalarSize * 0.5,
       child: ElementHandlerRenderObjectWidget(
         element: element,
         child: Visibility(
@@ -24,7 +26,11 @@ class ElementHandlerWidget extends StatelessWidget {
             fit: StackFit.expand,
             children: [
               // Positioned.fill(child: Container(color: Colors.amber)),
-              Positioned.fill(
+              Positioned(
+                top: ScalarWidget.scalarSize * 0.5,
+                right: ScalarWidget.scalarSize * 0.5,
+                left: ScalarWidget.scalarSize * 0.5,
+                bottom: ScalarWidget.scalarSize * 0.5,
                 child: DecoratedBox(
                   decoration: BoxDecoration(
                     border: Border.all(width: 1, color: style.dark),
@@ -36,8 +42,16 @@ class ElementHandlerWidget extends StatelessWidget {
                 child: ScalarWidget(element: element, scalarIndex: 0),
               ),
               Align(
-                alignment: Alignment.bottomRight,
+                alignment: Alignment.topRight,
                 child: ScalarWidget(element: element, scalarIndex: 1),
+              ),
+              Align(
+                alignment: Alignment.bottomLeft,
+                child: ScalarWidget(element: element, scalarIndex: 2),
+              ),
+              Align(
+                alignment: Alignment.bottomRight,
+                child: ScalarWidget(element: element, scalarIndex: 3),
               ),
             ],
           ),
