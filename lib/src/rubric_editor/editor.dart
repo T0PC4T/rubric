@@ -57,6 +57,8 @@ class RubricEditorState extends State<RubricEditor> {
       if (edits.value.selected == null) {
         clearOverlays();
       }
+    } else {
+      keyboardFocus.unfocus();
     }
   }
 
@@ -120,13 +122,7 @@ class RubricEditorState extends State<RubricEditor> {
   showToolbar(ElementModel element, Widget child) {
     clearOverlays();
     setState(() {
-      overlays.add(
-        Container(
-          padding: EdgeInsets.only(top: NavbarWidget.navbarHeight),
-          alignment: Alignment.topCenter,
-          child: ElementToolbarWidget(element: element, child: child),
-        ),
-      );
+      overlays.add(ElementToolbarWidget(element: element, child: child));
     });
   }
 

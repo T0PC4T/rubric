@@ -40,7 +40,6 @@ class TextEditorElementState
   @override
   void onFocus() {
     if (editorState.edits.isFocused(widget.element)) {
-      controller.readOnly = false;
       editorState.showToolbar(
         widget.element,
         TextTooltipWidget(element: widget.element, controller: controller),
@@ -49,10 +48,9 @@ class TextEditorElementState
     } else {
       controller.updateSelection(
         TextSelection.collapsed(offset: 0),
-        ChangeSource.silent,
+        ChangeSource.local,
       );
 
-      controller.readOnly = true;
       editorState.clearOverlays();
       editorState.canvas.updateElement(
         widget.element,
@@ -79,11 +77,18 @@ class TextEditorElementState
   @override
   Widget build(BuildContext context) {
     editorState = RubricEditorState.of(context);
-    return QuillEditor(
-      scrollController: _scrollController,
-      controller: controller,
-      focusNode: focusNode,
-      configurations: QuillEditorConfigurations(),
+    return GestureDetector(
+      behavior: HitTestBehavior.translucent,
+      onTapDown: (e) {
+        print("requesting focus");
+        focusNode.requestFocus();
+      },
+      child: QuillEditor(
+        scrollController: _scrollController,
+        controller: controller,
+        focusNode: focusNode,
+        configurations: QuillEditorConfigurations(),
+      ),
     );
   }
 }

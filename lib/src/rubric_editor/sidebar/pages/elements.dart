@@ -29,7 +29,7 @@ class ElementPageWidget extends StatelessWidget {
               width: buttonSize,
               height: buttonSize,
               radius: editorState.style.radius,
-              hoverColor: editorState.style.theme4,
+              hoverColor: editorState.style.light9,
               onTap: () {
                 final editorState = RubricEditorState.of(context);
                 final width = GridSizes.pageSize * 0.5;

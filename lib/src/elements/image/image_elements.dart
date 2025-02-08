@@ -56,6 +56,14 @@ class ImageReaderElement extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final imageProperties = element.getProperties<ImageElementModel>();
-    return Image.network(imageProperties.imageUrl);
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: NetworkImage(imageProperties.imageUrl),
+          fit: BoxFit.cover,
+        ),
+        borderRadius: BorderRadius.circular(imageProperties.borderRadius),
+      ),
+    );
   }
 }
