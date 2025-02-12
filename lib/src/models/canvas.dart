@@ -40,9 +40,10 @@ class CanvasModel {
     CanvasSettings? settings,
   }) {
     return CanvasModel(
-      elements: List<ElementModel>.from(
-        (elements ?? this.elements).map((e) => e.copyWith()),
-      ),
+      elements:
+          (elements ?? this.elements)
+              .map<ElementModel>((e) => e.copyWith())
+              .toList(),
       settings: (settings ?? this.settings).copyWith(),
     );
   }
@@ -57,7 +58,7 @@ class CanvasModel {
   factory CanvasModel.fromMap(Map<String, dynamic> map) {
     return CanvasModel(
       elements: List<ElementModel>.from(
-        (map['elements'] as List<int>).map<ElementModel>(
+        (map['elements'] as List<dynamic>).map<ElementModel>(
           (x) => ElementModel.fromMap(x as Map<String, dynamic>),
         ),
       ),

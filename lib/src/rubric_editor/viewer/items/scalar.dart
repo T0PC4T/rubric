@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:rubric/rubric.dart';
 import 'package:rubric/src/models/elements.dart';
 
 class ScalarRenderProxyBox extends RenderProxyBox {
@@ -26,6 +27,7 @@ class ScalarWidget extends StatelessWidget {
   static const double scalarSize = 15;
   @override
   Widget build(BuildContext context) {
+    final style = RubricEditorStyle.of(context);
     return ScalarRenderWidget(
       element: element,
       scalarIndex: scalarIndex,
@@ -33,9 +35,9 @@ class ScalarWidget extends StatelessWidget {
         width: scalarSize,
         height: scalarSize,
         decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border.all(width: 1, color: Colors.black),
-          borderRadius: BorderRadius.circular(scalarSize),
+          color: style.light,
+          border: Border.all(width: 2, color: style.theme),
+          // borderRadius: BorderRadius.circular(scalarSize),
         ),
       ),
     );

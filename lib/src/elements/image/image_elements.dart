@@ -14,8 +14,11 @@ class ImageEditorElement extends StatefulWidget {
 
 class ImageEditorElementState extends SelectableState<ImageEditorElement> {
   @override
-  onSelect() {
-    if (editorState.edits.isSelected(widget.element)) {
+  ElementModel get element => widget.element;
+
+  @override
+  onSelect(bool selected) {
+    if (selected) {
       editorState.showToolbar(
         widget.element,
         ImageTooltipWidget(element: widget.element),

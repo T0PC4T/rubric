@@ -77,5 +77,6 @@ class CanvasNotifier extends ValueNotifier<CanvasModel> {
         value.elements
             .where((element) => deleteElement.id != element.id)
             .toList();
+    notifyListeners();
   }
 }

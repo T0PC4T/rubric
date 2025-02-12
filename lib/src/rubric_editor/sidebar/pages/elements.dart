@@ -5,6 +5,7 @@ import 'package:rubric/src/elements/elements.dart';
 import 'package:rubric/src/models/editor_models.dart';
 import 'package:rubric/src/models/elements.dart';
 import 'package:rubric/src/rubric_editor/sidebar/sidebar.dart';
+import 'package:rubric/src/utilities/uuid.dart';
 
 class ElementPageWidget extends StatelessWidget {
   const ElementPageWidget({super.key});
@@ -38,7 +39,7 @@ class ElementPageWidget extends StatelessWidget {
 
                 editorState.canvas.addElement(
                   ElementModel(
-                    id: UniqueKey().toString(),
+                    id: newID(),
                     type: element,
                     x: tile,
                     y:

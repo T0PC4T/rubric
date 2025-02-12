@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rubric/rubric.dart';
-import 'package:rubric/src/models/canvas.dart';
 import 'package:rubric/src/models/canvas_notifier.dart';
 import 'package:rubric/src/models/editor_models.dart';
 import 'package:rubric/src/models/editor_notifier.dart';
@@ -18,7 +17,7 @@ class RubricEditor extends StatefulWidget {
   final Function(CanvasModel canvas) onSave;
   final Function() onLogoPressed;
   final Future<String> Function(Uint8List bytes, {String? name, String? type})
-  bytesToURL;
+      bytesToURL;
   const RubricEditor({
     super.key,
     required this.style,
@@ -164,10 +163,9 @@ class RubricEditorState extends State<RubricEditor> {
                       children: [
                         RubricSideBar(),
                         Expanded(
-                          child:
-                              previewing
-                                  ? RubricReader(canvasModel: canvas.value)
-                                  : RubricEditorViewer(),
+                          child: previewing
+                              ? RubricReader(canvasModel: canvas.value)
+                              : RubricEditorViewer(),
                         ),
                       ],
                     ),

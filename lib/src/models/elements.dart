@@ -7,7 +7,7 @@ import 'package:rubric/src/elements/text/text_model.dart';
 import 'package:rubric/src/elements/video/video_model.dart';
 
 class ElementModel {
-  String id;
+  final String id;
   ElementTypes type;
   double x;
   double y;
@@ -109,76 +109,3 @@ class ElementModel {
         properties.hashCode;
   }
 }
-
-final example = {
-  "canvas": {"width": 1080, "height": 1920, "background_color": "#FFFFFF"},
-  "elements": [
-    {
-      "id": "element_1",
-      "type": "text",
-      "x": 50,
-      "y": 100,
-      "width": 200,
-      "height": 100,
-      "z_index": 2,
-      "properties": {
-        "text": "Hello World!",
-        "font_size": 24,
-        "font_family": "Roboto",
-        "color": "#000000",
-        "font_weight": "bold",
-        "text_align": "center",
-        "rotation": 0,
-      },
-    },
-    {
-      "id": "element_2",
-      "type": "container",
-      "x": 150,
-      "y": 300,
-      "width": 300,
-      "height": 200,
-      "z_index": 1,
-      "properties": {
-        "background_color": "#FF0000",
-        "border_radius": 10,
-        "border_width": 2,
-        "border_color": "#0000FF",
-        "rotation": 0,
-        "padding": [10, 10, 10, 10],
-      },
-    },
-    {
-      "id": "element_3",
-      "type": "image",
-      "x": 200,
-      "y": 50,
-      "width": 150,
-      "height": 150,
-      "z_index": 3,
-      "properties": {
-        "src": "https://example.com/image.jpg",
-        "fit": "cover",
-        "rotation": 45,
-        "border_radius": 0,
-      },
-    },
-    {
-      "id": "element_4",
-      "type": "video",
-      "x": 400,
-      "y": 400,
-      "width": 320,
-      "height": 180,
-      "z_index": 2,
-      "properties": {
-        "src": "https://example.com/video.mp4",
-        "autoplay": false,
-        "loop": true,
-        "controls": true,
-        "muted": false,
-        "rotation": 0,
-      },
-    },
-  ],
-};

@@ -28,7 +28,7 @@ class NavbarWidget extends StatelessWidget {
             child: Image.network(style.logoUrl),
           ),
           RubricTextField(
-            width: NavbarWidget.navbarHeight * 4,
+            width: NavbarWidget.navbarHeight * 5,
             initialValue: editorState.canvas.value.settings.name,
             onChanged: (value) {
               editorState.canvas.updateSettings(

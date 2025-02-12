@@ -31,15 +31,17 @@ class TextEditorElementState
       selection: TextSelection(baseOffset: 0, extentOffset: 0),
       readOnly: false,
       editorFocusNode: focusNode,
-
       configurations: QuillControllerConfigurations(),
     );
     super.initState();
   }
 
   @override
-  void onFocus() {
-    if (editorState.edits.isFocused(widget.element)) {
+  ElementModel get element => widget.element;
+
+  @override
+  void onFocus(bool focused) {
+    if (focused) {
       editorState.showToolbar(
         widget.element,
         TextTooltipWidget(element: widget.element, controller: controller),
@@ -51,7 +53,6 @@ class TextEditorElementState
         ChangeSource.local,
       );
 
-      editorState.clearOverlays();
       editorState.canvas.updateElement(
         widget.element,
         TextElementModel(document: controller.document).toJson(),
@@ -60,11 +61,7 @@ class TextEditorElementState
   }
 
   @override
-  onSelect() {
-    if (editorState.edits.isSelected(widget.element)) {
-      editorState.clearOverlays();
-    }
-  }
+  onSelect(bool selected) {}
 
   @override
   void dispose() {
@@ -77,18 +74,11 @@ class TextEditorElementState
   @override
   Widget build(BuildContext context) {
     editorState = RubricEditorState.of(context);
-    return GestureDetector(
-      behavior: HitTestBehavior.translucent,
-      onTapDown: (e) {
-        print("requesting focus");
-        focusNode.requestFocus();
-      },
-      child: QuillEditor(
-        scrollController: _scrollController,
-        controller: controller,
-        focusNode: focusNode,
-        configurations: QuillEditorConfigurations(),
-      ),
+    return QuillEditor(
+      scrollController: _scrollController,
+      controller: controller,
+      focusNode: focusNode,
+      configurations: QuillEditorConfigurations(),
     );
   }
 }
@@ -103,7 +93,6 @@ class TextLayerWidget extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(10),
       color: Colors.white,
-
       child: Padding(
         padding: const EdgeInsets.only(right: LayerWidget.layerHeight),
         child: Text(
@@ -136,9 +125,8 @@ class _TextReaderWidgetState extends State<TextReaderWidget> {
     controller = QuillController(
       document: textElement.document,
       selection: TextSelection(baseOffset: 0, extentOffset: 0),
-      readOnly: false,
+      readOnly: true,
       editorFocusNode: focusNode,
-
       configurations: QuillControllerConfigurations(),
     );
     super.initState();

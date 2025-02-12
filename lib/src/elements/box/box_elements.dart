@@ -14,8 +14,8 @@ class BoxEditorElement extends StatefulWidget {
 
 class BoxEditorElementState extends SelectableState<BoxEditorElement> {
   @override
-  onSelect() {
-    if (editorState.edits.isSelected(widget.element)) {
+  onSelect(bool selected) {
+    if (selected) {
       editorState.showToolbar(
         widget.element,
         BoxTooltipWidget(element: widget.element),
@@ -33,6 +33,9 @@ class BoxEditorElementState extends SelectableState<BoxEditorElement> {
       ),
     );
   }
+
+  @override
+  ElementModel get element => widget.element;
 }
 
 class BoxReaderElement extends StatelessWidget {

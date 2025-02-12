@@ -5,7 +5,7 @@ enum TextType {
   title(1.3),
   paragraph(1),
   thick(1.1),
-  small(0.8);
+  small(0.9);
 
   final double sizeMultiplier;
   const TextType(this.sizeMultiplier);

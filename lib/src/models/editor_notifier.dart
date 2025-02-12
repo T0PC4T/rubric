@@ -4,14 +4,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:rubric/src/models/canvas.dart';
 import 'package:rubric/src/models/editor_models.dart';
 import 'package:rubric/src/models/elements.dart';
+import 'package:rubric/src/models/focus_notifier.dart';
 
 class ElementNotifier extends ValueNotifier<ElementModel?> {
   ElementNotifier(super.value);
 }
 
 class EditorNotifier extends ValueNotifier<CanvasEditingModel> {
-  final focusNotifier = ElementNotifier(null);
-  final selectionNotifier = ElementNotifier(null);
+  final focusNotifier = FocusNotifier();
+  final selectionNotifier = FocusNotifier();
   EditorNotifier(super.value);
 
   @override
@@ -26,24 +27,24 @@ class EditorNotifier extends ValueNotifier<CanvasEditingModel> {
 
   selectElement(ElementModel? element) {
     value = value.copyWith(selected: element, focused: null);
-    selectionNotifier.value = element;
-    focusNotifier.value = null;
+    selectionNotifier.focus = element;
+    focusNotifier.focus = null;
   }
 
   focusElement(ElementModel element) {
     if (element.type.focusable) {
       value = value.copyWith(selected: null, focused: element);
-      focusNotifier.value = element;
-      selectionNotifier.value = null;
+      focusNotifier.focus = element;
+      selectionNotifier.focus = null;
     }
   }
 
   bool isFocused(ElementModel element) {
-    return value.focused == element;
+    return value.focused?.id == element.id;
   }
 
   bool isSelected(ElementModel element) {
-    return value.selected == element;
+    return value.selected?.id == element.id;
   }
 
   double scrollOffset = 0;

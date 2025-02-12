@@ -13,11 +13,13 @@ class ElementHandlerWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final style = RubricEditorStyle.of(context);
     final editorState = RubricEditorState.of(context);
-    return RubricPositioned(
-      height: element.height + ScalarWidget.scalarSize,
-      width: element.width + ScalarWidget.scalarSize,
-      x: element.x - ScalarWidget.scalarSize * 0.5,
-      y: element.y - ScalarWidget.scalarSize * 0.5,
+    return RubricPositioned.fromElement(
+      element: element,
+      // height: element.height + ScalarWidget.scalarSize,
+      // width: element.width + ScalarWidget.scalarSize,
+      // x: element.x - ScalarWidget.scalarSize * 0.5,
+      // y: element.y - ScalarWidget.scalarSize * 0.5,
+
       child: ElementHandlerRenderObjectWidget(
         element: element,
         child: Visibility(
@@ -27,13 +29,13 @@ class ElementHandlerWidget extends StatelessWidget {
             children: [
               // Positioned.fill(child: Container(color: Colors.amber)),
               Positioned(
-                top: ScalarWidget.scalarSize * 0.5,
-                right: ScalarWidget.scalarSize * 0.5,
-                left: ScalarWidget.scalarSize * 0.5,
-                bottom: ScalarWidget.scalarSize * 0.5,
+                top: 0,
+                right: 0,
+                left: 0,
+                bottom: 0,
                 child: DecoratedBox(
                   decoration: BoxDecoration(
-                    border: Border.all(width: 1, color: style.dark),
+                    border: Border.all(width: 2, color: style.theme),
                   ),
                 ),
               ),

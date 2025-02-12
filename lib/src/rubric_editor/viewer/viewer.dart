@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:rubric/rubric.dart';
@@ -26,10 +28,10 @@ class RubricEditorViewerState extends State<RubricEditorViewer> {
   late RubricEditorState editorState;
   @override
   void initState() {
-    _scrollController =
-        ScrollController()..addListener(() {
-          editorState.edits.setScrollOffset(_scrollController.offset);
-        });
+    _scrollController = ScrollController()
+      ..addListener(() {
+        editorState.edits.setScrollOffset(_scrollController.offset);
+      });
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final editorState = RubricEditorState.of(context);
       editorState.canvas.addListener(_handler);
@@ -47,16 +49,18 @@ class RubricEditorViewerState extends State<RubricEditorViewer> {
     super.dispose();
   }
 
-  Offset _getIntuitiveLocation(
-    Offset stackHitOffset,
-    Offset elementHitOffset,
-    double tile,
-    ElementModel element,
-  ) {
+  Offset _getIntuitiveLocation(Offset stackHitOffset, Offset elementHitOffset,
+      double tile, ElementModel element) {
+    // limit registrations
+    stackHitOffset = Offset(min(max(stackHitOffset.dx, 0), GridSizes.pageSize),
+        max(stackHitOffset.dy, 0));
+
     Offset offset =
         (stackHitOffset - elementHitOffset) + Offset(tile * 0.5, tile * 0.5);
-    offset = Offset(offset.dx - offset.dx % tile, offset.dy - offset.dy % tile);
-    return offset;
+    double x = offset.dx - offset.dx % tile;
+    double y = offset.dy - offset.dy % tile;
+
+    return Offset(x, y);
   }
 
   void _handleScale(
@@ -66,7 +70,7 @@ class RubricEditorViewerState extends State<RubricEditorViewer> {
     int scalarIndex,
   ) {
     // todo there's a smart way to do this by indexes and figuring if it is movable or not.
-
+    final tile = editorState.edits.value.gridSize.pixelsPerLock;
     bool movesX = false;
     bool movesY = false;
     switch (scalarIndex) {
@@ -86,9 +90,10 @@ class RubricEditorViewerState extends State<RubricEditorViewer> {
         3 => Offset(element.width, element.height),
         _ => Offset(0, 0),
       },
-      editorState.edits.value.gridSize.pixelsPerLock,
+      tile,
       element,
     );
+
     double width;
     double height;
     double newX;
@@ -109,39 +114,12 @@ class RubricEditorViewerState extends State<RubricEditorViewer> {
       newY = element.y;
     }
 
-    // todo check if they are different.
-    if (element.x != loc.dx || element.y != loc.dy) {
+    if (width != element.width || height != element.height) {
       setState(() {
         editorState.canvas.moveElement(element, Offset(newX, newY));
         editorState.canvas.scaleElement(element, Offset(width, height));
       });
     }
-
-    // if (c == 0) {
-    //   width = math.max(width, tile);
-    //   height = math.max(height, tile);
-
-    //   return;
-    // } else {
-    //   loc = Offset(element.x, element.y);
-    // }
-
-    // double width =
-    //     ((stackHitOffset.dx) - loc.dx).abs() +
-    //     (scalarIndex == 0 ? tile * 2 : tile);
-    // double height =
-    //     ((stackHitOffset.dy) - loc.dy).abs() +
-    //     (scalarIndex == 0 ? tile * 2 : tile);
-
-    // width -= width % tile;
-    // height -= height % tile;
-
-    // width = math.max(width, tile);
-    // height = math.max(height, tile);
-    // setState(() {
-    //   editorState.canvas.moveElement(element, loc);
-    //   editorState.canvas.scaleElement(element, Offset(width, height));
-    // });
   }
 
   _handlePointerDown(PointerDownEvent event, StackEventResult result) {
@@ -163,12 +141,12 @@ class RubricEditorViewerState extends State<RubricEditorViewer> {
             }
           }
         }
-      case StackEventResult(element: ElementModel element):
+      case StackEventResult(element: ElementModel el):
         {
-          if (editorState.edits.isSelected(element) && _dragged == false) {
-            editorState.edits.focusElement(element);
+          if (editorState.edits.isSelected(el) && _dragged == false) {
+            editorState.edits.focusElement(el);
           } else {
-            editorState.edits.selectElement(element);
+            editorState.edits.selectElement(el);
           }
         }
     }
@@ -184,31 +162,34 @@ class RubricEditorViewerState extends State<RubricEditorViewer> {
           return;
         }
       case StackEventResult(
-        element: ElementModel element,
-        stackHitOffset: Offset stackHitOffset,
-        scalarIndex: int scalarIndex,
-      ):
+          element: ElementModel element,
+          stackHitOffset: Offset stackHitOffset,
+          scalarIndex: int scalarIndex,
+        ):
         {
           _handleScale(editorState, element, stackHitOffset, scalarIndex);
         }
       case StackEventResult(
-        element: ElementModel element,
-        elementHitOffset: Offset elementHitOffset,
-        stackHitOffset: Offset stackHitOffset,
-      ):
+          element: ElementModel element,
+          elementHitOffset: Offset elementHitOffset,
+          stackHitOffset: Offset stackHitOffset,
+        ):
         {
-          if (editorState.edits.value.focused == element) {
-            return;
-          }
           final tile = editorState.edits.value.gridSize.pixelsPerLock;
           // stack offset - element offset goes to the top left corner of the element
           // so you can add half a tile to make the movement from the center of the tile.
-          final newLocation = _getIntuitiveLocation(
+          Offset newLocation = _getIntuitiveLocation(
             stackHitOffset,
             elementHitOffset,
             tile,
             element,
           );
+
+          newLocation = Offset(
+            newLocation.dx.clamp(0, GridSizes.pageSize - element.width),
+            max(newLocation.dy, 0),
+          );
+
           if (element.x != newLocation.dx || element.y != newLocation.dy) {
             setState(() {
               editorState.canvas.moveElement(element, newLocation);
@@ -280,20 +261,17 @@ class RubricEditorViewerState extends State<RubricEditorViewer> {
                         cancels: true,
                         amount: 0,
                       ),
-
                     for (var element in canvas.elements)
                       if (!editorState.edits.isFocused(element))
                         ElementWidget(
                           key: ValueKey(element.id),
                           element: element,
                         ),
-
                     for (var element in canvas.elements)
                       ElementHandlerWidget(
                         key: ValueKey("${element.id} handler"),
                         element: element,
                       ),
-
                     if (editorState.edits.value.focused
                         case ElementModel element) ...[
                       CancelSelectionWidget(

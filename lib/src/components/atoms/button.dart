@@ -98,7 +98,7 @@ class RubricButton extends StatefulWidget {
   }) {
     return RubricButton(
       backgroundColor: style.theme,
-      hoverColor: style.theme,
+      hoverColor: style.theme4,
       onTap: onTap,
       width: width,
       height: height,

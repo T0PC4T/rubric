@@ -20,11 +20,9 @@ class VideoEditorElementState
   void initState() {
     final properties = widget.element.getProperties<VideoElementModel>();
     controller = VideoPlayerController.networkUrl(
-        Uri.parse(properties.videoUrl),
-
-        videoPlayerOptions: VideoPlayerOptions(allowBackgroundPlayback: true),
-      )
-      ..initialize().then((_) {
+      Uri.parse(properties.videoUrl),
+      videoPlayerOptions: VideoPlayerOptions(allowBackgroundPlayback: true),
+    )..initialize().then((_) {
         setState(() {});
       });
     super.initState();
@@ -37,8 +35,11 @@ class VideoEditorElementState
   }
 
   @override
-  onSelect() {
-    if (editorState.edits.isSelected(widget.element)) {
+  ElementModel get element => widget.element;
+
+  @override
+  onSelect(bool selected) {
+    if (selected) {
       editorState.showToolbar(
         widget.element,
         VideoTooltipWidget(element: widget.element),
@@ -47,8 +48,8 @@ class VideoEditorElementState
   }
 
   @override
-  onFocus() {
-    if (!editorState.edits.isFocused(widget.element)) {
+  onFocus(bool focused) {
+    if (!focused) {
       controller.pause();
     }
   }
@@ -96,11 +97,9 @@ class VideoReaderElementState extends State<VideoReaderElement> {
   void initState() {
     final properties = widget.element.getProperties<VideoElementModel>();
     controller = VideoPlayerController.networkUrl(
-        Uri.parse(properties.videoUrl),
-
-        videoPlayerOptions: VideoPlayerOptions(allowBackgroundPlayback: true),
-      )
-      ..initialize().then((_) {
+      Uri.parse(properties.videoUrl),
+      videoPlayerOptions: VideoPlayerOptions(allowBackgroundPlayback: true),
+    )..initialize().then((_) {
         setState(() {});
       });
     super.initState();

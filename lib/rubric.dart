@@ -1,3 +1,4 @@
+export 'src/models/canvas.dart';
 export 'src/rubric_editor/editor.dart';
 export 'src/rubric_editor/models/style.dart';
 export 'src/rubric_reader/reader.dart';

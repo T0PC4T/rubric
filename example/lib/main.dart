@@ -1,5 +1,7 @@
+import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:example/fake_data.dart';
 import 'package:flutter/material.dart';
 import 'package:rubric/rubric.dart';
 
@@ -36,8 +38,10 @@ class MyApp extends StatelessWidget {
       ),
       home: Scaffold(
           body: RubricEditor(
+        canvas: CanvasModel.fromJson(jsonEncode(data)),
         onSave: (canvas) {
           print(canvas.toMap());
+          print(canvas.toJson());
         },
         onLogoPressed: () {},
         style: RubricEditorStyle(

@@ -25,9 +25,9 @@ class RubricEditorStyle {
     this.elevation = 6,
     this.theme = const Color.fromARGB(
       255,
-      89,
-      176,
-      227,
+      0,
+      162,
+      255,
     ), // color picker text should be black
     this.dark = const Color.fromARGB(255, 0, 0, 0),
     this.light = const Color.fromARGB(255, 255, 255, 255),

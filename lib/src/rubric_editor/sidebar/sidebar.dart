@@ -46,10 +46,9 @@ class RubricSideBarState extends State<RubricSideBar> {
                 Expanded(
                   child: RubricButton(
                     hoverColor: style.light9,
-
                     backgroundColor:
                         i == pageIndex ? style.light9 : style.light,
-                    height: 80,
+                    height: 70,
                     onTap: () {
                       setState(() {
                         pageIndex = i;
@@ -69,7 +68,10 @@ class RubricSideBarState extends State<RubricSideBar> {
                           ),
                         ),
                         Icon(menusIcons[i], size: 25),
-                        RubricText(menus[i]),
+                        RubricText(
+                          menus[i],
+                          textType: TextType.small,
+                        ),
                       ],
                     ),
                   ),

@@ -12,10 +12,9 @@ class GridPainter extends CustomPainter {
       Paint()..color = backgroundColor,
     );
 
-    final paint =
-        Paint()
-          ..color = const Color.fromARGB(50, 0, 0, 0)
-          ..strokeWidth = 1;
+    final paint = Paint()
+      ..color = const Color.fromARGB(10, 0, 0, 0)
+      ..strokeWidth = 2;
 
     for (double i = 0; i <= size.width; i += pixelsPerLine) {
       canvas.drawLine(Offset(i, 0), Offset(i, size.height), paint);

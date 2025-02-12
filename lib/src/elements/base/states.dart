@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:rubric/rubric.dart';
+import 'package:rubric/src/models/elements.dart';
 
 abstract class SelectableState<T extends StatefulWidget> extends State<T> {
+  ElementModel get element;
   late RubricEditorState editorState;
   @override
   void initState() {
@@ -11,20 +13,21 @@ abstract class SelectableState<T extends StatefulWidget> extends State<T> {
 
   postFrame(_) {
     editorState = RubricEditorState.of(context);
-    editorState.edits.selectionNotifier.addListener(onSelect);
+    editorState.edits.selectionNotifier.addListener(element.id, onSelect);
   }
 
-  onSelect();
+  onSelect(bool selected);
 
   @override
   void dispose() {
-    editorState.edits.selectionNotifier.removeListener(onSelect);
+    editorState.edits.selectionNotifier.removeListener(element.id);
     super.dispose();
   }
 }
 
 abstract class SelectableAndFocusableState<T extends StatefulWidget>
     extends State<T> {
+  ElementModel get element;
   late RubricEditorState editorState;
   @override
   void initState() {
@@ -34,17 +37,17 @@ abstract class SelectableAndFocusableState<T extends StatefulWidget>
 
   postFrame(_) {
     editorState = RubricEditorState.of(context);
-    editorState.edits.selectionNotifier.addListener(onSelect);
-    editorState.edits.focusNotifier.addListener(onFocus);
+    editorState.edits.selectionNotifier.addListener(element.id, onSelect);
+    editorState.edits.focusNotifier.addListener(element.id, onFocus);
   }
 
-  onSelect();
-  onFocus();
+  onSelect(bool selected);
+  onFocus(bool focused);
 
   @override
   void dispose() {
-    editorState.edits.selectionNotifier.removeListener(onSelect);
-    editorState.edits.focusNotifier.removeListener(onFocus);
+    editorState.edits.selectionNotifier.removeListener(element.id);
+    editorState.edits.focusNotifier.removeListener(element.id);
     super.dispose();
   }
 }
