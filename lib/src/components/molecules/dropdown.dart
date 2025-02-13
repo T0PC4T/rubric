@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rubric/src/rubric_editor/models/style.dart';
+import 'package:rubric/rubric.dart';
 
 class RubricDropdown<T> extends StatefulWidget {
   final List<DropdownMenuItem<T>>? items;

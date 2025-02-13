@@ -28,10 +28,10 @@ class RubricEditorViewerState extends State<RubricEditorViewer> {
   late RubricEditorState editorState;
   @override
   void initState() {
-    _scrollController = ScrollController()
-      ..addListener(() {
-        editorState.edits.setScrollOffset(_scrollController.offset);
-      });
+    _scrollController =
+        ScrollController()..addListener(() {
+          editorState.edits.setScrollOffset(_scrollController.offset);
+        });
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final editorState = RubricEditorState.of(context);
       editorState.canvas.addListener(_handler);
@@ -49,11 +49,17 @@ class RubricEditorViewerState extends State<RubricEditorViewer> {
     super.dispose();
   }
 
-  Offset _getIntuitiveLocation(Offset stackHitOffset, Offset elementHitOffset,
-      double tile, ElementModel element) {
+  Offset _getIntuitiveLocation(
+    Offset stackHitOffset,
+    Offset elementHitOffset,
+    double tile,
+    ElementModel element,
+  ) {
     // limit registrations
-    stackHitOffset = Offset(min(max(stackHitOffset.dx, 0), GridSizes.pageSize),
-        max(stackHitOffset.dy, 0));
+    stackHitOffset = Offset(
+      min(max(stackHitOffset.dx, 0), GridSizes.pageSize),
+      max(stackHitOffset.dy, 0),
+    );
 
     Offset offset =
         (stackHitOffset - elementHitOffset) + Offset(tile * 0.5, tile * 0.5);
@@ -63,13 +69,40 @@ class RubricEditorViewerState extends State<RubricEditorViewer> {
     return Offset(x, y);
   }
 
+  void _handleMove(
+    RubricEditorState editorState,
+    ElementModel element,
+    Offset stackHitOffset,
+    Offset elementHitOffset,
+  ) {
+    final tile = editorState.edits.value.gridSize.pixelsPerLock;
+    // stack offset - element offset goes to the top left corner of the element
+    // so you can add half a tile to make the movement from the center of the tile.
+    Offset newLocation = _getIntuitiveLocation(
+      stackHitOffset,
+      elementHitOffset,
+      tile,
+      element,
+    );
+
+    newLocation = Offset(
+      newLocation.dx.clamp(0, GridSizes.pageSize - element.width),
+      max(newLocation.dy, 0),
+    );
+
+    if (element.x != newLocation.dx || element.y != newLocation.dy) {
+      setState(() {
+        editorState.canvas.moveElement(element, newLocation);
+      });
+    }
+  }
+
   void _handleScale(
     RubricEditorState editorState,
     ElementModel element,
     Offset stackHitOffset,
     int scalarIndex,
   ) {
-    // todo there's a smart way to do this by indexes and figuring if it is movable or not.
     final tile = editorState.edits.value.gridSize.pixelsPerLock;
     bool movesX = false;
     bool movesY = false;
@@ -113,6 +146,9 @@ class RubricEditorViewerState extends State<RubricEditorViewer> {
       height = element.height + (loc.dy - element.y);
       newY = element.y;
     }
+
+    width = max(width, editorState.edits.value.gridSize.pixelsPerLine);
+    height = max(height, editorState.edits.value.gridSize.pixelsPerLine);
 
     if (width != element.width || height != element.height) {
       setState(() {
@@ -162,39 +198,20 @@ class RubricEditorViewerState extends State<RubricEditorViewer> {
           return;
         }
       case StackEventResult(
-          element: ElementModel element,
-          stackHitOffset: Offset stackHitOffset,
-          scalarIndex: int scalarIndex,
-        ):
+        element: ElementModel element,
+        stackHitOffset: Offset stackHitOffset,
+        scalarIndex: int scalarIndex,
+      ):
         {
           _handleScale(editorState, element, stackHitOffset, scalarIndex);
         }
       case StackEventResult(
-          element: ElementModel element,
-          elementHitOffset: Offset elementHitOffset,
-          stackHitOffset: Offset stackHitOffset,
-        ):
+        element: ElementModel element,
+        elementHitOffset: Offset elementHitOffset,
+        stackHitOffset: Offset stackHitOffset,
+      ):
         {
-          final tile = editorState.edits.value.gridSize.pixelsPerLock;
-          // stack offset - element offset goes to the top left corner of the element
-          // so you can add half a tile to make the movement from the center of the tile.
-          Offset newLocation = _getIntuitiveLocation(
-            stackHitOffset,
-            elementHitOffset,
-            tile,
-            element,
-          );
-
-          newLocation = Offset(
-            newLocation.dx.clamp(0, GridSizes.pageSize - element.width),
-            max(newLocation.dy, 0),
-          );
-
-          if (element.x != newLocation.dx || element.y != newLocation.dy) {
-            setState(() {
-              editorState.canvas.moveElement(element, newLocation);
-            });
-          }
+          _handleMove(editorState, element, stackHitOffset, elementHitOffset);
         }
     }
   }

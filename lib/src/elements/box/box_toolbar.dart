@@ -7,6 +7,7 @@ import 'package:rubric/src/components/molecules/color_picker.dart';
 import 'package:rubric/src/components/shared.dart';
 import 'package:rubric/src/elements/box/box_model.dart';
 import 'package:rubric/src/models/elements.dart';
+import 'package:rubric/src/rubric_editor/toolbar/dropdown.dart';
 
 class BoxTooltipWidget extends StatelessWidget {
   final ElementModel element;
@@ -58,6 +59,17 @@ class BoxTooltipWidget extends StatelessWidget {
                   );
                 }
               },
+            ),
+            RubricVerticleDivider(),
+            RubricToolbarDropdown(
+              onUpdate: (value) {
+                print(value);
+              },
+              items: [
+                DropdownMenuItem(value: 1, child: RubricText("Value 1")),
+                DropdownMenuItem(value: 2, child: RubricText("Value 2")),
+              ],
+              child: RubricText("Test"),
             ),
           ],
         );

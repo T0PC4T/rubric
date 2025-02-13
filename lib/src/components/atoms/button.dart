@@ -125,6 +125,7 @@ class RubricButtonState extends State<RubricButton> {
     return GestureDetector(
       onTap: widget.onTap,
       child: MouseRegion(
+        cursor: SystemMouseCursors.click,
         onEnter: (event) {
           setState(() {
             hovered = true;

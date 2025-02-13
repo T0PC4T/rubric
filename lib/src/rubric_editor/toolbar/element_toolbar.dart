@@ -14,8 +14,6 @@ class ElementToolbarWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final style = RubricEditorStyle.of(context);
-    final editorState = RubricEditorState.of(context);
-    final bool isFocused = editorState.edits.value.focused == element;
 
     return Container(
       padding: EdgeInsets.only(

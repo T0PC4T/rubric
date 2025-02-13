@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rubric/src/elements/base/states.dart';
 import 'package:rubric/src/elements/video/video_model.dart';
-import 'package:rubric/src/elements/video/video_tooltip.dart';
+import 'package:rubric/src/elements/video/video_toolbar.dart';
 import 'package:rubric/src/models/elements.dart';
 import 'package:video_player/video_player.dart';
 
@@ -20,9 +20,10 @@ class VideoEditorElementState
   void initState() {
     final properties = widget.element.getProperties<VideoElementModel>();
     controller = VideoPlayerController.networkUrl(
-      Uri.parse(properties.videoUrl),
-      videoPlayerOptions: VideoPlayerOptions(allowBackgroundPlayback: true),
-    )..initialize().then((_) {
+        Uri.parse(properties.videoUrl),
+        videoPlayerOptions: VideoPlayerOptions(allowBackgroundPlayback: true),
+      )
+      ..initialize().then((_) {
         setState(() {});
       });
     super.initState();
@@ -97,9 +98,10 @@ class VideoReaderElementState extends State<VideoReaderElement> {
   void initState() {
     final properties = widget.element.getProperties<VideoElementModel>();
     controller = VideoPlayerController.networkUrl(
-      Uri.parse(properties.videoUrl),
-      videoPlayerOptions: VideoPlayerOptions(allowBackgroundPlayback: true),
-    )..initialize().then((_) {
+        Uri.parse(properties.videoUrl),
+        videoPlayerOptions: VideoPlayerOptions(allowBackgroundPlayback: true),
+      )
+      ..initialize().then((_) {
         setState(() {});
       });
     super.initState();

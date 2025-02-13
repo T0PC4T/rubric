@@ -17,7 +17,7 @@ class RubricEditor extends StatefulWidget {
   final Function(CanvasModel canvas) onSave;
   final Function() onLogoPressed;
   final Future<String> Function(Uint8List bytes, {String? name, String? type})
-      bytesToURL;
+  bytesToURL;
   const RubricEditor({
     super.key,
     required this.style,
@@ -84,7 +84,10 @@ class RubricEditorState extends State<RubricEditor> {
     }
   }
 
-  pushOverlay(Widget child) {
+  pushOverlay(Widget child, {int? removeToLength}) {
+    if (removeToLength case int removeToLength) {
+      overlays = overlays.sublist(0, removeToLength);
+    }
     setState(() {
       overlays.add(child);
     });
@@ -119,10 +122,10 @@ class RubricEditorState extends State<RubricEditor> {
   }
 
   showToolbar(ElementModel element, Widget child) {
-    clearOverlays();
-    setState(() {
-      overlays.add(ElementToolbarWidget(element: element, child: child));
-    });
+    pushOverlay(
+      ElementToolbarWidget(element: element, child: child),
+      removeToLength: 0,
+    );
   }
 
   static RubricEditorState of(BuildContext ctx) {
@@ -163,9 +166,10 @@ class RubricEditorState extends State<RubricEditor> {
                       children: [
                         RubricSideBar(),
                         Expanded(
-                          child: previewing
-                              ? RubricReader(canvasModel: canvas.value)
-                              : RubricEditorViewer(),
+                          child:
+                              previewing
+                                  ? RubricReader(canvasModel: canvas.value)
+                                  : RubricEditorViewer(),
                         ),
                       ],
                     ),

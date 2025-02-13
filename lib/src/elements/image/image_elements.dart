@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rubric/src/elements/base/states.dart';
 import 'package:rubric/src/elements/image/image_model.dart';
-import 'package:rubric/src/elements/image/image_tooltip.dart';
+import 'package:rubric/src/elements/image/image_toolbar.dart';
 import 'package:rubric/src/models/elements.dart';
 
 class ImageEditorElement extends StatefulWidget {

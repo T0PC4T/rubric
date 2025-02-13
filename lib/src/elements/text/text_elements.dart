@@ -3,7 +3,7 @@ import 'package:flutter_quill/flutter_quill.dart';
 import 'package:rubric/rubric.dart';
 import 'package:rubric/src/elements/base/states.dart';
 import 'package:rubric/src/elements/text/text_model.dart';
-import 'package:rubric/src/elements/text/text_tooltip.dart';
+import 'package:rubric/src/elements/text/text_toolbar.dart';
 import 'package:rubric/src/models/elements.dart';
 import 'package:rubric/src/rubric_editor/sidebar/pages/layers.dart';
 
@@ -61,7 +61,12 @@ class TextEditorElementState
   }
 
   @override
-  onSelect(bool selected) {}
+  onSelect(bool selected) {
+    if (selected) {
+      // ? this replaces the usual show toolbar because there is no tool bar on select.
+      editorState.clearOverlays();
+    }
+  }
 
   @override
   void dispose() {

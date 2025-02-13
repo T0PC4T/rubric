@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rubric/src/elements/base/states.dart';
 import 'package:rubric/src/elements/box/box_model.dart';
-import 'package:rubric/src/elements/box/box_tooltip.dart';
+import 'package:rubric/src/elements/box/box_toolbar.dart';
 import 'package:rubric/src/models/elements.dart';
 
 class BoxEditorElement extends StatefulWidget {
