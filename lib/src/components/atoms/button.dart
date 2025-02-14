@@ -12,6 +12,7 @@ class RubricButton extends StatefulWidget {
   final double? radius;
   final Color? borderColor;
   final double? borderWidth;
+  final Alignment alignment;
   // Core
   final VoidCallback onTap;
   final Widget child;
@@ -28,6 +29,7 @@ class RubricButton extends StatefulWidget {
     this.margin,
     this.borderColor,
     this.borderWidth,
+    this.alignment = Alignment.center,
   });
 
   factory RubricButton.light(
@@ -140,7 +142,7 @@ class RubricButtonState extends State<RubricButton> {
 
         child: Container(
           margin: widget.margin,
-          alignment: Alignment.center,
+          alignment: widget.alignment,
           padding: widget.padding,
           width: widget.width,
           height: widget.height,

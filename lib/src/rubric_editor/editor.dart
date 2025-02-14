@@ -34,7 +34,9 @@ class RubricEditorState extends State<RubricEditor> {
   late CanvasNotifier canvas;
   late EditorNotifier edits;
   late RubricEditorStyle style;
+
   late FocusNode keyboardFocus;
+
   List<Widget> overlays = [];
   BuildContext? innerContext;
 
@@ -46,8 +48,19 @@ class RubricEditorState extends State<RubricEditor> {
 
     edits = EditorNotifier(CanvasEditingModel(steps: [canvas.clone()]));
     edits.addListener(_editorListener);
+
     keyboardFocus = FocusNode();
     style = widget.style;
+  }
+
+  @override
+  void dispose() {
+    canvas.removeListener(_canvasListener);
+    edits.removeListener(_editorListener);
+    keyboardFocus.dispose();
+    canvas.dispose();
+    edits.dispose();
+    super.dispose();
   }
 
   _editorListener() {
@@ -85,23 +98,24 @@ class RubricEditorState extends State<RubricEditor> {
   }
 
   pushOverlay(Widget child, {int? removeToLength}) {
-    if (removeToLength case int removeToLength) {
-      overlays = overlays.sublist(0, removeToLength);
-    }
     setState(() {
-      overlays.add(child);
+      overlays = [...overlays.sublist(0, removeToLength), child];
+    });
+  }
+
+  popToLength(int length) {
+    setState(() {
+      overlays = overlays.sublist(0, length);
     });
   }
 
   popOverlay() {
-    setState(() {
-      overlays.removeLast();
-    });
+    popToLength(overlays.length - 1);
   }
 
   clearOverlays() {
     setState(() {
-      overlays = [];
+      overlays = <Widget>[];
     });
   }
 
@@ -109,16 +123,6 @@ class RubricEditorState extends State<RubricEditor> {
   togglePreview() {
     clearOverlays();
     previewing = !previewing;
-  }
-
-  @override
-  void dispose() {
-    canvas.removeListener(_canvasListener);
-    edits.removeListener(_editorListener);
-    keyboardFocus.dispose();
-    canvas.dispose();
-    edits.dispose();
-    super.dispose();
   }
 
   showToolbar(ElementModel element, Widget child) {

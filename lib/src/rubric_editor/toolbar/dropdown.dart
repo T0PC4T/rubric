@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rubric/rubric.dart';
 import 'package:rubric/src/components/atoms/button.dart';
+import 'package:rubric/src/utilities/uuid.dart';
 
 class RubricToolbarDropdown<T> extends StatefulWidget {
   final Widget child;
@@ -19,7 +20,7 @@ class RubricToolbarDropdown<T> extends StatefulWidget {
 
 // todo edit this.
 class RubricToolbarDropdownState<T> extends State<RubricToolbarDropdown<T>> {
-  bool bShowDropdown = false;
+  String openID = "";
   Offset offset = Offset.zero;
   Size size = Size.zero;
 
@@ -31,15 +32,17 @@ class RubricToolbarDropdownState<T> extends State<RubricToolbarDropdown<T>> {
     offset = box.localToGlobal(
       Offset(0, size.height - editorState.style.radius),
     );
-
-    setState(() {
-      bShowDropdown = !bShowDropdown;
-    });
-
-    if (bShowDropdown) {
+    if (editorState.overlays case List(
+      isNotEmpty: true,
+      last: Positioned(key: ValueKey key),
+    ) when key.value == openID) {
+      editorState.popToLength(1);
+    } else {
+      openID = newID();
       editorState.pushOverlay(
         removeToLength: 1,
         Positioned(
+          key: ValueKey(openID),
           left: offset.dx,
           top: offset.dy,
           child: Container(
@@ -69,9 +72,6 @@ class RubricToolbarDropdownState<T> extends State<RubricToolbarDropdown<T>> {
                     onTap: () {
                       widget.onUpdate(item.value);
                       editorState.popOverlay();
-                      setState(() {
-                        bShowDropdown = false;
-                      });
                     },
                     child: item.child,
                   ),
@@ -80,13 +80,14 @@ class RubricToolbarDropdownState<T> extends State<RubricToolbarDropdown<T>> {
           ),
         ),
       );
-    } else {
-      editorState.popOverlay();
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final editorState = RubricEditorState.of(context);
+    print(editorState.overlays.last.key);
+
     final style = RubricEditorStyle.of(context);
     return RubricButton(
       padding: EdgeInsets.symmetric(
@@ -98,13 +99,7 @@ class RubricToolbarDropdownState<T> extends State<RubricToolbarDropdown<T>> {
       hoverColor: style.light,
       child: Row(
         spacing: style.paddingD,
-        children: [
-          widget.child,
-          if (bShowDropdown)
-            Icon(Icons.keyboard_arrow_up_rounded)
-          else
-            Icon(Icons.keyboard_arrow_down_rounded),
-        ],
+        children: [widget.child, Icon(Icons.keyboard_arrow_down_rounded)],
       ),
     );
   }
