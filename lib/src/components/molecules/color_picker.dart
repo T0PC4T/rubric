@@ -82,7 +82,7 @@ class RubricColorPickerState extends State<RubricColorPicker> {
                 ),
               ],
             )
-          else
+          else ...[
             ColorPicker(
               pickerColor: color,
               displayThumbColor: false,
@@ -96,15 +96,16 @@ class RubricColorPickerState extends State<RubricColorPicker> {
                 color = value;
               },
             ),
-          RubricButton.light(
-            style,
-            height: 40,
-            width: 150,
-            child: RubricText("Complete"),
-            onTap: () {
-              widget.onComplete(color);
-            },
-          ),
+            RubricButton.light(
+              style,
+              height: 40,
+              width: 150,
+              child: RubricText("Complete"),
+              onTap: () {
+                widget.onComplete(color);
+              },
+            ),
+          ],
         ],
       ),
     );

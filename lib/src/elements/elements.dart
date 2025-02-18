@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
+import 'package:rubric/rubric.dart';
 import 'package:rubric/src/elements/box/box_elements.dart';
 import 'package:rubric/src/elements/box/box_model.dart';
 import 'package:rubric/src/elements/image/image_elements.dart';
@@ -97,7 +98,14 @@ Map<String, dynamic> generateDefaultProperties(
       BoxElementModel(color: Colors.green, borderRadius: 0).toJson(),
     ElementTypes.text =>
       TextElementModel(
-        document: Document()..insert(0, "[Insert your text here]"),
+        document:
+            Document()
+              ..insert(0, "[Insert your text here]")
+              ..format(
+                0,
+                30,
+                SizeAttribute(RubricEditorStyle.minimumFontSize.toString()),
+              ), // with fontsize
       ).toJson(),
     ElementTypes.image =>
       ImageElementModel(

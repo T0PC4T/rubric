@@ -6,6 +6,7 @@ import 'package:rubric/rubric.dart';
 
 class RubricEditorStyle {
   static const paddingUnit = 10.0;
+  static const minimumFontSize = 24;
 
   final String logoUrl;
   final double radius;

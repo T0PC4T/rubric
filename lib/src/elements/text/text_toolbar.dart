@@ -22,6 +22,13 @@ class TextTooltipWidget extends StatelessWidget {
       configurations: QuillSimpleToolbarConfigurations(
         color: editorState.style.theme4,
         toolbarSize: ElementToolbarWidget.elementToolbarHeight - 20,
+
+        fontSizesValues: {
+          'Small': RubricEditorStyle.minimumFontSize.toString(),
+          'Medium': (RubricEditorStyle.minimumFontSize * 1.5).toString(),
+          'Large': (RubricEditorStyle.minimumFontSize * 2).toString(),
+          'Title': (RubricEditorStyle.minimumFontSize * 2.5).toString(),
+        },
         showFontFamily: false,
         showCodeBlock: false,
         showSearchButton: false,

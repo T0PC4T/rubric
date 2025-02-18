@@ -36,19 +36,28 @@ class RubricEditorViewerState extends State<RubricEditorViewer> {
         });
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final editorState = RubricEditorState.of(context);
-      editorState.canvas.addListener(_handler);
-      editorState.edits.addListener(_handler);
+      editorState.canvas.addListener(_refreshHandler);
+      editorState.edits.addListener(_refreshHandler);
     });
     super.initState();
   }
 
   @override
   void dispose() {
-    editorState.canvas.removeListener(_handler);
-    editorState.edits.removeListener(_handler);
+    editorState.canvas.removeListener(_refreshHandler);
+    editorState.edits.removeListener(_refreshHandler);
 
     _scrollController.dispose();
     super.dispose();
+  }
+
+  (Offset offset, Size size) _getNewElementDimensions(Offset position) {
+    final tile = editorState.edits.value.gridSize.pixelsPerLine;
+    final x = min(position.dx - position.dx % tile, GridSizes.pageSize - tile);
+    final y = min(position.dy - position.dy % tile, GridSizes.pageSize - tile);
+    final width = min(GridSizes.pageSize - x, tile * 10);
+    final height = tile * 6;
+    return (Offset(x, y), Size(width, height));
   }
 
   Offset _getIntuitiveLocation(
@@ -162,24 +171,17 @@ class RubricEditorViewerState extends State<RubricEditorViewer> {
 
   _handlePointerDown(PointerDownEvent event, StackEventResult result) {
     if (editorState.edits.value.holding case ElementTypes element) {
-      final tile = editorState.edits.value.gridSize.pixelsPerLine;
       final position = event.localPosition;
-      final x = min(
-        position.dx - position.dx % tile,
-        GridSizes.pageSize - tile,
-      );
-      final y = min(
-        position.dy - position.dy % tile,
-        GridSizes.pageSize - tile,
-      );
+
+      final (offset, size) = _getNewElementDimensions(position);
       editorState.canvas.addElement(
         ElementModel(
           id: newID(),
           type: element,
-          x: x,
-          y: y,
-          width: min(GridSizes.pageSize - x, tile * 10),
-          height: min(GridSizes.pageSize - x, tile * 6),
+          x: offset.dx,
+          y: offset.dy,
+          width: size.width,
+          height: size.height,
           properties: generateDefaultProperties(context, element),
         ),
       );
@@ -242,7 +244,20 @@ class RubricEditorViewerState extends State<RubricEditorViewer> {
     }
   }
 
-  _handler() {
+  (Offset, Size)? bluePrintDimensions;
+  _handlePointerHover(PointerHoverEvent event, StackEventResult result) {
+    if (editorState.edits.value.holding case ElementTypes type) {
+      setState(() {
+        bluePrintDimensions = _getNewElementDimensions(event.localPosition);
+      });
+    } else {
+      setState(() {
+        bluePrintDimensions = null;
+      });
+    }
+  }
+
+  _refreshHandler() {
     setState(() {});
   }
 
@@ -253,12 +268,7 @@ class RubricEditorViewerState extends State<RubricEditorViewer> {
     final double pageHeight = editorState.canvas.value.editorPageHeight();
     return SingleChildScrollView(
       controller: _scrollController,
-      // physics: NeverScrollableScrollPhysics(),
       child: PagePadderWidget(
-        onTapBackground: () {
-          editorState.edits.clear();
-        },
-        backgroundColor: editorState.style.light7,
         child: FittedBox(
           fit: BoxFit.fitWidth,
           child: ValueListenableBuilder(
@@ -270,22 +280,12 @@ class RubricEditorViewerState extends State<RubricEditorViewer> {
                 child: RubricElementStack(
                   // Todo implement again.
                   onPointerSignal: (event) {
-                    if (event is PointerScrollEvent) {
-                      // desiredOffset += event.scrollDelta.dy;
-                      // desiredOffset = desiredOffset.clamp(0, pageHeight);
-                      // _scrollController.jumpTo(desiredOffset);
-                      // _scrollController.animateTo(
-                      //   desiredOffset,
-                      //   duration: Duration(milliseconds: 100),
-                      //   curve: Curves.easeInOut,
-                      // );
-                    }
+                    // if (event is PointerScrollEvent) {}
                   },
                   onPointerDown: _handlePointerDown,
                   onPointerMove: _handlePointerMove,
                   onPointerUp: _handlePointerUp,
-
-                  onPointerHover: (event, result) {},
+                  onPointerHover: _handlePointerHover,
                   key: ValueKey("ViewerStack"),
                   children: [
                     CustomPaint(
@@ -304,16 +304,30 @@ class RubricEditorViewerState extends State<RubricEditorViewer> {
                         amount: 0,
                       ),
                     for (var element in canvas.elements)
-                      if (!editorState.edits.isFocused(element))
+                      if (!editorState.edits.isFocused(element)) ...[
                         ElementWidget(
                           key: ValueKey(element.id),
                           element: element,
                         ),
-                    for (var element in canvas.elements)
-                      ElementHandlerWidget(
-                        key: ValueKey("${element.id} handler"),
-                        element: element,
-                      ),
+                        ElementHandlerWidget(
+                          key: ValueKey("${element.id} handler"),
+                          element: element,
+                        ),
+                      ],
+                    if (editorState.edits.value.holding
+                        case ElementTypes elementType)
+                      if (bluePrintDimensions case (Offset offset, Size size))
+                        RubricPositioned(
+                          x: offset.dx,
+                          y: offset.dy,
+                          width: size.width,
+                          height: size.height,
+                          child: IgnorePointer(
+                            child: ColoredBox(
+                              color: editorState.style.theme.withAlpha(50),
+                            ),
+                          ),
+                        ),
                     if (editorState.edits.value.focused
                         case ElementModel element) ...[
                       CancelSelectionWidget(

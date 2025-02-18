@@ -165,6 +165,7 @@ class RubricEditorState extends State<RubricEditor> {
       },
       focusNode: keyboardFocus,
       child: SizeBlockerWidget(
+        // previewing ? RubricReader(canvasModel: canvas.value)
         child: Stack(
           fit: StackFit.expand,
           children: [
@@ -178,16 +179,15 @@ class RubricEditorState extends State<RubricEditor> {
                 children: [
                   NavbarWidget(),
                   Expanded(
-                    child: Row(
-                      children: [
-                        RubricSideBar(),
-                        Expanded(
-                          child:
-                              previewing
-                                  ? RubricReader(canvasModel: canvas.value)
-                                  : RubricEditorViewer(),
-                        ),
-                      ],
+                    child: Container(
+                      color: style.light9,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          RubricSideBar(),
+                          Expanded(child: RubricEditorViewer()),
+                        ],
+                      ),
                     ),
                   ),
                 ],
