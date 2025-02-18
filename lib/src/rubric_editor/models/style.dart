@@ -16,6 +16,7 @@ class RubricEditorStyle {
   final Color dark;
   final Color light;
   final Color borderColor;
+  final List<Color> brandColors;
 
   const RubricEditorStyle({
     required this.logoUrl,
@@ -23,6 +24,11 @@ class RubricEditorStyle {
     this.fontSize = 14,
     this.fontWeight = FontWeight.w500,
     this.elevation = 6,
+    this.brandColors = const [
+      Color.fromARGB(255, 0, 162, 255),
+      Color.fromARGB(255, 255, 178, 10),
+      Color.fromARGB(255, 255, 23, 119),
+    ],
     this.theme = const Color.fromARGB(
       255,
       0,

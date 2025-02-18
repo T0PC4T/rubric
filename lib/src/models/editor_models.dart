@@ -8,12 +8,12 @@ import 'package:rubric/src/models/elements.dart';
 These models are dedicated to the editor state. This state does not affect the actual lesson being built but only the current users editing view.
  */
 enum GridSizes {
-  none("Free", GridSizes.pageSize / 1000),
+  none("Free", GridSizes.pageSize / 800),
   small("Small", GridSizes.pageSize / 100),
   medium("Medium", 10),
   large("Large", GridSizes.pageSize / 25);
 
-  static const double pageSize = 1000;
+  static const double pageSize = 800;
 
   final double pixelsPerLock;
   double get pixelsPerLine => 50;

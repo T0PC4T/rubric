@@ -99,11 +99,17 @@ class RubricColorButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final style = RubricEditorStyle.of(context);
+
     return GestureDetector(
       onTap: onTap,
       child: Container(
         margin: EdgeInsets.all(RubricEditorStyle.paddingUnit),
-        decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+        decoration: BoxDecoration(
+          color: color,
+          shape: BoxShape.circle,
+          border: Border.all(color: style.light7, width: 1),
+        ),
 
         width: ElementToolbarWidget.iconSize,
         height: ElementToolbarWidget.iconSize,
