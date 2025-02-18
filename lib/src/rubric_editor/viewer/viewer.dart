@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:rubric/rubric.dart';
+import 'package:rubric/src/elements/elements.dart';
 import 'package:rubric/src/models/editor_models.dart';
 import 'package:rubric/src/models/elements.dart';
 import 'package:rubric/src/rubric_editor/models/stack.dart';
@@ -13,6 +14,7 @@ import 'package:rubric/src/rubric_editor/viewer/items/handler.dart';
 import 'package:rubric/src/rubric_editor/viewer/items/position.dart';
 import 'package:rubric/src/rubric_editor/viewer/stack/element_stack.dart';
 import 'package:rubric/src/rubric_reader/padder.dart';
+import 'package:rubric/src/utilities/uuid.dart';
 
 class RubricEditorViewer extends StatefulWidget {
   const RubricEditorViewer({super.key});
@@ -159,6 +161,30 @@ class RubricEditorViewerState extends State<RubricEditorViewer> {
   }
 
   _handlePointerDown(PointerDownEvent event, StackEventResult result) {
+    if (editorState.edits.value.holding case ElementTypes element) {
+      final tile = editorState.edits.value.gridSize.pixelsPerLine;
+      final position = event.localPosition;
+      final x = min(
+        position.dx - position.dx % tile,
+        GridSizes.pageSize - tile,
+      );
+      final y = min(
+        position.dy - position.dy % tile,
+        GridSizes.pageSize - tile,
+      );
+      editorState.canvas.addElement(
+        ElementModel(
+          id: newID(),
+          type: element,
+          x: x,
+          y: y,
+          width: min(GridSizes.pageSize - x, tile * 10),
+          height: min(GridSizes.pageSize - x, tile * 6),
+          properties: generateDefaultProperties(context, element),
+        ),
+      );
+      editorState.setHolding(null);
+    }
     switch (result) {
       case StackEventResult(cancel: true):
         {
@@ -257,7 +283,6 @@ class RubricEditorViewerState extends State<RubricEditorViewer> {
                   },
                   onPointerDown: _handlePointerDown,
                   onPointerMove: _handlePointerMove,
-
                   onPointerUp: _handlePointerUp,
 
                   onPointerHover: (event, result) {},

@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/foundation.dart';
+import 'package:rubric/src/elements/elements.dart';
 import 'package:rubric/src/models/canvas.dart';
 import 'package:rubric/src/models/elements.dart';
 
@@ -33,6 +34,7 @@ enum GridSizes {
 }
 
 class CanvasEditingModel {
+  final ElementTypes? holding;
   final ElementModel? selected;
   final ElementModel? focused;
   final List<CanvasModel> steps;
@@ -40,6 +42,7 @@ class CanvasEditingModel {
   final GridSizes gridSize;
   final bool showGrid;
   CanvasEditingModel({
+    this.holding,
     this.selected,
     this.focused,
     required this.steps,
@@ -51,6 +54,7 @@ class CanvasEditingModel {
   CanvasEditingModel copyWith({
     required ElementModel? selected,
     required ElementModel? focused,
+    ElementTypes? holding,
     List<CanvasModel>? steps,
     int? undoIndex,
     GridSizes? gridSize,
@@ -59,6 +63,7 @@ class CanvasEditingModel {
     return CanvasEditingModel(
       selected: selected,
       focused: focused,
+      holding: holding,
       steps: steps ?? this.steps,
       undoIndex: undoIndex ?? this.undoIndex,
       gridSize: gridSize ?? this.gridSize,
@@ -68,14 +73,15 @@ class CanvasEditingModel {
 
   @override
   String toString() {
-    return 'CanvasEditingModel(selected: $selected, focused: $focused, steps: $steps, undoIndex: $undoIndex, gridSize: $gridSize, showGrid: $showGrid)';
+    return 'CanvasEditingModel(holding: $holding, selected: $selected, focused: $focused, steps: $steps, undoIndex: $undoIndex, gridSize: $gridSize, showGrid: $showGrid)';
   }
 
   @override
   bool operator ==(covariant CanvasEditingModel other) {
     if (identical(this, other)) return true;
 
-    return other.selected == selected &&
+    return other.holding == holding &&
+        other.selected == selected &&
         other.focused == focused &&
         listEquals(other.steps, steps) &&
         other.undoIndex == undoIndex &&
@@ -85,7 +91,8 @@ class CanvasEditingModel {
 
   @override
   int get hashCode {
-    return selected.hashCode ^
+    return holding.hashCode ^
+        selected.hashCode ^
         focused.hashCode ^
         steps.hashCode ^
         undoIndex.hashCode ^

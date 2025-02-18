@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rubric/rubric.dart';
+import 'package:rubric/src/components/molecules/mouse_overlay.dart';
+import 'package:rubric/src/elements/elements.dart';
 import 'package:rubric/src/models/canvas_notifier.dart';
 import 'package:rubric/src/models/editor_models.dart';
 import 'package:rubric/src/models/editor_notifier.dart';
@@ -119,6 +121,16 @@ class RubricEditorState extends State<RubricEditor> {
     });
   }
 
+  setHolding(ElementTypes? el) {
+    setState(() {
+      edits.value = edits.value.copyWith(
+        focused: null,
+        selected: null,
+        holding: el,
+      );
+    });
+  }
+
   bool previewing = false;
   togglePreview() {
     clearOverlays();
@@ -182,6 +194,8 @@ class RubricEditorState extends State<RubricEditor> {
               ),
             ),
             for (var overlay in overlays) overlay,
+            if (edits.value.holding case ElementTypes elementType)
+              RubricHoldingOverlay(elementType: elementType),
           ],
         ),
       ),

@@ -33,23 +33,28 @@ class ElementPageWidget extends StatelessWidget {
               hoverColor: editorState.style.light9,
               onTap: () {
                 final editorState = RubricEditorState.of(context);
-                final width = GridSizes.pageSize * 0.5;
-                final height = GridSizes.pageSize * 0.35;
-                final tile = editorState.edits.value.gridSize.pixelsPerLock;
+                if (editorState.edits.value.holding == element) {
+                  final width = GridSizes.pageSize * 0.5;
+                  final height = GridSizes.pageSize * 0.35;
+                  final tile = editorState.edits.value.gridSize.pixelsPerLock;
 
-                editorState.canvas.addElement(
-                  ElementModel(
-                    id: newID(),
-                    type: element,
-                    x: tile,
-                    y:
-                        editorState.edits.scrollOffset -
-                        (editorState.edits.scrollOffset % tile),
-                    width: width - (width % tile),
-                    height: height - (height % tile),
-                    properties: generateDefaultProperties(context, element),
-                  ),
-                );
+                  editorState.canvas.addElement(
+                    ElementModel(
+                      id: newID(),
+                      type: element,
+                      x: tile,
+                      y:
+                          editorState.edits.scrollOffset -
+                          (editorState.edits.scrollOffset % tile),
+                      width: width - (width % tile),
+                      height: height - (height % tile),
+                      properties: generateDefaultProperties(context, element),
+                    ),
+                  );
+                  editorState.setHolding(null);
+                } else {
+                  editorState.setHolding(element);
+                }
               },
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
