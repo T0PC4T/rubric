@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rubric/rubric.dart';
 import 'package:rubric/src/components/shared.dart';
+import 'package:rubric/src/rubric_editor/models/preview.dart';
 
 class NavbarWidget extends StatelessWidget {
   static const double navbarHeight = 50;
@@ -28,7 +29,7 @@ class NavbarWidget extends StatelessWidget {
             child: Image.network(style.logoUrl),
           ),
           RubricTextField(
-            width: NavbarWidget.navbarHeight * 5,
+            width: NavbarWidget.navbarHeight * 4,
             initialValue: editorState.canvas.value.settings.name,
             onChanged: (value) {
               editorState.canvas.updateSettings(
@@ -36,15 +37,35 @@ class NavbarWidget extends StatelessWidget {
               );
             },
           ),
+
           Expanded(
-            child: Center(
-              child: RubricIconButton(
-                isDark: true,
-                iconData: Icons.desktop_mac_rounded,
-                size: NavbarWidget.navbarHeight,
-                disabled: true,
-                onTap: () {},
-              ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                if (editorState.previewing case PreviewModes mode) ...[
+                  RubricIconButton(
+                    isDark: true,
+                    isActive: mode == PreviewModes.mobile,
+                    iconData: Icons.phone_android,
+                    size: NavbarWidget.navbarHeight,
+                    disabled: true,
+                    onTap: () {
+                      editorState.setPreview(PreviewModes.mobile);
+                    },
+                  ),
+                  RubricIconButton(
+                    isDark: true,
+                    isActive: mode == PreviewModes.desktop,
+                    iconData: Icons.desktop_mac_rounded,
+                    size: NavbarWidget.navbarHeight,
+                    disabled: true,
+                    onTap: () {
+                      editorState.setPreview(PreviewModes.desktop);
+                    },
+                  ),
+                ],
+              ],
             ),
           ),
 
@@ -69,10 +90,17 @@ class NavbarWidget extends StatelessWidget {
           ),
           RubricIconButton(
             isDark: true,
-            iconData: Icons.remove_red_eye_rounded,
+            iconData:
+                editorState.previewing == null
+                    ? Icons.remove_red_eye_rounded
+                    : Icons.edit,
             size: NavbarWidget.navbarHeight,
             onTap: () {
-              editorState.togglePreview();
+              if (editorState.previewing == null) {
+                editorState.setPreview(PreviewModes.desktop);
+              } else {
+                editorState.setPreview(null);
+              }
             },
           ),
           RubricButton.theme(

@@ -194,6 +194,12 @@ class RenderRubricElementStack extends RenderBox
     };
   }
 
+  // @override
+  // bool hitTest(BoxHitTestResult result, {required Offset position}) {
+  //   final response = super.hitTest(result, position: position);
+  //   return response;
+  // }
+
   @override
   bool hitTestChildren(BoxHitTestResult result, {required Offset position}) {
     // ? always hit the canvas even if it is empty

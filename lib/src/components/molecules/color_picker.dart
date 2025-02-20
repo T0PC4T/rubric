@@ -100,7 +100,7 @@ class RubricColorPickerState extends State<RubricColorPicker> {
               style,
               height: 40,
               width: 150,
-              child: RubricText("Complete"),
+              child: RubricText("Select"),
               onTap: () {
                 widget.onComplete(color);
               },

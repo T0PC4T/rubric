@@ -38,5 +38,9 @@ final data = {
       },
     },
   ],
-  "settings": {"backgroundColor": 4294967295, "name": "Page 1"},
+  "settings": {
+    "backgroundColor": 4294967295,
+    "canvasColor": 4294967000,
+    "name": "Page 1",
+  },
 };

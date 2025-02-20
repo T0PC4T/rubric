@@ -5,7 +5,6 @@ import 'package:rubric/src/elements/base/states.dart';
 import 'package:rubric/src/elements/text/text_model.dart';
 import 'package:rubric/src/elements/text/text_toolbar.dart';
 import 'package:rubric/src/models/elements.dart';
-import 'package:rubric/src/rubric_editor/sidebar/pages/layers.dart';
 
 class TextEditorElement extends StatefulWidget {
   final ElementModel element;
@@ -94,17 +93,13 @@ class TextLayerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final style = RubricEditorStyle.of(context);
     final textElement = element.getProperties<TextElementModel>();
-    return Container(
-      padding: EdgeInsets.all(10),
-      color: Colors.white,
-      child: Padding(
-        padding: const EdgeInsets.only(right: LayerWidget.layerHeight),
-        child: Text(
-          textElement.document.toPlainText(),
-          overflow: TextOverflow.ellipsis,
-        ),
-      ),
+    return Text(
+      maxLines: 2,
+      textElement.document.toPlainText(),
+      style: TextStyle(color: style.dark, fontSize: 14),
+      overflow: TextOverflow.ellipsis,
     );
   }
 }

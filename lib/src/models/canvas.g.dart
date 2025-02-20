@@ -8,13 +8,15 @@ part of 'canvas.dart';
 
 _$CanvasSettingsImpl _$$CanvasSettingsImplFromJson(Map<String, dynamic> json) =>
     _$CanvasSettingsImpl(
-      backgroundColor: colorFromJson((json['backgroundColor'] as num).toInt()),
       name: json['name'] as String,
+      backgroundColor: colorFromJson((json['backgroundColor'] as num).toInt()),
+      canvasColor: colorFromJson((json['canvasColor'] as num).toInt()),
     );
 
 Map<String, dynamic> _$$CanvasSettingsImplToJson(
   _$CanvasSettingsImpl instance,
 ) => <String, dynamic>{
-  'backgroundColor': colorToJson(instance.backgroundColor),
   'name': instance.name,
+  'backgroundColor': colorToJson(instance.backgroundColor),
+  'canvasColor': colorToJson(instance.canvasColor),
 };

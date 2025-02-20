@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:rubric/src/components/shared.dart';
 import 'package:rubric/src/rubric_editor/models/style.dart';
 import 'package:rubric/src/rubric_editor/sidebar/pages/elements.dart';
-import 'package:rubric/src/rubric_editor/sidebar/pages/general.dart';
 import 'package:rubric/src/rubric_editor/sidebar/pages/layers.dart';
+import 'package:rubric/src/rubric_editor/sidebar/pages/settings.dart';
 
 class RubricSideBar extends StatefulWidget {
   const RubricSideBar({super.key});
@@ -23,7 +23,8 @@ class RubricSideBar extends StatefulWidget {
 
 class RubricSideBarState extends State<RubricSideBar> {
   static const menusIcons = [
-    Icons.shape_line_rounded,
+    Icons.widgets_rounded,
+    // Icons.shape_line_rounded,
     Icons.settings,
     Icons.layers,
   ];
@@ -47,7 +48,7 @@ class RubricSideBarState extends State<RubricSideBar> {
                   child: RubricButton(
                     hoverColor: style.light9,
                     backgroundColor:
-                        i == pageIndex ? style.light9 : style.light,
+                        i == pageIndex ? style.light95 : style.light,
                     height: 70,
                     onTap: () {
                       setState(() {
@@ -57,7 +58,7 @@ class RubricSideBarState extends State<RubricSideBar> {
                     child: Column(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.start,
-                      spacing: RubricEditorStyle.paddingUnit,
+                      spacing: RubricEditorStyle.paddingUnit * 0.7,
                       children: [
                         Opacity(
                           opacity: i == pageIndex ? 1 : 0,
@@ -68,10 +69,7 @@ class RubricSideBarState extends State<RubricSideBar> {
                           ),
                         ),
                         Icon(menusIcons[i], size: 25),
-                        RubricText(
-                          menus[i],
-                          textType: TextType.small,
-                        ),
+                        RubricText(menus[i], textType: TextType.small),
                       ],
                     ),
                   ),

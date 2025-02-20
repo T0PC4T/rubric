@@ -3,8 +3,11 @@ import 'package:rubric/src/rubric_editor/models/style.dart';
 
 enum TextType {
   title(1.3),
+  big(1.2),
   paragraph(1),
+
   thick(1.1),
+
   small(0.9);
 
   final double sizeMultiplier;
@@ -76,8 +79,8 @@ class _RubricTextFieldState extends State<RubricTextField> {
     final style = RubricEditorStyle.of(context);
 
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: style.paddingD),
-      width: 150,
+      padding: EdgeInsets.symmetric(horizontal: style.paddingNum),
+      width: widget.width,
       child: TextFormField(
         focusNode: focusNode,
         cursorColor: style.theme,

@@ -3,15 +3,43 @@ import 'package:rubric/src/models/editor_models.dart';
 
 class PagePadderWidget extends StatelessWidget {
   final Widget child;
-  const PagePadderWidget({super.key, required this.child});
+  final double? pageWidth;
+  final double edgePadding;
+  const PagePadderWidget({
+    super.key,
+    required this.child,
+    this.pageWidth,
+    this.edgePadding = 25,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.center,
-      constraints: BoxConstraints(maxWidth: GridSizes.pageSize + 40),
-      padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-      child: child,
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        vertical: edgePadding,
+        horizontal: edgePadding,
+      ),
+      child: ConstrainedBox(
+        constraints: BoxConstraints(
+          maxWidth: (pageWidth ?? GridSizes.pageSize) + edgePadding * 2,
+        ),
+        child: child,
+      ),
     );
   }
+
+  // @override
+  // Widget build(BuildContext context) {
+  //   return Container(
+  //     alignment: Alignment.center,
+  //     constraints: BoxConstraints(
+  //       maxWidth: (pageWidth ?? GridSizes.pageSize) + edgePadding * 2,
+  //     ),
+  //     padding: EdgeInsets.symmetric(
+  //       vertical: edgePadding,
+  //       horizontal: edgePadding,
+  //     ),
+  //     child: child,
+  //   );
+  // }
 }

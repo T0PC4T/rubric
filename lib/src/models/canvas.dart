@@ -14,9 +14,11 @@ part 'canvas.g.dart';
 @freezed
 class CanvasSettings with _$CanvasSettings {
   const factory CanvasSettings({
+    required String name,
     @JsonKey(toJson: colorToJson, fromJson: colorFromJson)
     required Color backgroundColor,
-    required String name,
+    @JsonKey(toJson: colorToJson, fromJson: colorFromJson)
+    required Color canvasColor,
   }) = _CanvasSettings;
 
   factory CanvasSettings.fromJson(Map<String, dynamic> json) =>
@@ -30,6 +32,7 @@ class CanvasModel {
     this.elements = const [],
     this.settings = const CanvasSettings(
       backgroundColor: Color.fromARGB(255, 255, 255, 255),
+      canvasColor: Color.fromARGB(255, 240, 240, 240),
       name: "Untitled",
     ),
   });

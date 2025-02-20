@@ -7,7 +7,7 @@ class RubricIconButton extends StatelessWidget {
   final double size;
   final VoidCallback onTap;
   final IconData iconData;
-  final bool isSelected;
+  final bool isActive;
   final bool isDark;
   final bool disabled;
   const RubricIconButton({
@@ -15,7 +15,7 @@ class RubricIconButton extends StatelessWidget {
     required this.size,
     required this.onTap,
     required this.iconData,
-    this.isSelected = false,
+    this.isActive = false,
     this.disabled = false,
     this.isDark = false,
   });
@@ -23,22 +23,28 @@ class RubricIconButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final style = RubricEditorStyle.of(context);
-    final backgroundColor = isDark ? style.dark : style.light;
-
     return RubricButton(
       width: size,
       height: size,
-      backgroundColor: backgroundColor,
-      hoverColor:
-          disabled
-              ? backgroundColor
-              : isDark
-              ? style.theme
-              : style.light9,
+      backgroundColor: isDark ? style.dark : style.light,
+      hoverColor: switch ((disabled, isActive, isDark)) {
+        (true, _, true) => style.dark,
+        (true, _, false) => style.light,
+        (_, true, true) => style.dark,
+        (_, true, false) => style.light,
+        (_, false, true) => style.light2,
+        (_, false, false) => style.light9,
+      },
+
       onTap: onTap,
       child: Icon(
         iconData,
-        color: isDark ? style.light : style.dark,
+        color: switch ((isActive, isDark)) {
+          (true, true) => style.theme,
+          (true, false) => style.theme,
+          (false, true) => style.light,
+          (false, false) => style.dark,
+        },
         size: ElementToolbarWidget.iconSize,
       ),
     );

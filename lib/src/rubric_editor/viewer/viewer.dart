@@ -266,93 +266,118 @@ class RubricEditorViewerState extends State<RubricEditorViewer> {
     editorState = RubricEditorState.of(context);
     // todo calculate the actual size
     final double pageHeight = editorState.canvas.value.editorPageHeight();
-    return SingleChildScrollView(
-      controller: _scrollController,
-      child: PagePadderWidget(
-        child: FittedBox(
-          fit: BoxFit.fitWidth,
-          child: ValueListenableBuilder(
-            valueListenable: editorState.canvas,
-            builder: (context, canvas, _) {
-              return SizedBox(
-                width: GridSizes.pageSize,
-                height: pageHeight,
-                child: RubricElementStack(
-                  // Todo implement again.
-                  onPointerSignal: (event) {
-                    // if (event is PointerScrollEvent) {}
-                  },
-                  onPointerDown: _handlePointerDown,
-                  onPointerMove: _handlePointerMove,
-                  onPointerUp: _handlePointerUp,
-                  onPointerHover: _handlePointerHover,
-                  key: ValueKey("ViewerStack"),
-                  children: [
-                    CustomPaint(
-                      key: ValueKey("grid"),
-                      painter: GridPainter(
-                        backgroundColor: canvas.settings.backgroundColor,
-                        pixelsPerLine:
-                            editorState.edits.value.gridSize.pixelsPerLine,
-                      ),
-                      size: Size(GridSizes.pageSize, pageHeight),
-                    ),
-                    if (editorState.edits.value.focused == null)
-                      CancelSelectionWidget(
-                        key: ValueKey("canceller"),
-                        cancels: true,
-                        amount: 0,
-                      ),
-                    for (var element in canvas.elements)
-                      if (!editorState.edits.isFocused(element)) ...[
-                        ElementWidget(
-                          key: ValueKey(element.id),
-                          element: element,
-                        ),
-                        ElementHandlerWidget(
-                          key: ValueKey("${element.id} handler"),
-                          element: element,
-                        ),
-                      ],
-                    if (editorState.edits.value.holding
-                        case ElementTypes elementType)
-                      if (bluePrintDimensions case (Offset offset, Size size))
-                        RubricPositioned(
-                          x: offset.dx,
-                          y: offset.dy,
-                          width: size.width,
-                          height: size.height,
-                          child: IgnorePointer(
-                            child: ColoredBox(
-                              color: editorState.style.theme.withAlpha(50),
-                            ),
-                          ),
-                        ),
-                    if (editorState.edits.value.focused
-                        case ElementModel element) ...[
-                      CancelSelectionWidget(
-                        key: ValueKey("canceller"),
-                        cancels: true,
-                      ),
-                      RubricPositioned(
-                        x: element.x,
-                        y: element.y,
-                        width: element.width,
-                        height: element.height,
-                        child: CancelSelectionWidget(cancels: false),
-                      ),
-                      ElementWidget(
-                        key: ValueKey(element.id),
-                        element: element,
-                      ),
-                    ],
-                  ],
-                ),
-              );
-            },
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        Listener(
+          onPointerDown: (event) {
+            editorState.edits.selectElement(null);
+          },
+          child: Container(
+            color: editorState.canvas.value.settings.backgroundColor,
           ),
         ),
-      ),
+        Align(
+          alignment: Alignment.center,
+          child: SingleChildScrollView(
+            controller: _scrollController,
+            child: PagePadderWidget(
+              child: FittedBox(
+                fit: BoxFit.fitWidth,
+                child: ValueListenableBuilder(
+                  valueListenable: editorState.canvas,
+                  builder: (context, canvas, _) {
+                    return SizedBox(
+                      width: GridSizes.pageSize,
+                      height: pageHeight,
+                      child: RubricElementStack(
+                        // Todo implement again.
+                        onPointerSignal: (event) {
+                          // if (event is PointerScrollEvent) {}
+                        },
+                        onPointerDown: _handlePointerDown,
+                        onPointerMove: _handlePointerMove,
+                        onPointerUp: _handlePointerUp,
+                        onPointerHover: _handlePointerHover,
+                        key: ValueKey("ViewerStack"),
+                        children: [
+                          CustomPaint(
+                            key: ValueKey("grid"),
+                            painter: GridPainter(
+                              backgroundColor: canvas.settings.canvasColor,
+                              pixelsPerLine:
+                                  editorState
+                                      .edits
+                                      .value
+                                      .gridSize
+                                      .pixelsPerLine,
+                            ),
+                            size: Size(GridSizes.pageSize, pageHeight),
+                          ),
+                          if (editorState.edits.value.focused == null)
+                            CancelSelectionWidget(
+                              key: ValueKey("canceller"),
+                              cancels: true,
+                              amount: 0,
+                            ),
+                          for (var element in canvas.elements)
+                            if (!editorState.edits.isFocused(element)) ...[
+                              ElementWidget(
+                                key: ValueKey(element.id),
+                                element: element,
+                              ),
+                              ElementHandlerWidget(
+                                key: ValueKey("${element.id} handler"),
+                                element: element,
+                              ),
+                            ],
+                          if (editorState.edits.value.holding
+                              case ElementTypes _)
+                            if (bluePrintDimensions case (
+                              Offset offset,
+                              Size size,
+                            ))
+                              RubricPositioned(
+                                x: offset.dx,
+                                y: offset.dy,
+                                width: size.width,
+                                height: size.height,
+                                child: IgnorePointer(
+                                  child: ColoredBox(
+                                    color: editorState.style.theme.withAlpha(
+                                      50,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                          if (editorState.edits.value.focused
+                              case ElementModel element) ...[
+                            CancelSelectionWidget(
+                              key: ValueKey("canceller"),
+                              cancels: true,
+                            ),
+                            RubricPositioned(
+                              x: element.x,
+                              y: element.y,
+                              width: element.width,
+                              height: element.height,
+                              child: CancelSelectionWidget(cancels: false),
+                            ),
+                            ElementWidget(
+                              key: ValueKey(element.id),
+                              element: element,
+                            ),
+                          ],
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

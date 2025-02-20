@@ -21,9 +21,11 @@ CanvasSettings _$CanvasSettingsFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$CanvasSettings {
+  String get name => throw _privateConstructorUsedError;
   @JsonKey(toJson: colorToJson, fromJson: colorFromJson)
   Color get backgroundColor => throw _privateConstructorUsedError;
-  String get name => throw _privateConstructorUsedError;
+  @JsonKey(toJson: colorToJson, fromJson: colorFromJson)
+  Color get canvasColor => throw _privateConstructorUsedError;
 
   /// Serializes this CanvasSettings to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -43,9 +45,10 @@ abstract class $CanvasSettingsCopyWith<$Res> {
   ) = _$CanvasSettingsCopyWithImpl<$Res, CanvasSettings>;
   @useResult
   $Res call({
+    String name,
     @JsonKey(toJson: colorToJson, fromJson: colorFromJson)
     Color backgroundColor,
-    String name,
+    @JsonKey(toJson: colorToJson, fromJson: colorFromJson) Color canvasColor,
   });
 }
 
@@ -63,19 +66,28 @@ class _$CanvasSettingsCopyWithImpl<$Res, $Val extends CanvasSettings>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? backgroundColor = null, Object? name = null}) {
+  $Res call({
+    Object? name = null,
+    Object? backgroundColor = null,
+    Object? canvasColor = null,
+  }) {
     return _then(
       _value.copyWith(
-            backgroundColor:
-                null == backgroundColor
-                    ? _value.backgroundColor
-                    : backgroundColor // ignore: cast_nullable_to_non_nullable
-                        as Color,
             name:
                 null == name
                     ? _value.name
                     : name // ignore: cast_nullable_to_non_nullable
                         as String,
+            backgroundColor:
+                null == backgroundColor
+                    ? _value.backgroundColor
+                    : backgroundColor // ignore: cast_nullable_to_non_nullable
+                        as Color,
+            canvasColor:
+                null == canvasColor
+                    ? _value.canvasColor
+                    : canvasColor // ignore: cast_nullable_to_non_nullable
+                        as Color,
           )
           as $Val,
     );
@@ -92,9 +104,10 @@ abstract class _$$CanvasSettingsImplCopyWith<$Res>
   @override
   @useResult
   $Res call({
+    String name,
     @JsonKey(toJson: colorToJson, fromJson: colorFromJson)
     Color backgroundColor,
-    String name,
+    @JsonKey(toJson: colorToJson, fromJson: colorFromJson) Color canvasColor,
   });
 }
 
@@ -111,19 +124,28 @@ class __$$CanvasSettingsImplCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? backgroundColor = null, Object? name = null}) {
+  $Res call({
+    Object? name = null,
+    Object? backgroundColor = null,
+    Object? canvasColor = null,
+  }) {
     return _then(
       _$CanvasSettingsImpl(
-        backgroundColor:
-            null == backgroundColor
-                ? _value.backgroundColor
-                : backgroundColor // ignore: cast_nullable_to_non_nullable
-                    as Color,
         name:
             null == name
                 ? _value.name
                 : name // ignore: cast_nullable_to_non_nullable
                     as String,
+        backgroundColor:
+            null == backgroundColor
+                ? _value.backgroundColor
+                : backgroundColor // ignore: cast_nullable_to_non_nullable
+                    as Color,
+        canvasColor:
+            null == canvasColor
+                ? _value.canvasColor
+                : canvasColor // ignore: cast_nullable_to_non_nullable
+                    as Color,
       ),
     );
   }
@@ -135,23 +157,28 @@ class _$CanvasSettingsImpl
     with DiagnosticableTreeMixin
     implements _CanvasSettings {
   const _$CanvasSettingsImpl({
+    required this.name,
     @JsonKey(toJson: colorToJson, fromJson: colorFromJson)
     required this.backgroundColor,
-    required this.name,
+    @JsonKey(toJson: colorToJson, fromJson: colorFromJson)
+    required this.canvasColor,
   });
 
   factory _$CanvasSettingsImpl.fromJson(Map<String, dynamic> json) =>
       _$$CanvasSettingsImplFromJson(json);
 
   @override
+  final String name;
+  @override
   @JsonKey(toJson: colorToJson, fromJson: colorFromJson)
   final Color backgroundColor;
   @override
-  final String name;
+  @JsonKey(toJson: colorToJson, fromJson: colorFromJson)
+  final Color canvasColor;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'CanvasSettings(backgroundColor: $backgroundColor, name: $name)';
+    return 'CanvasSettings(name: $name, backgroundColor: $backgroundColor, canvasColor: $canvasColor)';
   }
 
   @override
@@ -159,8 +186,9 @@ class _$CanvasSettingsImpl
     super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty('type', 'CanvasSettings'))
+      ..add(DiagnosticsProperty('name', name))
       ..add(DiagnosticsProperty('backgroundColor', backgroundColor))
-      ..add(DiagnosticsProperty('name', name));
+      ..add(DiagnosticsProperty('canvasColor', canvasColor));
   }
 
   @override
@@ -168,14 +196,17 @@ class _$CanvasSettingsImpl
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CanvasSettingsImpl &&
+            (identical(other.name, name) || other.name == name) &&
             (identical(other.backgroundColor, backgroundColor) ||
                 other.backgroundColor == backgroundColor) &&
-            (identical(other.name, name) || other.name == name));
+            (identical(other.canvasColor, canvasColor) ||
+                other.canvasColor == canvasColor));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, backgroundColor, name);
+  int get hashCode =>
+      Object.hash(runtimeType, name, backgroundColor, canvasColor);
 
   /// Create a copy of CanvasSettings
   /// with the given fields replaced by the non-null parameter values.
@@ -196,19 +227,24 @@ class _$CanvasSettingsImpl
 
 abstract class _CanvasSettings implements CanvasSettings {
   const factory _CanvasSettings({
+    required final String name,
     @JsonKey(toJson: colorToJson, fromJson: colorFromJson)
     required final Color backgroundColor,
-    required final String name,
+    @JsonKey(toJson: colorToJson, fromJson: colorFromJson)
+    required final Color canvasColor,
   }) = _$CanvasSettingsImpl;
 
   factory _CanvasSettings.fromJson(Map<String, dynamic> json) =
       _$CanvasSettingsImpl.fromJson;
 
   @override
+  String get name;
+  @override
   @JsonKey(toJson: colorToJson, fromJson: colorFromJson)
   Color get backgroundColor;
   @override
-  String get name;
+  @JsonKey(toJson: colorToJson, fromJson: colorFromJson)
+  Color get canvasColor;
 
   /// Create a copy of CanvasSettings
   /// with the given fields replaced by the non-null parameter values.

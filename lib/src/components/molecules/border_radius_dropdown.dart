@@ -25,7 +25,7 @@ class RubricBorderRadiusDropdown extends StatelessWidget {
           DropdownMenuItem(
             value: value.radius,
             child: Container(
-              padding: EdgeInsets.only(left: style.paddingD),
+              padding: EdgeInsets.only(left: style.paddingNum),
               alignment: Alignment.centerLeft,
               child: RubricText(value.name),
             ),

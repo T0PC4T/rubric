@@ -91,14 +91,14 @@ class RubricToolbarDropdownState<T> extends State<RubricToolbarDropdown<T>> {
     final style = RubricEditorStyle.of(context);
     return RubricButton(
       padding: EdgeInsets.symmetric(
-        horizontal: style.paddingD,
-        vertical: style.paddingD * 0.5,
+        horizontal: style.paddingNum,
+        vertical: style.paddingNum * 0.5,
       ),
       onTap: showDropdown,
       backgroundColor: style.light,
       hoverColor: style.light,
       child: Row(
-        spacing: style.paddingD,
+        spacing: style.paddingNum,
         children: [widget.child, Icon(Icons.keyboard_arrow_down_rounded)],
       ),
     );

@@ -48,7 +48,7 @@ class LayersPageWidget extends StatelessWidget {
 class LayerWidget extends StatelessWidget {
   const LayerWidget({super.key, required this.element});
   static const double layerBoundary = 40;
-  static const double layerHeight = 50;
+  static const double layerHeight = 70;
   final ElementModel element;
 
   @override

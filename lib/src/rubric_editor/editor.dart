@@ -7,6 +7,7 @@ import 'package:rubric/src/models/canvas_notifier.dart';
 import 'package:rubric/src/models/editor_models.dart';
 import 'package:rubric/src/models/editor_notifier.dart';
 import 'package:rubric/src/models/elements.dart';
+import 'package:rubric/src/rubric_editor/models/preview.dart';
 import 'package:rubric/src/rubric_editor/navbar/navbar.dart';
 import 'package:rubric/src/rubric_editor/sidebar/sidebar.dart';
 import 'package:rubric/src/rubric_editor/toolbar/element_toolbar.dart';
@@ -131,10 +132,12 @@ class RubricEditorState extends State<RubricEditor> {
     });
   }
 
-  bool previewing = false;
-  togglePreview() {
+  PreviewModes? previewing;
+  setPreview(PreviewModes? newValue) {
+    if (previewing != newValue) {
+      previewing = newValue;
+    }
     clearOverlays();
-    previewing = !previewing;
   }
 
   showToolbar(ElementModel element, Widget child) {
@@ -181,13 +184,19 @@ class RubricEditorState extends State<RubricEditor> {
                   Expanded(
                     child: Container(
                       color: style.light9,
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          RubricSideBar(),
-                          Expanded(child: RubricEditorViewer()),
-                        ],
-                      ),
+                      child:
+                          previewing != null
+                              ? RubricReader(
+                                canvasModel: canvas.value,
+                                previewMode: previewing!,
+                              )
+                              : Row(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  RubricSideBar(),
+                                  Expanded(child: RubricEditorViewer()),
+                                ],
+                              ),
                     ),
                   ),
                 ],
