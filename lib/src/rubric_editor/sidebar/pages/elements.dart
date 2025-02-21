@@ -36,7 +36,8 @@ class ElementPageWidget extends StatelessWidget {
                 if (editorState.edits.value.holding == element) {
                   final width = GridSizes.pageSize * 0.5;
                   final height = GridSizes.pageSize * 0.35;
-                  final tile = editorState.edits.value.gridSize.pixelsPerLock;
+                  final tile =
+                      editorState.canvas.value.settings.gridSize.pixelsPerLock;
 
                   editorState.canvas.addElement(
                     ElementModel(

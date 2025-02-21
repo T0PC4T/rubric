@@ -28,32 +28,43 @@ class NavbarWidget extends StatelessWidget {
             padding: EdgeInsets.all(5),
             child: Image.network(style.logoUrl),
           ),
-          RubricTextField(
+          Container(
+            padding: style.padding,
             width: NavbarWidget.navbarHeight * 4,
-            initialValue: editorState.canvas.value.settings.name,
-            onChanged: (value) {
-              editorState.canvas.updateSettings(
-                editorState.canvas.value.settings.copyWith(name: value),
-              );
-            },
+            child: RubricText(
+              isDark: true,
+              editorState.canvas.value.settings.name,
+              textType: TextType.title,
+            ),
           ),
 
+          // ! Removed Functionality
+          // RubricTextField(
+          //   width: NavbarWidget.navbarHeight * 4,
+          //   initialValue: editorState.canvas.value.settings.name,
+          //   onChanged: (value) {
+          //     editorState.canvas.updateSettings(
+          //       editorState.canvas.value.settings.copyWith(name: value),
+          //     );
+          //   },
+          // ),
           Expanded(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.max,
               children: [
                 if (editorState.previewing case PreviewModes mode) ...[
-                  RubricIconButton(
-                    isDark: true,
-                    isActive: mode == PreviewModes.mobile,
-                    iconData: Icons.phone_android,
-                    size: NavbarWidget.navbarHeight,
-                    disabled: true,
-                    onTap: () {
-                      editorState.setPreview(PreviewModes.mobile);
-                    },
-                  ),
+                  // todo add mobile support.
+                  // RubricIconButton(
+                  //   isDark: true,
+                  //   isActive: mode == PreviewModes.mobile,
+                  //   iconData: Icons.phone_android,
+                  //   size: NavbarWidget.navbarHeight,
+                  //   disabled: true,
+                  //   onTap: () {
+                  //     editorState.setPreview(PreviewModes.mobile);
+                  //   },
+                  // ),
                   RubricIconButton(
                     isDark: true,
                     isActive: mode == PreviewModes.desktop,

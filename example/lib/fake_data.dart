@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 final data = {
   "elements": [
     {
@@ -39,8 +41,23 @@ final data = {
     },
   ],
   "settings": {
-    "backgroundColor": 4294967295,
-    "canvasColor": 4294967000,
+    "backgroundColor": const Color.fromARGB(255, 240, 240, 240).getValue,
+    "canvasColor": Colors.white.getValue,
+    "gridColor": const Color.fromARGB(255, 240, 240, 240).getValue,
+    "gridSize": "medium",
     "name": "Page 1",
+    "fontFamily": "Roboto",
   },
 };
+
+extension on Color {
+  static int _floatToInt8(double x) {
+    return (x * 255.0).round() & 0xff;
+  }
+
+  int get getValue =>
+      _floatToInt8(a) << 24 |
+      _floatToInt8(r) << 16 |
+      _floatToInt8(g) << 8 |
+      _floatToInt8(b) << 0;
+}

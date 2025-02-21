@@ -3,8 +3,14 @@ import 'package:flutter/material.dart';
 class GridPainter extends CustomPainter {
   final double pixelsPerLine;
   final Color backgroundColor;
+  final Color gridColor;
 
-  GridPainter({required this.backgroundColor, required this.pixelsPerLine});
+  GridPainter({
+    required this.backgroundColor,
+    required this.pixelsPerLine,
+    required this.gridColor,
+  });
+
   @override
   void paint(Canvas canvas, Size size) {
     canvas.drawRect(
@@ -12,9 +18,13 @@ class GridPainter extends CustomPainter {
       Paint()..color = backgroundColor,
     );
 
-    final paint = Paint()
-      ..color = const Color.fromARGB(10, 0, 0, 0)
-      ..strokeWidth = 2;
+    if (pixelsPerLine == 0) {
+      return;
+    }
+    final paint =
+        Paint()
+          ..color = gridColor
+          ..strokeWidth = 2;
 
     for (double i = 0; i <= size.width; i += pixelsPerLine) {
       canvas.drawLine(Offset(i, 0), Offset(i, size.height), paint);

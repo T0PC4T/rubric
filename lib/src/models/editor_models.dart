@@ -8,18 +8,18 @@ import 'package:rubric/src/models/elements.dart';
 These models are dedicated to the editor state. This state does not affect the actual lesson being built but only the current users editing view.
  */
 enum GridSizes {
-  none("Free", GridSizes.pageSize / 800),
-  small("Small", GridSizes.pageSize / 100),
-  medium("Medium", 10),
-  large("Large", GridSizes.pageSize / 25);
+  none("None", 0),
+  small("Small", 25),
+  medium("Medium", 50),
+  large("Large", 100);
 
-  static const double pageSize = 800;
+  static const double pageSize = 1000;
 
-  final double pixelsPerLock;
-  double get pixelsPerLine => 50;
+  double get pixelsPerLock => 10;
+  final double pixelsPerLine;
   final String pretty;
 
-  const GridSizes(this.pretty, this.pixelsPerLock);
+  const GridSizes(this.pretty, this.pixelsPerLine);
 
   // from name
   static GridSizes fromName(String name) {
@@ -39,7 +39,6 @@ class CanvasEditingModel {
   final ElementModel? focused;
   final List<CanvasModel> steps;
   final int undoIndex;
-  final GridSizes gridSize;
   final bool showGrid;
   CanvasEditingModel({
     this.holding,
@@ -47,7 +46,6 @@ class CanvasEditingModel {
     this.focused,
     required this.steps,
     this.undoIndex = 0,
-    this.gridSize = GridSizes.medium,
     this.showGrid = false,
   });
 
@@ -66,14 +64,13 @@ class CanvasEditingModel {
       holding: holding,
       steps: steps ?? this.steps,
       undoIndex: undoIndex ?? this.undoIndex,
-      gridSize: gridSize ?? this.gridSize,
       showGrid: showGrid ?? this.showGrid,
     );
   }
 
   @override
   String toString() {
-    return 'CanvasEditingModel(holding: $holding, selected: $selected, focused: $focused, steps: $steps, undoIndex: $undoIndex, gridSize: $gridSize, showGrid: $showGrid)';
+    return 'CanvasEditingModel(holding: $holding, selected: $selected, focused: $focused, steps: $steps, undoIndex: $undoIndex, showGrid: $showGrid)';
   }
 
   @override
@@ -85,7 +82,6 @@ class CanvasEditingModel {
         other.focused == focused &&
         listEquals(other.steps, steps) &&
         other.undoIndex == undoIndex &&
-        other.gridSize == gridSize &&
         other.showGrid == showGrid;
   }
 
@@ -96,7 +92,6 @@ class CanvasEditingModel {
         focused.hashCode ^
         steps.hashCode ^
         undoIndex.hashCode ^
-        gridSize.hashCode ^
         showGrid.hashCode;
   }
 }

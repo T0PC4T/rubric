@@ -17,7 +17,13 @@ enum TextType {
 class RubricText extends StatelessWidget {
   final String text;
   final TextType textType;
-  const RubricText(this.text, {super.key, this.textType = TextType.paragraph});
+  final bool isDark;
+  const RubricText(
+    this.text, {
+    super.key,
+    this.textType = TextType.paragraph,
+    this.isDark = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +31,7 @@ class RubricText extends StatelessWidget {
     return Text(
       text,
       style: TextStyle(
-        color: styles.dark,
+        color: isDark ? styles.light : styles.dark,
         fontSize: styles.fontSize * textType.sizeMultiplier,
         fontWeight:
             textType == TextType.thick ? FontWeight.w600 : FontWeight.normal,

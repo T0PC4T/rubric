@@ -19,6 +19,10 @@ class CanvasSettings with _$CanvasSettings {
     required Color backgroundColor,
     @JsonKey(toJson: colorToJson, fromJson: colorFromJson)
     required Color canvasColor,
+    @JsonKey(toJson: colorToJson, fromJson: colorFromJson)
+    required Color gridColor,
+    required GridSizes gridSize,
+    required String fontFamily,
   }) = _CanvasSettings;
 
   factory CanvasSettings.fromJson(Map<String, dynamic> json) =>
@@ -33,7 +37,10 @@ class CanvasModel {
     this.settings = const CanvasSettings(
       backgroundColor: Color.fromARGB(255, 255, 255, 255),
       canvasColor: Color.fromARGB(255, 240, 240, 240),
+      gridColor: Color.fromARGB(255, 240, 240, 240),
+      gridSize: GridSizes.medium,
       name: "Untitled",
+      fontFamily: "Roboto",
     ),
   });
 

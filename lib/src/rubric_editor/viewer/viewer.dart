@@ -52,11 +52,11 @@ class RubricEditorViewerState extends State<RubricEditorViewer> {
   }
 
   (Offset offset, Size size) _getNewElementDimensions(Offset position) {
-    final tile = editorState.edits.value.gridSize.pixelsPerLine;
+    final tile = editorState.canvas.value.settings.gridSize.pixelsPerLine;
     final x = min(position.dx - position.dx % tile, GridSizes.pageSize - tile);
     final y = min(position.dy - position.dy % tile, GridSizes.pageSize - tile);
-    final width = min(GridSizes.pageSize - x, tile * 10);
-    final height = tile * 6;
+    final width = min(GridSizes.pageSize - x, GridSizes.pageSize * 0.6);
+    final height = (GridSizes.pageSize * 0.4);
     return (Offset(x, y), Size(width, height));
   }
 
@@ -86,7 +86,7 @@ class RubricEditorViewerState extends State<RubricEditorViewer> {
     Offset stackHitOffset,
     Offset elementHitOffset,
   ) {
-    final tile = editorState.edits.value.gridSize.pixelsPerLock;
+    final tile = editorState.canvas.value.settings.gridSize.pixelsPerLock;
     // stack offset - element offset goes to the top left corner of the element
     // so you can add half a tile to make the movement from the center of the tile.
     Offset newLocation = _getIntuitiveLocation(
@@ -114,7 +114,7 @@ class RubricEditorViewerState extends State<RubricEditorViewer> {
     Offset stackHitOffset,
     int scalarIndex,
   ) {
-    final tile = editorState.edits.value.gridSize.pixelsPerLock;
+    final tile = editorState.canvas.value.settings.gridSize.pixelsPerLock;
     bool movesX = false;
     bool movesY = false;
     switch (scalarIndex) {
@@ -158,8 +158,14 @@ class RubricEditorViewerState extends State<RubricEditorViewer> {
       newY = element.y;
     }
 
-    width = max(width, editorState.edits.value.gridSize.pixelsPerLine);
-    height = max(height, editorState.edits.value.gridSize.pixelsPerLine);
+    width = max(
+      width,
+      editorState.canvas.value.settings.gridSize.pixelsPerLine,
+    );
+    height = max(
+      height,
+      editorState.canvas.value.settings.gridSize.pixelsPerLine,
+    );
 
     if (width != element.width || height != element.height) {
       setState(() {
@@ -305,10 +311,12 @@ class RubricEditorViewerState extends State<RubricEditorViewer> {
                             key: ValueKey("grid"),
                             painter: GridPainter(
                               backgroundColor: canvas.settings.canvasColor,
+                              gridColor: canvas.settings.gridColor,
                               pixelsPerLine:
                                   editorState
-                                      .edits
+                                      .canvas
                                       .value
+                                      .settings
                                       .gridSize
                                       .pixelsPerLine,
                             ),

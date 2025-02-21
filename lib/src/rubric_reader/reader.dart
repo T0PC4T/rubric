@@ -15,29 +15,35 @@ class RubricReader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: PagePadderWidget(
-        pageWidth: previewMode.width,
-        child: FittedBox(
-          fit: BoxFit.fitWidth,
-          child: SizedBox(
-            width: GridSizes.pageSize,
-            height: canvasModel.readerPageHeight(),
-            child: Stack(
-              fit: StackFit.expand,
-              children: [
-                for (var element in canvasModel.elements)
-                  Positioned(
-                    left: element.x,
-                    top: element.y,
-                    width: element.width,
-                    height: element.height,
-                    child: element.type.readerBuilder(
-                      key: ValueKey(element.id),
-                      element: element,
-                    ),
-                  ),
-              ],
+    return ColoredBox(
+      color: canvasModel.settings.backgroundColor,
+      child: SingleChildScrollView(
+        child: PagePadderWidget(
+          pageWidth: previewMode.width,
+          child: FittedBox(
+            fit: BoxFit.fitWidth,
+            child: SizedBox(
+              width: GridSizes.pageSize,
+              height: canvasModel.readerPageHeight(),
+              child: ColoredBox(
+                color: canvasModel.settings.canvasColor,
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    for (var element in canvasModel.elements)
+                      Positioned(
+                        left: element.x,
+                        top: element.y,
+                        width: element.width,
+                        height: element.height,
+                        child: element.type.readerBuilder(
+                          key: ValueKey(element.id),
+                          element: element,
+                        ),
+                      ),
+                  ],
+                ),
+              ),
             ),
           ),
         ),
