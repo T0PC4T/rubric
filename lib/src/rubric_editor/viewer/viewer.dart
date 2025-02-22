@@ -30,10 +30,10 @@ class RubricEditorViewerState extends State<RubricEditorViewer> {
   late RubricEditorState editorState;
   @override
   void initState() {
-    _scrollController =
-        ScrollController()..addListener(() {
-          editorState.edits.setScrollOffset(_scrollController.offset);
-        });
+    _scrollController = ScrollController()
+      ..addListener(() {
+        editorState.edits.setScrollOffset(_scrollController.offset);
+      });
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final editorState = RubricEditorState.of(context);
       editorState.canvas.addListener(_refreshHandler);
@@ -232,18 +232,18 @@ class RubricEditorViewerState extends State<RubricEditorViewer> {
           return;
         }
       case StackEventResult(
-        element: ElementModel element,
-        stackHitOffset: Offset stackHitOffset,
-        scalarIndex: int scalarIndex,
-      ):
+          element: ElementModel element,
+          stackHitOffset: Offset stackHitOffset,
+          scalarIndex: int scalarIndex,
+        ):
         {
           _handleScale(editorState, element, stackHitOffset, scalarIndex);
         }
       case StackEventResult(
-        element: ElementModel element,
-        elementHitOffset: Offset elementHitOffset,
-        stackHitOffset: Offset stackHitOffset,
-      ):
+          element: ElementModel element,
+          elementHitOffset: Offset elementHitOffset,
+          stackHitOffset: Offset stackHitOffset,
+        ):
         {
           _handleMove(editorState, element, stackHitOffset, elementHitOffset);
         }
@@ -286,6 +286,7 @@ class RubricEditorViewerState extends State<RubricEditorViewer> {
         Align(
           alignment: Alignment.center,
           child: SingleChildScrollView(
+            physics: NeverScrollableScrollPhysics(),
             controller: _scrollController,
             child: PagePadderWidget(
               child: FittedBox(
@@ -299,7 +300,17 @@ class RubricEditorViewerState extends State<RubricEditorViewer> {
                       child: RubricElementStack(
                         // Todo implement again.
                         onPointerSignal: (event) {
-                          // if (event is PointerScrollEvent) {}
+                          if (event is PointerScrollEvent) {
+                            // get scroll controller max extent:
+                            final maxScroll =
+                                _scrollController.position.maxScrollExtent;
+                            final minScroll =
+                                _scrollController.position.minScrollExtent;
+
+                            _scrollController.jumpTo((_scrollController.offset +
+                                    event.scrollDelta.dy)
+                                .clamp(minScroll, maxScroll));
+                          }
                         },
                         onPointerDown: _handlePointerDown,
                         onPointerMove: _handlePointerMove,
@@ -312,13 +323,8 @@ class RubricEditorViewerState extends State<RubricEditorViewer> {
                             painter: GridPainter(
                               backgroundColor: canvas.settings.canvasColor,
                               gridColor: canvas.settings.gridColor,
-                              pixelsPerLine:
-                                  editorState
-                                      .canvas
-                                      .value
-                                      .settings
-                                      .gridSize
-                                      .pixelsPerLine,
+                              pixelsPerLine: editorState
+                                  .canvas.value.settings.gridSize.pixelsPerLine,
                             ),
                             size: Size(GridSizes.pageSize, pageHeight),
                           ),
@@ -341,10 +347,11 @@ class RubricEditorViewerState extends State<RubricEditorViewer> {
                             ],
                           if (editorState.edits.value.holding
                               case ElementTypes _)
-                            if (bluePrintDimensions case (
-                              Offset offset,
-                              Size size,
-                            ))
+                            if (bluePrintDimensions
+                                case (
+                                  Offset offset,
+                                  Size size,
+                                ))
                               RubricPositioned(
                                 x: offset.dx,
                                 y: offset.dy,

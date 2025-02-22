@@ -1,7 +1,5 @@
-import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:example/fake_data.dart';
 import 'package:flutter/material.dart';
 import 'package:rubric/rubric.dart';
 
@@ -37,21 +35,23 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
       home: Scaffold(
-          body: RubricEditor(
-        canvas: CanvasModel.fromJson(jsonEncode(data)),
-        onSave: (canvas) {
-          print(canvas.toMap());
-          print(canvas.toJson());
-        },
-        onLogoPressed: () {},
-        style: RubricEditorStyle(
-            logoUrl: "https://t0pc4t.github.io/public/bleep_logo.webp"),
-        bytesToURL: (Uint8List bytes, {String? name, String? type}) async {
-          print(name);
-          await Future.delayed(Duration(seconds: 2));
-          return "https://images.rawpixel.com/image_png_800/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvam9iNjc5LTEwMy1wLWwxNjd4ZGdvLnBuZw.png";
-        },
-      )),
+        body: RubricEditor(
+          canvas: CanvasModel(),
+          onSave: (canvas) {
+            print(canvas.toMap());
+            print(canvas.toJson());
+          },
+          onLogoPressed: () {},
+          style: RubricEditorStyle(
+            logoUrl: "https://t0pc4t.github.io/public/bleep_logo.webp",
+          ),
+          bytesToURL: (Uint8List bytes, {String? name, String? type}) async {
+            print(name);
+            await Future.delayed(Duration(seconds: 2));
+            return "https://images.rawpixel.com/image_png_800/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvam9iNjc5LTEwMy1wLWwxNjd4ZGdvLnBuZw.png";
+          },
+        ),
+      ),
     );
   }
 }

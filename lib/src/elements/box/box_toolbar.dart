@@ -17,7 +17,6 @@ class BoxTooltipWidget extends StatelessWidget {
     final editorState = RubricEditorState.of(context);
     return ValueListenableBuilder(
       valueListenable: editorState.canvas,
-
       builder: (context, canvas, _) {
         final newElement = editorState.canvas.getElement(element.id);
         final properties = newElement.getProperties<BoxElementModel>();
@@ -44,7 +43,6 @@ class BoxTooltipWidget extends StatelessWidget {
               },
             ),
             RubricVerticleDivider(),
-
             RubricBorderRadiusDropdown(
               radius: properties.borderRadius,
               onChanged: (value) {
@@ -59,7 +57,6 @@ class BoxTooltipWidget extends StatelessWidget {
                 }
               },
             ),
-            RubricVerticleDivider(),
           ],
         );
       },
