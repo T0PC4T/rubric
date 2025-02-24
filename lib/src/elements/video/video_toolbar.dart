@@ -3,6 +3,9 @@ import 'dart:typed_data';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:rubric/rubric.dart';
+import 'package:rubric/src/components/atoms/divider.dart';
+import 'package:rubric/src/components/atoms/popup.dart';
+import 'package:rubric/src/components/atoms/text_input.dart';
 import 'package:rubric/src/components/shared.dart';
 import 'package:rubric/src/elements/video/video_model.dart';
 import 'package:rubric/src/models/elements.dart';
@@ -20,6 +23,43 @@ class VideoTooltipWidget extends StatelessWidget {
       children: [
         RubricIconTextButton(
           onTap: () async {
+            final videoUrl = await PopupWidget.showPopup<String>(
+              context,
+              (closeWith) {
+                return SizedBox(
+                  width: PopupWidget.popWidth,
+                  child: Column(
+                    children: [
+                      RubricText(
+                        "Enter Youtube Link",
+                        textType: TextType.title,
+                      ),
+                      RubricTextInput(
+                        onComplete: closeWith,
+                        helpText: "Youtube Link",
+                        value: properties.isYoutube ? properties.videoUrl : "",
+                      ),
+                      RubricText(
+                        "[Press Enter to Continue]",
+                      ),
+                    ],
+                  ),
+                );
+              },
+            );
+            if (videoUrl case String newUrl) {
+              editorState.canvas.updateElement(
+                element,
+                properties.copyWith(videoUrl: newUrl, isYoutube: true).toJson(),
+              );
+            }
+          },
+          iconData: Icons.link,
+          text: "Youtube Link",
+        ),
+        RubricVerticleDivider(),
+        RubricIconTextButton(
+          onTap: () async {
             FilePickerResult? result = await FilePicker.platform.pickFiles(
               allowMultiple: false,
               type: FileType.video,
@@ -33,13 +73,15 @@ class VideoTooltipWidget extends StatelessWidget {
                 );
                 editorState.canvas.updateElement(
                   element,
-                  properties.copyWith(videoUrl: videoUrl).toJson(),
+                  properties
+                      .copyWith(videoUrl: videoUrl, isYoutube: false)
+                      .toJson(),
                 );
               }
             }
           },
           iconData: Icons.image,
-          text: "Change Video",
+          text: "Upload Video File",
         ),
       ],
     );

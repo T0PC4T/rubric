@@ -12,8 +12,8 @@ import 'package:rubric/src/elements/video/video_elements.dart';
 import 'package:rubric/src/elements/video/video_model.dart';
 import 'package:rubric/src/models/elements.dart';
 
-typedef ElementBuilderFunction =
-    Widget Function({Key? key, required ElementModel element});
+typedef ElementBuilderFunction = Widget Function(
+    {Key? key, required ElementModel element});
 
 enum ElementTypes {
   text(
@@ -40,7 +40,7 @@ enum ElementTypes {
     editorBuilder: VideoEditorElement.new,
     layerBuilder: VideoLayerElement.new,
     readerBuilder: VideoReaderElement.new,
-    focusable: true,
+    focusable: false,
   ),
 
   box(
@@ -96,24 +96,20 @@ Map<String, dynamic> generateDefaultProperties(
   return switch (elementType) {
     ElementTypes.box =>
       BoxElementModel(color: Colors.green, borderRadius: 0).toJson(),
-    ElementTypes.text =>
-      TextElementModel(
-        document:
-            Document()
-              ..insert(0, "[Insert your text here]")
-              ..format(
-                0,
-                30,
-                SizeAttribute(RubricEditorStyle.minimumFontSize.toString()),
-              ), // with fontsize
+    ElementTypes.text => TextElementModel(
+        document: Document()
+          ..insert(0, "[Insert your text here]")
+          ..format(
+            0,
+            30,
+            SizeAttribute(RubricEditorStyle.minimumFontSize.toString()),
+          ), // with fontsize
       ).toJson(),
-    ElementTypes.image =>
-      ImageElementModel(
+    ElementTypes.image => ImageElementModel(
         borderRadius: 0,
         imageUrl: "https://t0pc4t.github.io/public/default_image.webp",
       ).toJson(),
-    ElementTypes.video =>
-      VideoElementModel(
+    ElementTypes.video => VideoElementModel(
         isYoutube: false,
         videoUrl: "https://t0pc4t.github.io/public/default_video.mp4",
       ).toJson(),

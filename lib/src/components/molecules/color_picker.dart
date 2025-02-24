@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:rubric/src/components/atoms/popup.dart';
 import 'package:rubric/src/components/shared.dart';
 import 'package:rubric/src/rubric_editor/models/style.dart';
 
@@ -25,11 +26,13 @@ class RubricColorPickerState extends State<RubricColorPicker> {
     super.initState();
   }
 
+  static const int numberOfItemsPerRow = 4;
+
   @override
   Widget build(BuildContext context) {
     final style = RubricEditorStyle.of(context);
     return SizedBox(
-      width: 300,
+      width: PopupWidget.popWidth,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
@@ -44,8 +47,12 @@ class RubricColorPickerState extends State<RubricColorPicker> {
                       });
                     },
                     child: Container(
-                      width: 50,
-                      height: 50,
+                      width: (PopupWidget.popWidth -
+                              style.paddingNum * numberOfItemsPerRow * 2) /
+                          numberOfItemsPerRow,
+                      height: (PopupWidget.popWidth -
+                              style.paddingNum * numberOfItemsPerRow * 2) /
+                          numberOfItemsPerRow,
                       margin: style.padding,
                       decoration: BoxDecoration(
                         color: c,
@@ -60,8 +67,12 @@ class RubricColorPickerState extends State<RubricColorPicker> {
                     });
                   },
                   child: Container(
-                    width: 50,
-                    height: 50,
+                    width: (PopupWidget.popWidth -
+                            style.paddingNum * numberOfItemsPerRow * 2) /
+                        numberOfItemsPerRow,
+                    height: (PopupWidget.popWidth -
+                            style.paddingNum * numberOfItemsPerRow * 2) /
+                        numberOfItemsPerRow,
                     margin: style.padding,
                     decoration: BoxDecoration(
                       // radial gradient
@@ -87,11 +98,9 @@ class RubricColorPickerState extends State<RubricColorPicker> {
               pickerColor: color,
               displayThumbColor: false,
               hexInputBar: false,
-
               colorPickerWidth: 240,
               portraitOnly: true,
               paletteType: PaletteType.hueWheel,
-
               onColorChanged: (value) {
                 color = value;
               },

@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:rubric/src/components/shared.dart';
 import 'package:rubric/src/elements/base/states.dart';
 import 'package:rubric/src/elements/video/video_model.dart';
+import 'package:rubric/src/elements/video/video_rubric.dart';
 import 'package:rubric/src/elements/video/video_toolbar.dart';
 import 'package:rubric/src/models/elements.dart';
 import 'package:video_player/video_player.dart';
+import 'package:youtube_parser/youtube_parser.dart';
+import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
 class VideoEditorElement extends StatefulWidget {
   final ElementModel element;
@@ -13,28 +17,7 @@ class VideoEditorElement extends StatefulWidget {
   State<VideoEditorElement> createState() => VideoEditorElementState();
 }
 
-class VideoEditorElementState
-    extends SelectableAndFocusableState<VideoEditorElement> {
-  late VideoPlayerController controller;
-  @override
-  void initState() {
-    final properties = widget.element.getProperties<VideoElementModel>();
-    controller = VideoPlayerController.networkUrl(
-        Uri.parse(properties.videoUrl),
-        videoPlayerOptions: VideoPlayerOptions(allowBackgroundPlayback: true),
-      )
-      ..initialize().then((_) {
-        setState(() {});
-      });
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
-  }
-
+class VideoEditorElementState extends SelectableState<VideoEditorElement> {
   @override
   ElementModel get element => widget.element;
 
@@ -49,26 +32,26 @@ class VideoEditorElementState
   }
 
   @override
-  onFocus(bool focused) {
-    if (!focused) {
-      controller.pause();
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
-    if (controller.value.isInitialized) {
-      return GestureDetector(
-        onTap: () {
-          controller.value.isPlaying ? controller.pause() : controller.play();
-        },
-        child: AspectRatio(
-          aspectRatio: controller.value.aspectRatio,
-          child: AbsorbPointer(child: VideoPlayer(controller)),
-        ),
+    final properties = widget.element.getProperties<VideoElementModel>();
+    if (properties.isYoutube == false) {
+      return Container(
+        color: Colors.black,
+        alignment: Alignment.center,
+        child: FittedBox(
+            child: Icon(
+          Icons.video_file,
+          color: Colors.white,
+          size: 50,
+        )),
       );
     } else {
-      return SizedBox.expand();
+      // return thumbnail
+      final youtubeID = getIdFromUrl(properties.videoUrl) ?? "c21QZnQtGqo";
+      return Image.network(
+        "https://img.youtube.com/vi/$youtubeID/sddefault.jpg",
+        fit: BoxFit.cover,
+      );
     }
   }
 }
@@ -93,51 +76,76 @@ class VideoReaderElement extends StatefulWidget {
 }
 
 class VideoReaderElementState extends State<VideoReaderElement> {
-  late VideoPlayerController controller;
+  VideoPlayerController? controller;
+  YoutubePlayerController? utubeController;
+
   @override
   void initState() {
+    setOrUpdateControllers();
+    super.initState();
+  }
+
+  setOrUpdateControllers() {
     final properties = widget.element.getProperties<VideoElementModel>();
-    controller = VideoPlayerController.networkUrl(
+
+    if (properties.isYoutube) {
+      final youtubeID = getIdFromUrl(properties.videoUrl) ?? "c21QZnQtGqo";
+      utubeController ??= YoutubePlayerController(
+        params: YoutubePlayerParams(
+          mute: false,
+          showControls: true,
+          showFullscreenButton: true,
+        ),
+      );
+      utubeController!.cueVideoById(videoId: youtubeID);
+    } else {
+      controller ??= VideoPlayerController.networkUrl(
         Uri.parse(properties.videoUrl),
         videoPlayerOptions: VideoPlayerOptions(allowBackgroundPlayback: true),
-      )
-      ..initialize().then((_) {
-        setState(() {});
-      });
-    super.initState();
+      )..initialize().then(
+          (_) {
+            setState(() {});
+          },
+        );
+    }
+  }
+
+  @override
+  void didUpdateWidget(VideoReaderElement oldWidget) {
+    setOrUpdateControllers();
+    super.didUpdateWidget(oldWidget);
   }
 
   @override
   void dispose() {
-    controller.pause();
-    controller.dispose();
+    controller?.dispose();
+    utubeController?.close();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (controller.value.isInitialized) {
-      return GestureDetector(
-        onTap: () {
-          setState(() {
-            controller.value.isPlaying ? controller.pause() : controller.play();
-          });
-        },
-        child: Stack(
-          fit: StackFit.expand,
-          alignment: Alignment.center,
-          children: [
-            AspectRatio(
-              aspectRatio: controller.value.aspectRatio,
-              child: AbsorbPointer(child: VideoPlayer(controller)),
-            ),
-            if (!controller.value.isPlaying)
-              Icon(Icons.play_arrow, size: 40, color: Colors.white),
-          ],
-        ),
-      );
-    } else {
-      return SizedBox.expand();
+    // todo add youtube support to player
+    final properties = widget.element.getProperties<VideoElementModel>();
+
+    if (controller case VideoPlayerController controller
+        when controller.value.isInitialized && properties.isYoutube == false) {
+      return RubricVideoPlayer(controller: controller);
     }
+    if (utubeController case YoutubePlayerController utubeController
+        when properties.isYoutube == true) {
+      return LayoutBuilder(
+        builder: (context, constraints) {
+          return YoutubePlayer(
+            controller: utubeController,
+            aspectRatio: constraints.maxWidth / constraints.maxHeight,
+          );
+        },
+      );
+    }
+
+    return SizedBox.expand(
+      child: RubricText("Something went wrong"),
+    );
   }
 }

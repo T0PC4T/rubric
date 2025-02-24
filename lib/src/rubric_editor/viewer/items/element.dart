@@ -21,7 +21,7 @@ class ElementHandlerRender extends RenderProxyBox {
   ElementModel element;
 
   ElementHandlerRender({RenderBox? child, required this.element})
-    : super(child);
+      : super(child);
 
   @override
   bool hitTestSelf(Offset position) {

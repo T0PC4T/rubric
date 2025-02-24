@@ -46,7 +46,7 @@ class RubricButton extends StatefulWidget {
   }) {
     return RubricButton(
       backgroundColor: style.light,
-      hoverColor: style.light9,
+      hoverColor: style.light95,
       onTap: onTap,
       width: width,
       height: height,
@@ -133,13 +133,11 @@ class RubricButtonState extends State<RubricButton> {
             hovered = true;
           });
         },
-
         onExit: (event) {
           setState(() {
             hovered = false;
           });
         },
-
         child: Container(
           margin: widget.margin,
           alignment: widget.alignment,
@@ -149,13 +147,12 @@ class RubricButtonState extends State<RubricButton> {
           decoration: BoxDecoration(
             color: hovered ? widget.hoverColor : widget.backgroundColor,
             borderRadius: BorderRadius.circular(widget.radius ?? 0),
-            border:
-                widget.borderWidth == null
-                    ? null
-                    : Border.all(
-                      color: widget.borderColor ?? styles.borderColor,
-                      width: widget.borderWidth!,
-                    ),
+            border: widget.borderWidth == null
+                ? null
+                : Border.all(
+                    color: widget.borderColor ?? styles.borderColor,
+                    width: widget.borderWidth!,
+                  ),
           ),
           child: widget.child,
         ),

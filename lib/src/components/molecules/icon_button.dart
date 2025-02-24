@@ -35,7 +35,6 @@ class RubricIconButton extends StatelessWidget {
         (_, false, true) => style.light2,
         (_, false, false) => style.light9,
       },
-
       onTap: onTap,
       child: Icon(
         iconData,
@@ -69,9 +68,8 @@ class RubricIconTextButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final style = RubricEditorStyle.of(context);
-    return RubricButton(
-      backgroundColor: isDark ? style.dark : style.light,
-      hoverColor: style.light9,
+    return RubricButton.light(
+      style,
       onTap: onTap,
       child: Padding(
         padding: EdgeInsets.symmetric(
@@ -79,7 +77,6 @@ class RubricIconTextButton extends StatelessWidget {
         ),
         child: Row(
           spacing: RubricEditorStyle.paddingUnit * 0.5,
-
           children: [
             Icon(
               iconData,
@@ -116,7 +113,6 @@ class RubricColorButton extends StatelessWidget {
           shape: BoxShape.circle,
           border: Border.all(color: style.light7, width: 1),
         ),
-
         width: ElementToolbarWidget.iconSize,
         height: ElementToolbarWidget.iconSize,
       ),

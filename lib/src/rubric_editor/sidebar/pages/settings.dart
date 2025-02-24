@@ -35,6 +35,58 @@ class _GeneralSettingsPageWidgetState extends State<GeneralSettingsPageWidget> {
   void initState() {
     _data = [
       Item(
+        title: "Details",
+        icon: Icons.edit_document,
+        isExpanded: false,
+        bodyBuilder: (context) {
+          final style = editorState!.style;
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            spacing: editorState!.style.paddingNum,
+            children: [
+              ColorPickerSettingsWidget(
+                title: "Grid Line Color",
+                color: editorState!.canvas.value.settings.gridColor,
+                onUpdate: (color) {
+                  editorState!.canvas.updateSettings(
+                    editorState!.canvas.value.settings.copyWith(
+                      gridColor: color,
+                    ),
+                  );
+                },
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: style.paddingNum),
+                child: Row(
+                  children: [
+                    RubricText("Line Spacing: "),
+                    RubricDropdown<GridSizes>(
+                      value: editorState!.canvas.value.settings.gridSize,
+                      items: [
+                        for (var item in GridSizes.values)
+                          DropdownMenuItem<GridSizes>(
+                            value: item,
+                            child: Text(item.pretty),
+                          ),
+                      ],
+                      onChanged: (value) {
+                        if (value != null) {
+                          editorState!.canvas.updateSettings(
+                            editorState!.canvas.value.settings.copyWith(
+                              gridSize: value,
+                            ),
+                          );
+                        }
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          );
+        },
+      ),
+      Item(
         title: "Grid",
         icon: Icons.grid_3x3,
         isExpanded: false,
@@ -142,32 +194,30 @@ class _GeneralSettingsPageWidgetState extends State<GeneralSettingsPageWidget> {
                 _data[index].isExpanded = isExpanded;
               });
             },
-            children:
-                _data.map<ExpansionPanel>((Item item) {
-                  return ExpansionPanel(
-                    backgroundColor: style.light,
-                    highlightColor: style.light95,
-
-                    headerBuilder: (BuildContext context, bool isExpanded) {
-                      return Padding(
-                        padding: style.padding,
-                        child: Row(
-                          spacing: style.paddingNum,
-                          children: [
-                            Icon(item.icon, size: 20, color: style.light4),
-                            RubricText(item.title),
-                          ],
-                        ),
-                      );
-                    },
-                    body: Container(
-                      color: style.light9,
-                      padding: style.padding,
-                      child: item.bodyBuilder(context),
+            children: _data.map<ExpansionPanel>((Item item) {
+              return ExpansionPanel(
+                backgroundColor: style.light,
+                highlightColor: style.light95,
+                headerBuilder: (BuildContext context, bool isExpanded) {
+                  return Padding(
+                    padding: style.padding,
+                    child: Row(
+                      spacing: style.paddingNum,
+                      children: [
+                        Icon(item.icon, size: 20, color: style.light4),
+                        RubricText(item.title),
+                      ],
                     ),
-                    isExpanded: item.isExpanded,
                   );
-                }).toList(),
+                },
+                body: Container(
+                  color: style.light9,
+                  padding: style.padding,
+                  child: item.bodyBuilder(context),
+                ),
+                isExpanded: item.isExpanded,
+              );
+            }).toList(),
           );
         },
       ),

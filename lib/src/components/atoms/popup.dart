@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:rubric/rubric.dart';
-import 'package:rubric/src/rubric_editor/models/style.dart';
 
 class PopupWidget<T> extends StatefulWidget {
+  static double popWidth = 350;
   static Future<T?> showPopup<T>(
     BuildContext context,
     Widget Function(Function(T value) closeWith) builder,

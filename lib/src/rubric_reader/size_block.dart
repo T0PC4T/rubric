@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 class SizeBlockerWidget extends StatelessWidget {
   final Widget child;
   final double minSize;
-  const SizeBlockerWidget({super.key, required this.child, this.minSize = 500});
+  const SizeBlockerWidget(
+      {super.key, required this.child, this.minSize = 1000});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,6 @@ class TooSmallWidget extends StatelessWidget {
     return SizedBox(
       width: double.infinity,
       height: double.infinity,
-
       child: FittedBox(
         fit: BoxFit.fitWidth,
         child: Padding(
