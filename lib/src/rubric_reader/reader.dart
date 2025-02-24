@@ -6,11 +6,9 @@ import 'package:rubric/src/rubric_reader/padder.dart';
 
 class RubricReader extends StatelessWidget {
   final CanvasModel canvasModel;
-  final PreviewModes previewMode;
   const RubricReader({
     super.key,
     required this.canvasModel,
-    required this.previewMode,
   });
 
   @override
@@ -19,9 +17,9 @@ class RubricReader extends StatelessWidget {
       color: canvasModel.settings.backgroundColor,
       child: SingleChildScrollView(
         child: PagePadderWidget(
-          pageWidth: previewMode.width,
+          pageWidth: ViewModes.desktop.width,
           child: FittedBox(
-            fit: BoxFit.fitWidth,
+            fit: BoxFit.scaleDown,
             child: SizedBox(
               width: GridSizes.pageSize,
               height: canvasModel.readerPageHeight(),

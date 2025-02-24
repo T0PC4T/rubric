@@ -20,7 +20,7 @@ class RubricEditor extends StatefulWidget {
   final Function(CanvasModel canvas) onSave;
   final Function() onLogoPressed;
   final Future<String> Function(Uint8List bytes, {String? name, String? type})
-  bytesToURL;
+      bytesToURL;
   const RubricEditor({
     super.key,
     required this.style,
@@ -132,8 +132,8 @@ class RubricEditorState extends State<RubricEditor> {
     });
   }
 
-  PreviewModes? previewing;
-  setPreview(PreviewModes? newValue) {
+  ViewModes? previewing;
+  setPreview(ViewModes? newValue) {
     if (previewing != newValue) {
       previewing = newValue;
     }
@@ -184,19 +184,17 @@ class RubricEditorState extends State<RubricEditor> {
                   Expanded(
                     child: Container(
                       color: style.light9,
-                      child:
-                          previewing != null
-                              ? RubricReader(
-                                canvasModel: canvas.value,
-                                previewMode: previewing!,
-                              )
-                              : Row(
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: [
-                                  RubricSideBar(),
-                                  Expanded(child: RubricEditorViewer()),
-                                ],
-                              ),
+                      child: previewing != null
+                          ? RubricReader(
+                              canvasModel: canvas.value,
+                            )
+                          : Row(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                RubricSideBar(),
+                                Expanded(child: RubricEditorViewer()),
+                              ],
+                            ),
                     ),
                   ),
                 ],

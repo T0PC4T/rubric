@@ -53,7 +53,7 @@ class NavbarWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.max,
               children: [
-                if (editorState.previewing case PreviewModes mode) ...[
+                if (editorState.previewing case ViewModes mode) ...[
                   // todo add mobile support.
                   // RubricIconButton(
                   //   isDark: true,
@@ -67,12 +67,12 @@ class NavbarWidget extends StatelessWidget {
                   // ),
                   RubricIconButton(
                     isDark: true,
-                    isActive: mode == PreviewModes.desktop,
+                    isActive: mode == ViewModes.desktop,
                     iconData: Icons.desktop_mac_rounded,
                     size: NavbarWidget.navbarHeight,
                     disabled: true,
                     onTap: () {
-                      editorState.setPreview(PreviewModes.desktop);
+                      editorState.setPreview(ViewModes.desktop);
                     },
                   ),
                 ],
@@ -101,14 +101,13 @@ class NavbarWidget extends StatelessWidget {
           ),
           RubricIconButton(
             isDark: true,
-            iconData:
-                editorState.previewing == null
-                    ? Icons.remove_red_eye_rounded
-                    : Icons.edit,
+            iconData: editorState.previewing == null
+                ? Icons.remove_red_eye_rounded
+                : Icons.edit,
             size: NavbarWidget.navbarHeight,
             onTap: () {
               if (editorState.previewing == null) {
-                editorState.setPreview(PreviewModes.desktop);
+                editorState.setPreview(ViewModes.desktop);
               } else {
                 editorState.setPreview(null);
               }
