@@ -12,8 +12,7 @@ part of 'box_model.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 BoxElementModel _$BoxElementModelFromJson(Map<String, dynamic> json) {
   return _BoxElementModel.fromJson(json);
@@ -38,14 +37,12 @@ mixin _$BoxElementModel {
 /// @nodoc
 abstract class $BoxElementModelCopyWith<$Res> {
   factory $BoxElementModelCopyWith(
-    BoxElementModel value,
-    $Res Function(BoxElementModel) then,
-  ) = _$BoxElementModelCopyWithImpl<$Res, BoxElementModel>;
+          BoxElementModel value, $Res Function(BoxElementModel) then) =
+      _$BoxElementModelCopyWithImpl<$Res, BoxElementModel>;
   @useResult
-  $Res call({
-    @JsonKey(toJson: colorToJson, fromJson: colorFromJson) Color color,
-    double borderRadius,
-  });
+  $Res call(
+      {@JsonKey(toJson: colorToJson, fromJson: colorFromJson) Color color,
+      double borderRadius});
 }
 
 /// @nodoc
@@ -62,38 +59,34 @@ class _$BoxElementModelCopyWithImpl<$Res, $Val extends BoxElementModel>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? color = null, Object? borderRadius = null}) {
-    return _then(
-      _value.copyWith(
-            color:
-                null == color
-                    ? _value.color
-                    : color // ignore: cast_nullable_to_non_nullable
-                        as Color,
-            borderRadius:
-                null == borderRadius
-                    ? _value.borderRadius
-                    : borderRadius // ignore: cast_nullable_to_non_nullable
-                        as double,
-          )
-          as $Val,
-    );
+  $Res call({
+    Object? color = null,
+    Object? borderRadius = null,
+  }) {
+    return _then(_value.copyWith(
+      color: null == color
+          ? _value.color
+          : color // ignore: cast_nullable_to_non_nullable
+              as Color,
+      borderRadius: null == borderRadius
+          ? _value.borderRadius
+          : borderRadius // ignore: cast_nullable_to_non_nullable
+              as double,
+    ) as $Val);
   }
 }
 
 /// @nodoc
 abstract class _$$BoxElementModelImplCopyWith<$Res>
     implements $BoxElementModelCopyWith<$Res> {
-  factory _$$BoxElementModelImplCopyWith(
-    _$BoxElementModelImpl value,
-    $Res Function(_$BoxElementModelImpl) then,
-  ) = __$$BoxElementModelImplCopyWithImpl<$Res>;
+  factory _$$BoxElementModelImplCopyWith(_$BoxElementModelImpl value,
+          $Res Function(_$BoxElementModelImpl) then) =
+      __$$BoxElementModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({
-    @JsonKey(toJson: colorToJson, fromJson: colorFromJson) Color color,
-    double borderRadius,
-  });
+  $Res call(
+      {@JsonKey(toJson: colorToJson, fromJson: colorFromJson) Color color,
+      double borderRadius});
 }
 
 /// @nodoc
@@ -101,29 +94,27 @@ class __$$BoxElementModelImplCopyWithImpl<$Res>
     extends _$BoxElementModelCopyWithImpl<$Res, _$BoxElementModelImpl>
     implements _$$BoxElementModelImplCopyWith<$Res> {
   __$$BoxElementModelImplCopyWithImpl(
-    _$BoxElementModelImpl _value,
-    $Res Function(_$BoxElementModelImpl) _then,
-  ) : super(_value, _then);
+      _$BoxElementModelImpl _value, $Res Function(_$BoxElementModelImpl) _then)
+      : super(_value, _then);
 
   /// Create a copy of BoxElementModel
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? color = null, Object? borderRadius = null}) {
-    return _then(
-      _$BoxElementModelImpl(
-        color:
-            null == color
-                ? _value.color
-                : color // ignore: cast_nullable_to_non_nullable
-                    as Color,
-        borderRadius:
-            null == borderRadius
-                ? _value.borderRadius
-                : borderRadius // ignore: cast_nullable_to_non_nullable
-                    as double,
-      ),
-    );
+  $Res call({
+    Object? color = null,
+    Object? borderRadius = null,
+  }) {
+    return _then(_$BoxElementModelImpl(
+      color: null == color
+          ? _value.color
+          : color // ignore: cast_nullable_to_non_nullable
+              as Color,
+      borderRadius: null == borderRadius
+          ? _value.borderRadius
+          : borderRadius // ignore: cast_nullable_to_non_nullable
+              as double,
+    ));
   }
 }
 
@@ -131,10 +122,10 @@ class __$$BoxElementModelImplCopyWithImpl<$Res>
 
 @JsonSerializable()
 class _$BoxElementModelImpl implements _BoxElementModel {
-  const _$BoxElementModelImpl({
-    @JsonKey(toJson: colorToJson, fromJson: colorFromJson) required this.color,
-    required this.borderRadius,
-  });
+  const _$BoxElementModelImpl(
+      {@JsonKey(toJson: colorToJson, fromJson: colorFromJson)
+      required this.color,
+      required this.borderRadius});
 
   factory _$BoxElementModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$BoxElementModelImplFromJson(json);
@@ -171,22 +162,21 @@ class _$BoxElementModelImpl implements _BoxElementModel {
   @pragma('vm:prefer-inline')
   _$$BoxElementModelImplCopyWith<_$BoxElementModelImpl> get copyWith =>
       __$$BoxElementModelImplCopyWithImpl<_$BoxElementModelImpl>(
-        this,
-        _$identity,
-      );
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$BoxElementModelImplToJson(this);
+    return _$$BoxElementModelImplToJson(
+      this,
+    );
   }
 }
 
 abstract class _BoxElementModel implements BoxElementModel {
-  const factory _BoxElementModel({
-    @JsonKey(toJson: colorToJson, fromJson: colorFromJson)
-    required final Color color,
-    required final double borderRadius,
-  }) = _$BoxElementModelImpl;
+  const factory _BoxElementModel(
+      {@JsonKey(toJson: colorToJson, fromJson: colorFromJson)
+      required final Color color,
+      required final double borderRadius}) = _$BoxElementModelImpl;
 
   factory _BoxElementModel.fromJson(Map<String, dynamic> json) =
       _$BoxElementModelImpl.fromJson;

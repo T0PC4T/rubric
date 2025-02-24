@@ -7,15 +7,15 @@ part of 'image_model.dart';
 // **************************************************************************
 
 _$ImageElementModelImpl _$$ImageElementModelImplFromJson(
-  Map<String, dynamic> json,
-) => _$ImageElementModelImpl(
-  imageUrl: json['imageUrl'] as String,
-  borderRadius: (json['borderRadius'] as num).toDouble(),
-);
+        Map<String, dynamic> json) =>
+    _$ImageElementModelImpl(
+      imageUrl: json['imageUrl'] as String,
+      borderRadius: (json['borderRadius'] as num).toDouble(),
+    );
 
 Map<String, dynamic> _$$ImageElementModelImplToJson(
-  _$ImageElementModelImpl instance,
-) => <String, dynamic>{
-  'imageUrl': instance.imageUrl,
-  'borderRadius': instance.borderRadius,
-};
+        _$ImageElementModelImpl instance) =>
+    <String, dynamic>{
+      'imageUrl': instance.imageUrl,
+      'borderRadius': instance.borderRadius,
+    };

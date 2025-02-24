@@ -7,11 +7,13 @@ part of 'text_model.dart';
 // **************************************************************************
 
 _$TextElementModelImpl _$$TextElementModelImplFromJson(
-  Map<String, dynamic> json,
-) => _$TextElementModelImpl(
-  document: _documentFromString(json['document'] as String),
-);
+        Map<String, dynamic> json) =>
+    _$TextElementModelImpl(
+      document: _documentFromString(json['document'] as String),
+    );
 
 Map<String, dynamic> _$$TextElementModelImplToJson(
-  _$TextElementModelImpl instance,
-) => <String, dynamic>{'document': _documentToString(instance.document)};
+        _$TextElementModelImpl instance) =>
+    <String, dynamic>{
+      'document': _documentToString(instance.document),
+    };

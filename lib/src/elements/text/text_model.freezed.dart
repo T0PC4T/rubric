@@ -12,8 +12,7 @@ part of 'text_model.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 TextElementModel _$TextElementModelFromJson(Map<String, dynamic> json) {
   return _TextElementModel.fromJson(json);
@@ -37,14 +36,12 @@ mixin _$TextElementModel {
 /// @nodoc
 abstract class $TextElementModelCopyWith<$Res> {
   factory $TextElementModelCopyWith(
-    TextElementModel value,
-    $Res Function(TextElementModel) then,
-  ) = _$TextElementModelCopyWithImpl<$Res, TextElementModel>;
+          TextElementModel value, $Res Function(TextElementModel) then) =
+      _$TextElementModelCopyWithImpl<$Res, TextElementModel>;
   @useResult
-  $Res call({
-    @JsonKey(toJson: _documentToString, fromJson: _documentFromString)
-    Document document,
-  });
+  $Res call(
+      {@JsonKey(toJson: _documentToString, fromJson: _documentFromString)
+      Document document});
 }
 
 /// @nodoc
@@ -61,58 +58,52 @@ class _$TextElementModelCopyWithImpl<$Res, $Val extends TextElementModel>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? document = null}) {
-    return _then(
-      _value.copyWith(
-            document:
-                null == document
-                    ? _value.document
-                    : document // ignore: cast_nullable_to_non_nullable
-                        as Document,
-          )
-          as $Val,
-    );
+  $Res call({
+    Object? document = null,
+  }) {
+    return _then(_value.copyWith(
+      document: null == document
+          ? _value.document
+          : document // ignore: cast_nullable_to_non_nullable
+              as Document,
+    ) as $Val);
   }
 }
 
 /// @nodoc
 abstract class _$$TextElementModelImplCopyWith<$Res>
     implements $TextElementModelCopyWith<$Res> {
-  factory _$$TextElementModelImplCopyWith(
-    _$TextElementModelImpl value,
-    $Res Function(_$TextElementModelImpl) then,
-  ) = __$$TextElementModelImplCopyWithImpl<$Res>;
+  factory _$$TextElementModelImplCopyWith(_$TextElementModelImpl value,
+          $Res Function(_$TextElementModelImpl) then) =
+      __$$TextElementModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({
-    @JsonKey(toJson: _documentToString, fromJson: _documentFromString)
-    Document document,
-  });
+  $Res call(
+      {@JsonKey(toJson: _documentToString, fromJson: _documentFromString)
+      Document document});
 }
 
 /// @nodoc
 class __$$TextElementModelImplCopyWithImpl<$Res>
     extends _$TextElementModelCopyWithImpl<$Res, _$TextElementModelImpl>
     implements _$$TextElementModelImplCopyWith<$Res> {
-  __$$TextElementModelImplCopyWithImpl(
-    _$TextElementModelImpl _value,
-    $Res Function(_$TextElementModelImpl) _then,
-  ) : super(_value, _then);
+  __$$TextElementModelImplCopyWithImpl(_$TextElementModelImpl _value,
+      $Res Function(_$TextElementModelImpl) _then)
+      : super(_value, _then);
 
   /// Create a copy of TextElementModel
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? document = null}) {
-    return _then(
-      _$TextElementModelImpl(
-        document:
-            null == document
-                ? _value.document
-                : document // ignore: cast_nullable_to_non_nullable
-                    as Document,
-      ),
-    );
+  $Res call({
+    Object? document = null,
+  }) {
+    return _then(_$TextElementModelImpl(
+      document: null == document
+          ? _value.document
+          : document // ignore: cast_nullable_to_non_nullable
+              as Document,
+    ));
   }
 }
 
@@ -120,10 +111,9 @@ class __$$TextElementModelImplCopyWithImpl<$Res>
 
 @JsonSerializable()
 class _$TextElementModelImpl implements _TextElementModel {
-  const _$TextElementModelImpl({
-    @JsonKey(toJson: _documentToString, fromJson: _documentFromString)
-    required this.document,
-  });
+  const _$TextElementModelImpl(
+      {@JsonKey(toJson: _documentToString, fromJson: _documentFromString)
+      required this.document});
 
   factory _$TextElementModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$TextElementModelImplFromJson(json);
@@ -157,21 +147,20 @@ class _$TextElementModelImpl implements _TextElementModel {
   @pragma('vm:prefer-inline')
   _$$TextElementModelImplCopyWith<_$TextElementModelImpl> get copyWith =>
       __$$TextElementModelImplCopyWithImpl<_$TextElementModelImpl>(
-        this,
-        _$identity,
-      );
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$TextElementModelImplToJson(this);
+    return _$$TextElementModelImplToJson(
+      this,
+    );
   }
 }
 
 abstract class _TextElementModel implements TextElementModel {
-  const factory _TextElementModel({
-    @JsonKey(toJson: _documentToString, fromJson: _documentFromString)
-    required final Document document,
-  }) = _$TextElementModelImpl;
+  const factory _TextElementModel(
+      {@JsonKey(toJson: _documentToString, fromJson: _documentFromString)
+      required final Document document}) = _$TextElementModelImpl;
 
   factory _TextElementModel.fromJson(Map<String, dynamic> json) =
       _$TextElementModelImpl.fromJson;

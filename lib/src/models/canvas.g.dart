@@ -14,18 +14,20 @@ _$CanvasSettingsImpl _$$CanvasSettingsImplFromJson(Map<String, dynamic> json) =>
       gridColor: colorFromJson((json['gridColor'] as num).toInt()),
       gridSize: $enumDecode(_$GridSizesEnumMap, json['gridSize']),
       fontFamily: json['fontFamily'] as String,
+      icon: json['icon'] as String,
     );
 
 Map<String, dynamic> _$$CanvasSettingsImplToJson(
-  _$CanvasSettingsImpl instance,
-) => <String, dynamic>{
-  'name': instance.name,
-  'backgroundColor': colorToJson(instance.backgroundColor),
-  'canvasColor': colorToJson(instance.canvasColor),
-  'gridColor': colorToJson(instance.gridColor),
-  'gridSize': _$GridSizesEnumMap[instance.gridSize]!,
-  'fontFamily': instance.fontFamily,
-};
+        _$CanvasSettingsImpl instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'backgroundColor': colorToJson(instance.backgroundColor),
+      'canvasColor': colorToJson(instance.canvasColor),
+      'gridColor': colorToJson(instance.gridColor),
+      'gridSize': _$GridSizesEnumMap[instance.gridSize]!,
+      'fontFamily': instance.fontFamily,
+      'icon': instance.icon,
+    };
 
 const _$GridSizesEnumMap = {
   GridSizes.none: 'none',

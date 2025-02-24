@@ -12,8 +12,7 @@ part of 'image_model.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 ImageElementModel _$ImageElementModelFromJson(Map<String, dynamic> json) {
   return _ImageElementModel.fromJson(json);
@@ -37,9 +36,8 @@ mixin _$ImageElementModel {
 /// @nodoc
 abstract class $ImageElementModelCopyWith<$Res> {
   factory $ImageElementModelCopyWith(
-    ImageElementModel value,
-    $Res Function(ImageElementModel) then,
-  ) = _$ImageElementModelCopyWithImpl<$Res, ImageElementModel>;
+          ImageElementModel value, $Res Function(ImageElementModel) then) =
+      _$ImageElementModelCopyWithImpl<$Res, ImageElementModel>;
   @useResult
   $Res call({String imageUrl, double borderRadius});
 }
@@ -58,32 +56,29 @@ class _$ImageElementModelCopyWithImpl<$Res, $Val extends ImageElementModel>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? imageUrl = null, Object? borderRadius = null}) {
-    return _then(
-      _value.copyWith(
-            imageUrl:
-                null == imageUrl
-                    ? _value.imageUrl
-                    : imageUrl // ignore: cast_nullable_to_non_nullable
-                        as String,
-            borderRadius:
-                null == borderRadius
-                    ? _value.borderRadius
-                    : borderRadius // ignore: cast_nullable_to_non_nullable
-                        as double,
-          )
-          as $Val,
-    );
+  $Res call({
+    Object? imageUrl = null,
+    Object? borderRadius = null,
+  }) {
+    return _then(_value.copyWith(
+      imageUrl: null == imageUrl
+          ? _value.imageUrl
+          : imageUrl // ignore: cast_nullable_to_non_nullable
+              as String,
+      borderRadius: null == borderRadius
+          ? _value.borderRadius
+          : borderRadius // ignore: cast_nullable_to_non_nullable
+              as double,
+    ) as $Val);
   }
 }
 
 /// @nodoc
 abstract class _$$ImageElementModelImplCopyWith<$Res>
     implements $ImageElementModelCopyWith<$Res> {
-  factory _$$ImageElementModelImplCopyWith(
-    _$ImageElementModelImpl value,
-    $Res Function(_$ImageElementModelImpl) then,
-  ) = __$$ImageElementModelImplCopyWithImpl<$Res>;
+  factory _$$ImageElementModelImplCopyWith(_$ImageElementModelImpl value,
+          $Res Function(_$ImageElementModelImpl) then) =
+      __$$ImageElementModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String imageUrl, double borderRadius});
@@ -93,30 +88,28 @@ abstract class _$$ImageElementModelImplCopyWith<$Res>
 class __$$ImageElementModelImplCopyWithImpl<$Res>
     extends _$ImageElementModelCopyWithImpl<$Res, _$ImageElementModelImpl>
     implements _$$ImageElementModelImplCopyWith<$Res> {
-  __$$ImageElementModelImplCopyWithImpl(
-    _$ImageElementModelImpl _value,
-    $Res Function(_$ImageElementModelImpl) _then,
-  ) : super(_value, _then);
+  __$$ImageElementModelImplCopyWithImpl(_$ImageElementModelImpl _value,
+      $Res Function(_$ImageElementModelImpl) _then)
+      : super(_value, _then);
 
   /// Create a copy of ImageElementModel
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? imageUrl = null, Object? borderRadius = null}) {
-    return _then(
-      _$ImageElementModelImpl(
-        imageUrl:
-            null == imageUrl
-                ? _value.imageUrl
-                : imageUrl // ignore: cast_nullable_to_non_nullable
-                    as String,
-        borderRadius:
-            null == borderRadius
-                ? _value.borderRadius
-                : borderRadius // ignore: cast_nullable_to_non_nullable
-                    as double,
-      ),
-    );
+  $Res call({
+    Object? imageUrl = null,
+    Object? borderRadius = null,
+  }) {
+    return _then(_$ImageElementModelImpl(
+      imageUrl: null == imageUrl
+          ? _value.imageUrl
+          : imageUrl // ignore: cast_nullable_to_non_nullable
+              as String,
+      borderRadius: null == borderRadius
+          ? _value.borderRadius
+          : borderRadius // ignore: cast_nullable_to_non_nullable
+              as double,
+    ));
   }
 }
 
@@ -124,10 +117,8 @@ class __$$ImageElementModelImplCopyWithImpl<$Res>
 
 @JsonSerializable()
 class _$ImageElementModelImpl implements _ImageElementModel {
-  const _$ImageElementModelImpl({
-    required this.imageUrl,
-    required this.borderRadius,
-  });
+  const _$ImageElementModelImpl(
+      {required this.imageUrl, required this.borderRadius});
 
   factory _$ImageElementModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$ImageElementModelImplFromJson(json);
@@ -164,21 +155,20 @@ class _$ImageElementModelImpl implements _ImageElementModel {
   @pragma('vm:prefer-inline')
   _$$ImageElementModelImplCopyWith<_$ImageElementModelImpl> get copyWith =>
       __$$ImageElementModelImplCopyWithImpl<_$ImageElementModelImpl>(
-        this,
-        _$identity,
-      );
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ImageElementModelImplToJson(this);
+    return _$$ImageElementModelImplToJson(
+      this,
+    );
   }
 }
 
 abstract class _ImageElementModel implements ImageElementModel {
-  const factory _ImageElementModel({
-    required final String imageUrl,
-    required final double borderRadius,
-  }) = _$ImageElementModelImpl;
+  const factory _ImageElementModel(
+      {required final String imageUrl,
+      required final double borderRadius}) = _$ImageElementModelImpl;
 
   factory _ImageElementModel.fromJson(Map<String, dynamic> json) =
       _$ImageElementModelImpl.fromJson;

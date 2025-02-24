@@ -23,6 +23,7 @@ class CanvasSettings with _$CanvasSettings {
     required Color gridColor,
     required GridSizes gridSize,
     required String fontFamily,
+    required String icon,
   }) = _CanvasSettings;
 
   factory CanvasSettings.fromJson(Map<String, dynamic> json) =>
@@ -35,11 +36,12 @@ class CanvasModel {
   CanvasModel({
     this.elements = const [],
     this.settings = const CanvasSettings(
-      backgroundColor: Color.fromARGB(255, 255, 255, 255),
-      canvasColor: Color.fromARGB(255, 240, 240, 240),
-      gridColor: Color.fromARGB(255, 240, 240, 240),
+      backgroundColor: Color.fromARGB(255, 238, 238, 238),
+      canvasColor: Color.fromARGB(255, 255, 255, 255),
+      gridColor: Color.fromARGB(255, 238, 238, 238),
       gridSize: GridSizes.medium,
       name: "Untitled",
+      icon: "doc",
       fontFamily: "Roboto",
     ),
   });
@@ -50,10 +52,9 @@ class CanvasModel {
     CanvasSettings? settings,
   }) {
     return CanvasModel(
-      elements:
-          (elements ?? this.elements)
-              .map<ElementModel>((e) => e.copyWith())
-              .toList(),
+      elements: (elements ?? this.elements)
+          .map<ElementModel>((e) => e.copyWith())
+          .toList(),
       settings: (settings ?? this.settings).copyWith(),
     );
   }

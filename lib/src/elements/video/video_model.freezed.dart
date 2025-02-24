@@ -12,8 +12,7 @@ part of 'video_model.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 VideoElementModel _$VideoElementModelFromJson(Map<String, dynamic> json) {
   return _VideoElementModel.fromJson(json);
@@ -37,9 +36,8 @@ mixin _$VideoElementModel {
 /// @nodoc
 abstract class $VideoElementModelCopyWith<$Res> {
   factory $VideoElementModelCopyWith(
-    VideoElementModel value,
-    $Res Function(VideoElementModel) then,
-  ) = _$VideoElementModelCopyWithImpl<$Res, VideoElementModel>;
+          VideoElementModel value, $Res Function(VideoElementModel) then) =
+      _$VideoElementModelCopyWithImpl<$Res, VideoElementModel>;
   @useResult
   $Res call({String videoUrl, bool isYoutube});
 }
@@ -58,32 +56,29 @@ class _$VideoElementModelCopyWithImpl<$Res, $Val extends VideoElementModel>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? videoUrl = null, Object? isYoutube = null}) {
-    return _then(
-      _value.copyWith(
-            videoUrl:
-                null == videoUrl
-                    ? _value.videoUrl
-                    : videoUrl // ignore: cast_nullable_to_non_nullable
-                        as String,
-            isYoutube:
-                null == isYoutube
-                    ? _value.isYoutube
-                    : isYoutube // ignore: cast_nullable_to_non_nullable
-                        as bool,
-          )
-          as $Val,
-    );
+  $Res call({
+    Object? videoUrl = null,
+    Object? isYoutube = null,
+  }) {
+    return _then(_value.copyWith(
+      videoUrl: null == videoUrl
+          ? _value.videoUrl
+          : videoUrl // ignore: cast_nullable_to_non_nullable
+              as String,
+      isYoutube: null == isYoutube
+          ? _value.isYoutube
+          : isYoutube // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ) as $Val);
   }
 }
 
 /// @nodoc
 abstract class _$$VideoElementModelImplCopyWith<$Res>
     implements $VideoElementModelCopyWith<$Res> {
-  factory _$$VideoElementModelImplCopyWith(
-    _$VideoElementModelImpl value,
-    $Res Function(_$VideoElementModelImpl) then,
-  ) = __$$VideoElementModelImplCopyWithImpl<$Res>;
+  factory _$$VideoElementModelImplCopyWith(_$VideoElementModelImpl value,
+          $Res Function(_$VideoElementModelImpl) then) =
+      __$$VideoElementModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String videoUrl, bool isYoutube});
@@ -93,30 +88,28 @@ abstract class _$$VideoElementModelImplCopyWith<$Res>
 class __$$VideoElementModelImplCopyWithImpl<$Res>
     extends _$VideoElementModelCopyWithImpl<$Res, _$VideoElementModelImpl>
     implements _$$VideoElementModelImplCopyWith<$Res> {
-  __$$VideoElementModelImplCopyWithImpl(
-    _$VideoElementModelImpl _value,
-    $Res Function(_$VideoElementModelImpl) _then,
-  ) : super(_value, _then);
+  __$$VideoElementModelImplCopyWithImpl(_$VideoElementModelImpl _value,
+      $Res Function(_$VideoElementModelImpl) _then)
+      : super(_value, _then);
 
   /// Create a copy of VideoElementModel
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? videoUrl = null, Object? isYoutube = null}) {
-    return _then(
-      _$VideoElementModelImpl(
-        videoUrl:
-            null == videoUrl
-                ? _value.videoUrl
-                : videoUrl // ignore: cast_nullable_to_non_nullable
-                    as String,
-        isYoutube:
-            null == isYoutube
-                ? _value.isYoutube
-                : isYoutube // ignore: cast_nullable_to_non_nullable
-                    as bool,
-      ),
-    );
+  $Res call({
+    Object? videoUrl = null,
+    Object? isYoutube = null,
+  }) {
+    return _then(_$VideoElementModelImpl(
+      videoUrl: null == videoUrl
+          ? _value.videoUrl
+          : videoUrl // ignore: cast_nullable_to_non_nullable
+              as String,
+      isYoutube: null == isYoutube
+          ? _value.isYoutube
+          : isYoutube // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ));
   }
 }
 
@@ -124,10 +117,8 @@ class __$$VideoElementModelImplCopyWithImpl<$Res>
 
 @JsonSerializable()
 class _$VideoElementModelImpl implements _VideoElementModel {
-  const _$VideoElementModelImpl({
-    required this.videoUrl,
-    required this.isYoutube,
-  });
+  const _$VideoElementModelImpl(
+      {required this.videoUrl, required this.isYoutube});
 
   factory _$VideoElementModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$VideoElementModelImplFromJson(json);
@@ -164,21 +155,20 @@ class _$VideoElementModelImpl implements _VideoElementModel {
   @pragma('vm:prefer-inline')
   _$$VideoElementModelImplCopyWith<_$VideoElementModelImpl> get copyWith =>
       __$$VideoElementModelImplCopyWithImpl<_$VideoElementModelImpl>(
-        this,
-        _$identity,
-      );
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$VideoElementModelImplToJson(this);
+    return _$$VideoElementModelImplToJson(
+      this,
+    );
   }
 }
 
 abstract class _VideoElementModel implements VideoElementModel {
-  const factory _VideoElementModel({
-    required final String videoUrl,
-    required final bool isYoutube,
-  }) = _$VideoElementModelImpl;
+  const factory _VideoElementModel(
+      {required final String videoUrl,
+      required final bool isYoutube}) = _$VideoElementModelImpl;
 
   factory _VideoElementModel.fromJson(Map<String, dynamic> json) =
       _$VideoElementModelImpl.fromJson;

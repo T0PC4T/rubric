@@ -12,8 +12,7 @@ part of 'canvas.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 CanvasSettings _$CanvasSettingsFromJson(Map<String, dynamic> json) {
   return _CanvasSettings.fromJson(json);
@@ -30,6 +29,7 @@ mixin _$CanvasSettings {
   Color get gridColor => throw _privateConstructorUsedError;
   GridSizes get gridSize => throw _privateConstructorUsedError;
   String get fontFamily => throw _privateConstructorUsedError;
+  String get icon => throw _privateConstructorUsedError;
 
   /// Serializes this CanvasSettings to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -44,19 +44,18 @@ mixin _$CanvasSettings {
 /// @nodoc
 abstract class $CanvasSettingsCopyWith<$Res> {
   factory $CanvasSettingsCopyWith(
-    CanvasSettings value,
-    $Res Function(CanvasSettings) then,
-  ) = _$CanvasSettingsCopyWithImpl<$Res, CanvasSettings>;
+          CanvasSettings value, $Res Function(CanvasSettings) then) =
+      _$CanvasSettingsCopyWithImpl<$Res, CanvasSettings>;
   @useResult
-  $Res call({
-    String name,
-    @JsonKey(toJson: colorToJson, fromJson: colorFromJson)
-    Color backgroundColor,
-    @JsonKey(toJson: colorToJson, fromJson: colorFromJson) Color canvasColor,
-    @JsonKey(toJson: colorToJson, fromJson: colorFromJson) Color gridColor,
-    GridSizes gridSize,
-    String fontFamily,
-  });
+  $Res call(
+      {String name,
+      @JsonKey(toJson: colorToJson, fromJson: colorFromJson)
+      Color backgroundColor,
+      @JsonKey(toJson: colorToJson, fromJson: colorFromJson) Color canvasColor,
+      @JsonKey(toJson: colorToJson, fromJson: colorFromJson) Color gridColor,
+      GridSizes gridSize,
+      String fontFamily,
+      String icon});
 }
 
 /// @nodoc
@@ -80,63 +79,58 @@ class _$CanvasSettingsCopyWithImpl<$Res, $Val extends CanvasSettings>
     Object? gridColor = null,
     Object? gridSize = null,
     Object? fontFamily = null,
+    Object? icon = null,
   }) {
-    return _then(
-      _value.copyWith(
-            name:
-                null == name
-                    ? _value.name
-                    : name // ignore: cast_nullable_to_non_nullable
-                        as String,
-            backgroundColor:
-                null == backgroundColor
-                    ? _value.backgroundColor
-                    : backgroundColor // ignore: cast_nullable_to_non_nullable
-                        as Color,
-            canvasColor:
-                null == canvasColor
-                    ? _value.canvasColor
-                    : canvasColor // ignore: cast_nullable_to_non_nullable
-                        as Color,
-            gridColor:
-                null == gridColor
-                    ? _value.gridColor
-                    : gridColor // ignore: cast_nullable_to_non_nullable
-                        as Color,
-            gridSize:
-                null == gridSize
-                    ? _value.gridSize
-                    : gridSize // ignore: cast_nullable_to_non_nullable
-                        as GridSizes,
-            fontFamily:
-                null == fontFamily
-                    ? _value.fontFamily
-                    : fontFamily // ignore: cast_nullable_to_non_nullable
-                        as String,
-          )
-          as $Val,
-    );
+    return _then(_value.copyWith(
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      backgroundColor: null == backgroundColor
+          ? _value.backgroundColor
+          : backgroundColor // ignore: cast_nullable_to_non_nullable
+              as Color,
+      canvasColor: null == canvasColor
+          ? _value.canvasColor
+          : canvasColor // ignore: cast_nullable_to_non_nullable
+              as Color,
+      gridColor: null == gridColor
+          ? _value.gridColor
+          : gridColor // ignore: cast_nullable_to_non_nullable
+              as Color,
+      gridSize: null == gridSize
+          ? _value.gridSize
+          : gridSize // ignore: cast_nullable_to_non_nullable
+              as GridSizes,
+      fontFamily: null == fontFamily
+          ? _value.fontFamily
+          : fontFamily // ignore: cast_nullable_to_non_nullable
+              as String,
+      icon: null == icon
+          ? _value.icon
+          : icon // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
   }
 }
 
 /// @nodoc
 abstract class _$$CanvasSettingsImplCopyWith<$Res>
     implements $CanvasSettingsCopyWith<$Res> {
-  factory _$$CanvasSettingsImplCopyWith(
-    _$CanvasSettingsImpl value,
-    $Res Function(_$CanvasSettingsImpl) then,
-  ) = __$$CanvasSettingsImplCopyWithImpl<$Res>;
+  factory _$$CanvasSettingsImplCopyWith(_$CanvasSettingsImpl value,
+          $Res Function(_$CanvasSettingsImpl) then) =
+      __$$CanvasSettingsImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({
-    String name,
-    @JsonKey(toJson: colorToJson, fromJson: colorFromJson)
-    Color backgroundColor,
-    @JsonKey(toJson: colorToJson, fromJson: colorFromJson) Color canvasColor,
-    @JsonKey(toJson: colorToJson, fromJson: colorFromJson) Color gridColor,
-    GridSizes gridSize,
-    String fontFamily,
-  });
+  $Res call(
+      {String name,
+      @JsonKey(toJson: colorToJson, fromJson: colorFromJson)
+      Color backgroundColor,
+      @JsonKey(toJson: colorToJson, fromJson: colorFromJson) Color canvasColor,
+      @JsonKey(toJson: colorToJson, fromJson: colorFromJson) Color gridColor,
+      GridSizes gridSize,
+      String fontFamily,
+      String icon});
 }
 
 /// @nodoc
@@ -144,9 +138,8 @@ class __$$CanvasSettingsImplCopyWithImpl<$Res>
     extends _$CanvasSettingsCopyWithImpl<$Res, _$CanvasSettingsImpl>
     implements _$$CanvasSettingsImplCopyWith<$Res> {
   __$$CanvasSettingsImplCopyWithImpl(
-    _$CanvasSettingsImpl _value,
-    $Res Function(_$CanvasSettingsImpl) _then,
-  ) : super(_value, _then);
+      _$CanvasSettingsImpl _value, $Res Function(_$CanvasSettingsImpl) _then)
+      : super(_value, _then);
 
   /// Create a copy of CanvasSettings
   /// with the given fields replaced by the non-null parameter values.
@@ -159,41 +152,38 @@ class __$$CanvasSettingsImplCopyWithImpl<$Res>
     Object? gridColor = null,
     Object? gridSize = null,
     Object? fontFamily = null,
+    Object? icon = null,
   }) {
-    return _then(
-      _$CanvasSettingsImpl(
-        name:
-            null == name
-                ? _value.name
-                : name // ignore: cast_nullable_to_non_nullable
-                    as String,
-        backgroundColor:
-            null == backgroundColor
-                ? _value.backgroundColor
-                : backgroundColor // ignore: cast_nullable_to_non_nullable
-                    as Color,
-        canvasColor:
-            null == canvasColor
-                ? _value.canvasColor
-                : canvasColor // ignore: cast_nullable_to_non_nullable
-                    as Color,
-        gridColor:
-            null == gridColor
-                ? _value.gridColor
-                : gridColor // ignore: cast_nullable_to_non_nullable
-                    as Color,
-        gridSize:
-            null == gridSize
-                ? _value.gridSize
-                : gridSize // ignore: cast_nullable_to_non_nullable
-                    as GridSizes,
-        fontFamily:
-            null == fontFamily
-                ? _value.fontFamily
-                : fontFamily // ignore: cast_nullable_to_non_nullable
-                    as String,
-      ),
-    );
+    return _then(_$CanvasSettingsImpl(
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      backgroundColor: null == backgroundColor
+          ? _value.backgroundColor
+          : backgroundColor // ignore: cast_nullable_to_non_nullable
+              as Color,
+      canvasColor: null == canvasColor
+          ? _value.canvasColor
+          : canvasColor // ignore: cast_nullable_to_non_nullable
+              as Color,
+      gridColor: null == gridColor
+          ? _value.gridColor
+          : gridColor // ignore: cast_nullable_to_non_nullable
+              as Color,
+      gridSize: null == gridSize
+          ? _value.gridSize
+          : gridSize // ignore: cast_nullable_to_non_nullable
+              as GridSizes,
+      fontFamily: null == fontFamily
+          ? _value.fontFamily
+          : fontFamily // ignore: cast_nullable_to_non_nullable
+              as String,
+      icon: null == icon
+          ? _value.icon
+          : icon // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
   }
 }
 
@@ -202,17 +192,17 @@ class __$$CanvasSettingsImplCopyWithImpl<$Res>
 class _$CanvasSettingsImpl
     with DiagnosticableTreeMixin
     implements _CanvasSettings {
-  const _$CanvasSettingsImpl({
-    required this.name,
-    @JsonKey(toJson: colorToJson, fromJson: colorFromJson)
-    required this.backgroundColor,
-    @JsonKey(toJson: colorToJson, fromJson: colorFromJson)
-    required this.canvasColor,
-    @JsonKey(toJson: colorToJson, fromJson: colorFromJson)
-    required this.gridColor,
-    required this.gridSize,
-    required this.fontFamily,
-  });
+  const _$CanvasSettingsImpl(
+      {required this.name,
+      @JsonKey(toJson: colorToJson, fromJson: colorFromJson)
+      required this.backgroundColor,
+      @JsonKey(toJson: colorToJson, fromJson: colorFromJson)
+      required this.canvasColor,
+      @JsonKey(toJson: colorToJson, fromJson: colorFromJson)
+      required this.gridColor,
+      required this.gridSize,
+      required this.fontFamily,
+      required this.icon});
 
   factory _$CanvasSettingsImpl.fromJson(Map<String, dynamic> json) =>
       _$$CanvasSettingsImplFromJson(json);
@@ -232,10 +222,12 @@ class _$CanvasSettingsImpl
   final GridSizes gridSize;
   @override
   final String fontFamily;
+  @override
+  final String icon;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'CanvasSettings(name: $name, backgroundColor: $backgroundColor, canvasColor: $canvasColor, gridColor: $gridColor, gridSize: $gridSize, fontFamily: $fontFamily)';
+    return 'CanvasSettings(name: $name, backgroundColor: $backgroundColor, canvasColor: $canvasColor, gridColor: $gridColor, gridSize: $gridSize, fontFamily: $fontFamily, icon: $icon)';
   }
 
   @override
@@ -248,7 +240,8 @@ class _$CanvasSettingsImpl
       ..add(DiagnosticsProperty('canvasColor', canvasColor))
       ..add(DiagnosticsProperty('gridColor', gridColor))
       ..add(DiagnosticsProperty('gridSize', gridSize))
-      ..add(DiagnosticsProperty('fontFamily', fontFamily));
+      ..add(DiagnosticsProperty('fontFamily', fontFamily))
+      ..add(DiagnosticsProperty('icon', icon));
   }
 
   @override
@@ -266,20 +259,14 @@ class _$CanvasSettingsImpl
             (identical(other.gridSize, gridSize) ||
                 other.gridSize == gridSize) &&
             (identical(other.fontFamily, fontFamily) ||
-                other.fontFamily == fontFamily));
+                other.fontFamily == fontFamily) &&
+            (identical(other.icon, icon) || other.icon == icon));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-    runtimeType,
-    name,
-    backgroundColor,
-    canvasColor,
-    gridColor,
-    gridSize,
-    fontFamily,
-  );
+  int get hashCode => Object.hash(runtimeType, name, backgroundColor,
+      canvasColor, gridColor, gridSize, fontFamily, icon);
 
   /// Create a copy of CanvasSettings
   /// with the given fields replaced by the non-null parameter values.
@@ -288,28 +275,28 @@ class _$CanvasSettingsImpl
   @pragma('vm:prefer-inline')
   _$$CanvasSettingsImplCopyWith<_$CanvasSettingsImpl> get copyWith =>
       __$$CanvasSettingsImplCopyWithImpl<_$CanvasSettingsImpl>(
-        this,
-        _$identity,
-      );
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$CanvasSettingsImplToJson(this);
+    return _$$CanvasSettingsImplToJson(
+      this,
+    );
   }
 }
 
 abstract class _CanvasSettings implements CanvasSettings {
-  const factory _CanvasSettings({
-    required final String name,
-    @JsonKey(toJson: colorToJson, fromJson: colorFromJson)
-    required final Color backgroundColor,
-    @JsonKey(toJson: colorToJson, fromJson: colorFromJson)
-    required final Color canvasColor,
-    @JsonKey(toJson: colorToJson, fromJson: colorFromJson)
-    required final Color gridColor,
-    required final GridSizes gridSize,
-    required final String fontFamily,
-  }) = _$CanvasSettingsImpl;
+  const factory _CanvasSettings(
+      {required final String name,
+      @JsonKey(toJson: colorToJson, fromJson: colorFromJson)
+      required final Color backgroundColor,
+      @JsonKey(toJson: colorToJson, fromJson: colorFromJson)
+      required final Color canvasColor,
+      @JsonKey(toJson: colorToJson, fromJson: colorFromJson)
+      required final Color gridColor,
+      required final GridSizes gridSize,
+      required final String fontFamily,
+      required final String icon}) = _$CanvasSettingsImpl;
 
   factory _CanvasSettings.fromJson(Map<String, dynamic> json) =
       _$CanvasSettingsImpl.fromJson;
@@ -329,6 +316,8 @@ abstract class _CanvasSettings implements CanvasSettings {
   GridSizes get gridSize;
   @override
   String get fontFamily;
+  @override
+  String get icon;
 
   /// Create a copy of CanvasSettings
   /// with the given fields replaced by the non-null parameter values.
