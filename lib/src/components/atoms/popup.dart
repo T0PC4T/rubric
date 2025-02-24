@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:rubric/rubric.dart';
 
 class PopupWidget<T> extends StatefulWidget {
-  static double popWidth = 350;
+  static double popWidth = 380;
   static Future<T?> showPopup<T>(
     BuildContext context,
     Widget Function(Function(T value) closeWith) builder,

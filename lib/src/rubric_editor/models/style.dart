@@ -41,6 +41,7 @@ class RubricEditorStyle {
     this.borderColor = const Color.fromARGB(255, 212, 212, 212),
   });
 
+  Color get theme7 => Color.lerp(theme, light, 0.7)!;
   Color get theme4 => Color.lerp(theme, light, 0.4)!; // for theme hover
   Color get theme2 => Color.lerp(theme, light, 0.2)!; // for theme hover
   Color get themeDark4 => Color.lerp(theme, dark, 0.4)!; // for theme hover

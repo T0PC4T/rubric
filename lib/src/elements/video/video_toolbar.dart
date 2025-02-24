@@ -36,7 +36,7 @@ class VideoTooltipWidget extends StatelessWidget {
                       ),
                       RubricTextInput(
                         onComplete: closeWith,
-                        helpText: "Youtube Link",
+                        helpText: "https://www.youtube.com/watch?v=abcdefgh",
                         value: properties.isYoutube ? properties.videoUrl : "",
                       ),
                       RubricText(

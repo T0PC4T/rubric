@@ -19,8 +19,8 @@ class RubricVideoPlayer extends StatelessWidget {
           controller,
           allowScrubbing: true,
           colors: VideoProgressColors(
-              playedColor: style.light,
-              bufferedColor: style.theme,
+              playedColor: style.theme,
+              bufferedColor: style.theme7,
               backgroundColor: style.dark),
         ),
       ],
