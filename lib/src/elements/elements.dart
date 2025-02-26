@@ -79,11 +79,9 @@ enum ElementTypes {
 }
 
 enum BorderRadiusPresets {
-  none(0),
-  small(15),
-  medium(30),
-  large(45),
-  round(1000);
+  square(0),
+  rounded(25),
+  circular(1000);
 
   final double radius;
   const BorderRadiusPresets(this.radius);
@@ -106,9 +104,10 @@ Map<String, dynamic> generateDefaultProperties(
           ), // with fontsize
       ).toJson(),
     ElementTypes.image => ImageElementModel(
-        borderRadius: 0,
-        imageUrl: "https://t0pc4t.github.io/public/default_image.webp",
-      ).toJson(),
+            borderRadius: 0,
+            imageUrl: "https://t0pc4t.github.io/public/default_image.webp",
+            fit: "cover")
+        .toJson(),
     ElementTypes.video => VideoElementModel(
         isYoutube: false,
         videoUrl: "https://t0pc4t.github.io/public/default_video.mp4",

@@ -36,7 +36,7 @@ class CanvasModel {
   CanvasModel({
     this.elements = const [],
     this.settings = const CanvasSettings(
-      backgroundColor: Color.fromARGB(255, 238, 238, 238),
+      backgroundColor: Color.fromARGB(255, 222, 222, 222),
       canvasColor: Color.fromARGB(255, 255, 255, 255),
       gridColor: Color.fromARGB(255, 238, 238, 238),
       gridSize: GridSizes.medium,

@@ -9,6 +9,7 @@ class ImageElementModel with _$ImageElementModel {
   const factory ImageElementModel({
     required String imageUrl,
     required double borderRadius,
+    required String fit,
   }) = _ImageElementModel;
 
   factory ImageElementModel.fromJson(Map<String, dynamic> json) =>

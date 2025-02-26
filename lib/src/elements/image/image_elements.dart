@@ -33,7 +33,12 @@ class ImageEditorElementState extends SelectableState<ImageEditorElement> {
       decoration: BoxDecoration(
         image: DecorationImage(
           image: NetworkImage(imageProperties.imageUrl),
-          fit: BoxFit.cover,
+          fit: switch (imageProperties.fit) {
+            "cover" => BoxFit.cover,
+            "contain" => BoxFit.contain,
+            "fill" => BoxFit.fill,
+            _ => BoxFit.contain,
+          },
         ),
         borderRadius: BorderRadius.circular(imageProperties.borderRadius),
       ),
@@ -63,7 +68,12 @@ class ImageReaderElement extends StatelessWidget {
       decoration: BoxDecoration(
         image: DecorationImage(
           image: NetworkImage(imageProperties.imageUrl),
-          fit: BoxFit.cover,
+          fit: switch (imageProperties.fit) {
+            "cover" => BoxFit.cover,
+            "contain" => BoxFit.contain,
+            "fill" => BoxFit.fill,
+            _ => BoxFit.contain,
+          },
         ),
         borderRadius: BorderRadius.circular(imageProperties.borderRadius),
       ),

@@ -44,7 +44,7 @@ class _PopupWidgetState<T> extends State<PopupWidget<T>> {
         RubricEditorState.of(context).popOverlay();
       },
       child: Container(
-        color: style.dark.withAlpha(10),
+        color: style.dark.withAlpha(20),
         alignment: Alignment.center,
         child: GestureDetector(
           onTap: () => {},

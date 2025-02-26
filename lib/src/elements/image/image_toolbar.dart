@@ -8,6 +8,8 @@ import 'package:rubric/src/components/molecules/border_radius_dropdown.dart';
 import 'package:rubric/src/components/shared.dart';
 import 'package:rubric/src/elements/image/image_model.dart';
 import 'package:rubric/src/models/elements.dart';
+import 'package:rubric/src/rubric_editor/toolbar/dropdown.dart';
+import 'package:rubric/src/rubric_editor/toolbar/element_toolbar.dart';
 
 class ImageTooltipWidget extends StatelessWidget {
   final ElementModel element;
@@ -16,6 +18,7 @@ class ImageTooltipWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final editorState = RubricEditorState.of(context);
+    final style = editorState.style;
     final properties = element.getProperties<ImageElementModel>();
     return Row(
       mainAxisSize: MainAxisSize.min,
@@ -33,9 +36,12 @@ class ImageTooltipWidget extends StatelessWidget {
                   fileBytes,
                   name: result.files.first.name,
                 );
+                final newProperties = element
+                    .getProperties<ImageElementModel>()
+                    .copyWith(imageUrl: imageUrl);
                 editorState.canvas.updateElement(
                   element,
-                  properties.copyWith(imageUrl: imageUrl).toJson(),
+                  newProperties.toJson(),
                 );
               }
             }
@@ -48,10 +54,44 @@ class ImageTooltipWidget extends StatelessWidget {
           radius: properties.borderRadius,
           onChanged: (value) {
             if (value case double newValue) {
-              final newProperties = properties.copyWith(borderRadius: newValue);
+              final newProperties = element
+                  .getProperties<ImageElementModel>()
+                  .copyWith(borderRadius: newValue);
               editorState.canvas.updateElement(element, newProperties.toJson());
             }
           },
+        ),
+        RubricVerticleDivider(),
+        RubricToolbarDropdown(
+          onUpdate: (value) {
+            if (value case String newValue) {
+              final newProperties = element
+                  .getProperties<ImageElementModel>()
+                  .copyWith(fit: newValue);
+              editorState.canvas.updateElement(element, newProperties.toJson());
+            }
+          },
+          items: [
+            for (var value in ["cover", "fill", "contain"])
+              DropdownMenuItem(
+                value: value,
+                child: Container(
+                  padding: EdgeInsets.only(left: style.paddingNum),
+                  alignment: Alignment.centerLeft,
+                  child: RubricText(value),
+                ),
+              ),
+          ],
+          child: Row(
+            spacing: RubricEditorStyle.paddingUnit * 0.5,
+            children: [
+              Icon(
+                Icons.crop_outlined,
+                size: ElementToolbarWidget.iconSize * 0.8,
+              ),
+              RubricText("Fit"),
+            ],
+          ),
         ),
       ],
     );

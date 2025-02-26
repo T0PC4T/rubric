@@ -32,10 +32,11 @@ class RubricToolbarDropdownState<T> extends State<RubricToolbarDropdown<T>> {
     offset = box.localToGlobal(
       Offset(0, size.height - editorState.style.radius),
     );
-    if (editorState.overlays case List(
-      isNotEmpty: true,
-      last: Positioned(key: ValueKey key),
-    ) when key.value == openID) {
+    if (editorState.overlays
+        case List(
+          isNotEmpty: true,
+          last: Positioned(key: ValueKey key),
+        ) when key.value == openID) {
       editorState.popToLength(1);
     } else {
       openID = newID();
@@ -96,7 +97,7 @@ class RubricToolbarDropdownState<T> extends State<RubricToolbarDropdown<T>> {
       ),
       onTap: showDropdown,
       backgroundColor: style.light,
-      hoverColor: style.light,
+      hoverColor: style.light95,
       child: Row(
         spacing: style.paddingNum,
         children: [widget.child, Icon(Icons.keyboard_arrow_down_rounded)],

@@ -49,12 +49,14 @@ class RubricEditorStyle {
 
   Color get light1 => Color.lerp(dark, light, 0.1)!;
   Color get light2 => Color.lerp(dark, light, 0.2)!;
-  Color get light4 => Color.lerp(dark, light, 0.4)!;
+  Color get light4 => Color.lerp(dark, light, 0.4)!; // borders darker
   Color get light7 => Color.lerp(dark, light, 0.7)!; // borders
   Color get light9 => Color.lerp(dark, light, 0.9)!; // light hoverover
   Color get light95 => Color.lerp(dark, light, 0.95)!;
+  Color get light98 => Color.lerp(dark, light, 0.98)!;
 
   double get paddingNum => paddingUnit;
+  double get halfPadding => paddingUnit * 0.5;
   EdgeInsets get padding => EdgeInsets.all(paddingUnit);
   BorderRadius get borderRadius => BorderRadius.circular(radius);
 

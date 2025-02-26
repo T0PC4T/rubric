@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:rubric/rubric.dart';
 import 'package:rubric/src/components/atoms/divider.dart';
 import 'package:rubric/src/components/atoms/popup.dart';
-import 'package:rubric/src/components/atoms/text_input.dart';
 import 'package:rubric/src/components/shared.dart';
 import 'package:rubric/src/elements/video/video_model.dart';
 import 'package:rubric/src/models/elements.dart';
@@ -34,10 +33,11 @@ class VideoTooltipWidget extends StatelessWidget {
                         "Enter Youtube Link",
                         textType: TextType.title,
                       ),
-                      RubricTextInput(
-                        onComplete: closeWith,
+                      RubricTextField(
+                        onChanged: closeWith,
                         helpText: "https://www.youtube.com/watch?v=abcdefgh",
-                        value: properties.isYoutube ? properties.videoUrl : "",
+                        initialValue:
+                            properties.isYoutube ? properties.videoUrl : "",
                       ),
                       RubricText(
                         "[Press Enter to Continue]",

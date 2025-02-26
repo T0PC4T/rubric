@@ -22,6 +22,7 @@ ImageElementModel _$ImageElementModelFromJson(Map<String, dynamic> json) {
 mixin _$ImageElementModel {
   String get imageUrl => throw _privateConstructorUsedError;
   double get borderRadius => throw _privateConstructorUsedError;
+  String get fit => throw _privateConstructorUsedError;
 
   /// Serializes this ImageElementModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -39,7 +40,7 @@ abstract class $ImageElementModelCopyWith<$Res> {
           ImageElementModel value, $Res Function(ImageElementModel) then) =
       _$ImageElementModelCopyWithImpl<$Res, ImageElementModel>;
   @useResult
-  $Res call({String imageUrl, double borderRadius});
+  $Res call({String imageUrl, double borderRadius, String fit});
 }
 
 /// @nodoc
@@ -59,6 +60,7 @@ class _$ImageElementModelCopyWithImpl<$Res, $Val extends ImageElementModel>
   $Res call({
     Object? imageUrl = null,
     Object? borderRadius = null,
+    Object? fit = null,
   }) {
     return _then(_value.copyWith(
       imageUrl: null == imageUrl
@@ -69,6 +71,10 @@ class _$ImageElementModelCopyWithImpl<$Res, $Val extends ImageElementModel>
           ? _value.borderRadius
           : borderRadius // ignore: cast_nullable_to_non_nullable
               as double,
+      fit: null == fit
+          ? _value.fit
+          : fit // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -81,7 +87,7 @@ abstract class _$$ImageElementModelImplCopyWith<$Res>
       __$$ImageElementModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String imageUrl, double borderRadius});
+  $Res call({String imageUrl, double borderRadius, String fit});
 }
 
 /// @nodoc
@@ -99,6 +105,7 @@ class __$$ImageElementModelImplCopyWithImpl<$Res>
   $Res call({
     Object? imageUrl = null,
     Object? borderRadius = null,
+    Object? fit = null,
   }) {
     return _then(_$ImageElementModelImpl(
       imageUrl: null == imageUrl
@@ -109,6 +116,10 @@ class __$$ImageElementModelImplCopyWithImpl<$Res>
           ? _value.borderRadius
           : borderRadius // ignore: cast_nullable_to_non_nullable
               as double,
+      fit: null == fit
+          ? _value.fit
+          : fit // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -118,7 +129,7 @@ class __$$ImageElementModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ImageElementModelImpl implements _ImageElementModel {
   const _$ImageElementModelImpl(
-      {required this.imageUrl, required this.borderRadius});
+      {required this.imageUrl, required this.borderRadius, required this.fit});
 
   factory _$ImageElementModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$ImageElementModelImplFromJson(json);
@@ -127,10 +138,12 @@ class _$ImageElementModelImpl implements _ImageElementModel {
   final String imageUrl;
   @override
   final double borderRadius;
+  @override
+  final String fit;
 
   @override
   String toString() {
-    return 'ImageElementModel(imageUrl: $imageUrl, borderRadius: $borderRadius)';
+    return 'ImageElementModel(imageUrl: $imageUrl, borderRadius: $borderRadius, fit: $fit)';
   }
 
   @override
@@ -141,12 +154,13 @@ class _$ImageElementModelImpl implements _ImageElementModel {
             (identical(other.imageUrl, imageUrl) ||
                 other.imageUrl == imageUrl) &&
             (identical(other.borderRadius, borderRadius) ||
-                other.borderRadius == borderRadius));
+                other.borderRadius == borderRadius) &&
+            (identical(other.fit, fit) || other.fit == fit));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, imageUrl, borderRadius);
+  int get hashCode => Object.hash(runtimeType, imageUrl, borderRadius, fit);
 
   /// Create a copy of ImageElementModel
   /// with the given fields replaced by the non-null parameter values.
@@ -168,7 +182,8 @@ class _$ImageElementModelImpl implements _ImageElementModel {
 abstract class _ImageElementModel implements ImageElementModel {
   const factory _ImageElementModel(
       {required final String imageUrl,
-      required final double borderRadius}) = _$ImageElementModelImpl;
+      required final double borderRadius,
+      required final String fit}) = _$ImageElementModelImpl;
 
   factory _ImageElementModel.fromJson(Map<String, dynamic> json) =
       _$ImageElementModelImpl.fromJson;
@@ -177,6 +192,8 @@ abstract class _ImageElementModel implements ImageElementModel {
   String get imageUrl;
   @override
   double get borderRadius;
+  @override
+  String get fit;
 
   /// Create a copy of ImageElementModel
   /// with the given fields replaced by the non-null parameter values.

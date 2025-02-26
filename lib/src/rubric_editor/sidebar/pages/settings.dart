@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:rubric/rubric.dart';
+import 'package:rubric/src/components/atoms/container.dart';
 import 'package:rubric/src/components/atoms/popup.dart';
 import 'package:rubric/src/components/molecules/color_picker.dart';
 import 'package:rubric/src/components/shared.dart';
 import 'package:rubric/src/models/editor_models.dart';
+import 'package:rubric/src/rubric_icon/icon_grid.dart';
+import 'package:rubric/src/rubric_icon/icon_widget.dart';
 
 class Item {
   Item({
@@ -29,7 +32,7 @@ class GeneralSettingsPageWidget extends StatefulWidget {
 
 class _GeneralSettingsPageWidgetState extends State<GeneralSettingsPageWidget> {
   RubricEditorState? editorState;
-
+  final statuses = ["Draft", "Published", "Archived"];
   late List<Item> _data;
   @override
   void initState() {
@@ -42,44 +45,71 @@ class _GeneralSettingsPageWidgetState extends State<GeneralSettingsPageWidget> {
           final style = editorState!.style;
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: editorState!.style.paddingNum,
+            spacing: editorState!.style.paddingNum * 0.5,
             children: [
-              ColorPickerSettingsWidget(
-                title: "Grid Line Color",
-                color: editorState!.canvas.value.settings.gridColor,
-                onUpdate: (color) {
+              RubricText(
+                "Lesson title",
+                textType: TextType.small,
+              ),
+              RubricTextField(
+                maxLength: 30,
+                initialValue: editorState!.canvas.value.settings.name,
+                onChanged: (value) {
                   editorState!.canvas.updateSettings(
                     editorState!.canvas.value.settings.copyWith(
-                      gridColor: color,
+                      name: value,
                     ),
                   );
                 },
               ),
-              Padding(
-                padding: EdgeInsets.only(left: style.paddingNum),
-                child: Row(
-                  children: [
-                    RubricText("Line Spacing: "),
-                    RubricDropdown<GridSizes>(
-                      value: editorState!.canvas.value.settings.gridSize,
-                      items: [
-                        for (var item in GridSizes.values)
-                          DropdownMenuItem<GridSizes>(
-                            value: item,
-                            child: Text(item.pretty),
-                          ),
-                      ],
-                      onChanged: (value) {
-                        if (value != null) {
-                          editorState!.canvas.updateSettings(
-                            editorState!.canvas.value.settings.copyWith(
-                              gridSize: value,
-                            ),
-                          );
-                        }
-                      },
-                    ),
-                  ],
+              SizedBox(height: style.paddingNum),
+              // statuses dropdown
+              RubricText(
+                "Lesson icon",
+                textType: TextType.small,
+              ),
+              GestureDetector(
+                onTap: () {
+                  final settings = editorState!.canvas.value.settings;
+                  final newIcon = PopupWidget.showPopup<String>(
+                    context,
+                    (closeWith) {
+                      return SizedBox(
+                        width: PopupWidget.popWidth,
+                        height: (PopupWidget.popWidth /
+                                RubricIconGrid.iconsAcross) *
+                            RubricIconGrid.iconsDown,
+                        child: RubricIconGrid(
+                          onSelect: closeWith,
+                          currentIcon: settings.icon,
+                          buttonColor: style.light98,
+                          iconColor: style.light4,
+                          hoverColor: style.light9,
+                          iconSelectedColor: style.theme2,
+                          borderRadius: style.radius,
+                          marginNum: style.paddingNum,
+                        ),
+                      );
+                    },
+                  );
+                  newIcon.then((value) {
+                    if (value case String newIcon) {
+                      editorState!.canvas.updateSettings(
+                        editorState!.canvas.value.settings.copyWith(
+                          icon: newIcon,
+                        ),
+                      );
+                    }
+                  });
+                },
+                child: RubricContainer(
+                  height: 100,
+                  width: double.infinity,
+                  child: RubricIcon(
+                    editorState!.canvas.value.settings.icon,
+                    size: 50,
+                    color: style.light4,
+                  ),
                 ),
               ),
             ],
@@ -94,7 +124,7 @@ class _GeneralSettingsPageWidgetState extends State<GeneralSettingsPageWidget> {
           final style = editorState!.style;
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: editorState!.style.paddingNum,
+            spacing: editorState!.style.paddingNum * 1.5,
             children: [
               ColorPickerSettingsWidget(
                 title: "Grid Line Color",
@@ -107,32 +137,29 @@ class _GeneralSettingsPageWidgetState extends State<GeneralSettingsPageWidget> {
                   );
                 },
               ),
-              Padding(
-                padding: EdgeInsets.only(left: style.paddingNum),
-                child: Row(
-                  children: [
-                    RubricText("Line Spacing: "),
-                    RubricDropdown<GridSizes>(
-                      value: editorState!.canvas.value.settings.gridSize,
-                      items: [
-                        for (var item in GridSizes.values)
-                          DropdownMenuItem<GridSizes>(
-                            value: item,
-                            child: Text(item.pretty),
+              Row(
+                children: [
+                  RubricText("Line Spacing: "),
+                  RubricDropdown<GridSizes>(
+                    value: editorState!.canvas.value.settings.gridSize,
+                    items: [
+                      for (var item in GridSizes.values)
+                        DropdownMenuItem<GridSizes>(
+                          value: item,
+                          child: Text(item.pretty),
+                        ),
+                    ],
+                    onChanged: (value) {
+                      if (value != null) {
+                        editorState!.canvas.updateSettings(
+                          editorState!.canvas.value.settings.copyWith(
+                            gridSize: value,
                           ),
-                      ],
-                      onChanged: (value) {
-                        if (value != null) {
-                          editorState!.canvas.updateSettings(
-                            editorState!.canvas.value.settings.copyWith(
-                              gridSize: value,
-                            ),
-                          );
-                        }
-                      },
-                    ),
-                  ],
-                ),
+                        );
+                      }
+                    },
+                  ),
+                ],
               ),
             ],
           );
@@ -144,7 +171,7 @@ class _GeneralSettingsPageWidgetState extends State<GeneralSettingsPageWidget> {
         isExpanded: false,
         bodyBuilder: (context) {
           return Column(
-            spacing: editorState!.style.paddingNum,
+            spacing: editorState!.style.paddingNum * 1.5,
             children: [
               ColorPickerSettingsWidget(
                 title: "Canvas Color",
@@ -211,7 +238,7 @@ class _GeneralSettingsPageWidgetState extends State<GeneralSettingsPageWidget> {
                   );
                 },
                 body: Container(
-                  color: style.light9,
+                  color: style.light95,
                   padding: style.padding,
                   child: item.bodyBuilder(context),
                 ),
@@ -242,6 +269,7 @@ class ColorPickerSettingsWidget extends StatelessWidget {
     final editorState = RubricEditorState.of(context);
     final canvas = editorState.canvas.value;
     return Row(
+      spacing: editorState.style.paddingNum,
       children: [
         RubricColorButton(
           color: color,

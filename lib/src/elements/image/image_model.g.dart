@@ -11,6 +11,7 @@ _$ImageElementModelImpl _$$ImageElementModelImplFromJson(
     _$ImageElementModelImpl(
       imageUrl: json['imageUrl'] as String,
       borderRadius: (json['borderRadius'] as num).toDouble(),
+      fit: json['fit'] as String,
     );
 
 Map<String, dynamic> _$$ImageElementModelImplToJson(
@@ -18,4 +19,5 @@ Map<String, dynamic> _$$ImageElementModelImplToJson(
     <String, dynamic>{
       'imageUrl': instance.imageUrl,
       'borderRadius': instance.borderRadius,
+      'fit': instance.fit,
     };

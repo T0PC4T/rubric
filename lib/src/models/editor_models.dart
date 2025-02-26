@@ -13,7 +13,7 @@ enum GridSizes {
   medium("Medium", 50),
   large("Large", 100);
 
-  static const double pageSize = 1000;
+  static const double pageSize = 900;
 
   double get pixelsPerLock => 10;
   final double pixelsPerLine;

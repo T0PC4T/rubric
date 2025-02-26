@@ -32,6 +32,7 @@ class MyApp extends StatelessWidget {
       ),
       home: Scaffold(
         body: RubricLessonEditorWidget(moduleID: "n9OQvN72csbuJnDA3HZB"),
+        // body: RubricLessonEditorWidget(moduleID: "n9OQvN72csbuJnDA3HZB"),
         // body: RubricLessonReaderWidget(moduleID: "n9OQvN72csbuJnDA3HZB"),
       ),
     );
@@ -75,7 +76,13 @@ class _RubricLessonEditorWidgetState extends State<RubricLessonEditorWidget> {
           final map = data.data();
           return RubricEditor(
             canvas: CanvasModel.fromJson(map!["lesson_data"]),
-            onSave: (canvas) {},
+            onSave: (canvas) {
+              snapshot.data?.reference.update({
+                "name": canvas.settings.name,
+                "icon": canvas.settings.icon,
+                "lesson_data": canvas.toJson(),
+              });
+            },
             onLogoPressed: () {},
             bytesToURL: (Uint8List bytes, {String? name, String? type}) async {
               await Future.delayed(Duration(seconds: 2));

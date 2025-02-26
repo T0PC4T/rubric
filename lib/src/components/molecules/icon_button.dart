@@ -38,11 +38,12 @@ class RubricIconButton extends StatelessWidget {
       onTap: onTap,
       child: Icon(
         iconData,
-        color: switch ((isActive, isDark)) {
-          (true, true) => style.theme,
-          (true, false) => style.theme,
-          (false, true) => style.light,
-          (false, false) => style.dark,
+        color: switch ((disabled, isActive, isDark)) {
+          (true, _, _) => style.light4,
+          (_, true, true) => style.theme,
+          (_, true, false) => style.theme,
+          (_, false, true) => style.light,
+          (_, false, false) => style.dark,
         },
         size: ElementToolbarWidget.iconSize,
       ),
@@ -107,7 +108,6 @@ class RubricColorButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        margin: EdgeInsets.all(RubricEditorStyle.paddingUnit),
         decoration: BoxDecoration(
           color: color,
           shape: BoxShape.circle,

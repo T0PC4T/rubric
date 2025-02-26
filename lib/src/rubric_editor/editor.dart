@@ -182,20 +182,18 @@ class RubricEditorState extends State<RubricEditor> {
                 children: [
                   NavbarWidget(),
                   Expanded(
-                    child: Container(
-                      color: style.light9,
-                      child: previewing != null
-                          ? RubricReader(
-                              canvasModel: canvas.value,
-                            )
-                          : Row(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: [
-                                RubricSideBar(),
-                                Expanded(child: RubricEditorViewer()),
-                              ],
-                            ),
-                    ),
+                    child: previewing != null
+                        ? RubricReader(
+                            view: previewing,
+                            canvasModel: canvas.value,
+                          )
+                        : Row(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              RubricSideBar(),
+                              Expanded(child: RubricEditorViewer()),
+                            ],
+                          ),
                   ),
                 ],
               ),

@@ -55,22 +55,20 @@ class NavbarWidget extends StatelessWidget {
               children: [
                 if (editorState.previewing case ViewModes mode) ...[
                   // todo add mobile support.
-                  // RubricIconButton(
-                  //   isDark: true,
-                  //   isActive: mode == PreviewModes.mobile,
-                  //   iconData: Icons.phone_android,
-                  //   size: NavbarWidget.navbarHeight,
-                  //   disabled: true,
-                  //   onTap: () {
-                  //     editorState.setPreview(PreviewModes.mobile);
-                  //   },
-                  // ),
+                  RubricIconButton(
+                    isDark: true,
+                    isActive: mode == ViewModes.mobile,
+                    iconData: Icons.phone_android,
+                    size: NavbarWidget.navbarHeight,
+                    onTap: () {
+                      editorState.setPreview(ViewModes.mobile);
+                    },
+                  ),
                   RubricIconButton(
                     isDark: true,
                     isActive: mode == ViewModes.desktop,
                     iconData: Icons.desktop_mac_rounded,
                     size: NavbarWidget.navbarHeight,
-                    disabled: true,
                     onTap: () {
                       editorState.setPreview(ViewModes.desktop);
                     },

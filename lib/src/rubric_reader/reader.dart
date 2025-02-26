@@ -6,18 +6,30 @@ import 'package:rubric/src/rubric_reader/padder.dart';
 
 class RubricReader extends StatelessWidget {
   final CanvasModel canvasModel;
+  final ViewModes? view;
   const RubricReader({
     super.key,
     required this.canvasModel,
+    this.view,
   });
 
   @override
   Widget build(BuildContext context) {
-    return ColoredBox(
+    ViewModes? curView = view;
+    if (curView == null) {
+      Size size = MediaQuery.sizeOf(context);
+      curView = size.width < ViewModes.mobile.width
+          ? ViewModes.mobile
+          : ViewModes.desktop;
+    }
+    return Container(
+      width: double.infinity,
       color: canvasModel.settings.backgroundColor,
       child: SingleChildScrollView(
         child: PagePadderWidget(
-          pageWidth: ViewModes.desktop.width,
+          verticalEdgePadding: curView == ViewModes.mobile ? 0 : 25,
+          horizontalEdgePadding: curView == ViewModes.mobile ? 0 : 25,
+          pageWidth: curView.width,
           child: FittedBox(
             fit: BoxFit.scaleDown,
             child: SizedBox(

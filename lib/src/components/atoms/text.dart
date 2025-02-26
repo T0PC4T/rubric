@@ -43,12 +43,18 @@ class RubricText extends StatelessWidget {
 class RubricTextField extends StatefulWidget {
   final String initialValue;
   final ValueChanged<String> onChanged;
-  final double width;
+  final double? width;
+  final String? helpText;
+  final String? labelText;
+  final int? maxLength;
   const RubricTextField({
     super.key,
     required this.initialValue,
     required this.onChanged,
-    this.width = 150,
+    this.width,
+    this.helpText,
+    this.maxLength,
+    this.labelText,
   });
 
   @override
@@ -56,6 +62,96 @@ class RubricTextField extends StatefulWidget {
 }
 
 class _RubricTextFieldState extends State<RubricTextField> {
+  String value = "";
+  late FocusNode focusNode;
+  @override
+  void initState() {
+    value = widget.initialValue;
+    focusNode = FocusNode();
+    focusNode.addListener(_l);
+    super.initState();
+  }
+
+  _l() {
+    if (!focusNode.hasFocus) {
+      widget.onChanged(value);
+    }
+  }
+
+  @override
+  void dispose() {
+    focusNode.removeListener(_l);
+    focusNode.dispose();
+
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final style = RubricEditorStyle.of(context);
+
+    return SizedBox(
+      width: widget.width,
+      child: TextFormField(
+        maxLength: widget.maxLength,
+        focusNode: focusNode,
+        cursorColor: style.dark,
+        decoration: InputDecoration(
+          contentPadding: EdgeInsets.symmetric(horizontal: style.paddingNum),
+          filled: true,
+          fillColor: style.light,
+          border: OutlineInputBorder(
+            borderRadius: style.borderRadius,
+            borderSide: BorderSide(
+              color: style.light4,
+            ),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: style.borderRadius,
+            borderSide: BorderSide(
+              color: style.theme,
+            ),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: style.borderRadius,
+            borderSide: BorderSide(
+              color: style.light4,
+            ),
+          ),
+          hintStyle: TextStyle(color: style.light4),
+          hintText: widget.helpText,
+          labelText: widget.labelText,
+        ),
+        style: TextStyle(color: style.dark),
+        initialValue: widget.initialValue,
+        onChanged: (nvalue) {
+          value = nvalue;
+        },
+        onEditingComplete: () {
+          widget.onChanged(value);
+        },
+      ),
+    );
+  }
+}
+
+class RubricBorderlessTextField extends StatefulWidget {
+  final String initialValue;
+  final ValueChanged<String> onChanged;
+  final double width;
+  const RubricBorderlessTextField({
+    super.key,
+    required this.initialValue,
+    required this.onChanged,
+    this.width = 150,
+  });
+
+  @override
+  State<RubricBorderlessTextField> createState() =>
+      _RubricBorderlessTextFieldState();
+}
+
+class _RubricBorderlessTextFieldState extends State<RubricBorderlessTextField> {
   String value = "";
   late FocusNode focusNode;
   @override

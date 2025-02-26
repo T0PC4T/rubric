@@ -142,11 +142,13 @@ class _TextReaderWidgetState extends State<TextReaderWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return QuillEditor(
-      scrollController: _scrollController,
-      controller: controller,
-      focusNode: focusNode,
-      configurations: QuillEditorConfigurations(),
+    return IgnorePointer(
+      child: QuillEditor(
+        scrollController: _scrollController,
+        controller: controller,
+        focusNode: focusNode,
+        configurations: QuillEditorConfigurations(),
+      ),
     );
   }
 }
