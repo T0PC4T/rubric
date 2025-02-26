@@ -31,9 +31,8 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
       home: Scaffold(
-        body: RubricLessonEditorWidget(moduleID: "n9OQvN72csbuJnDA3HZB"),
         // body: RubricLessonEditorWidget(moduleID: "n9OQvN72csbuJnDA3HZB"),
-        // body: RubricLessonReaderWidget(moduleID: "n9OQvN72csbuJnDA3HZB"),
+        body: RubricLessonReaderWidget(moduleID: "n9OQvN72csbuJnDA3HZB"),
       ),
     );
   }
