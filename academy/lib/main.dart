@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:rubric/rubric.dart';
 
@@ -17,6 +18,7 @@ const FirebaseOptions destination = FirebaseOptions(
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: destination);
+
   runApp(const MyApp());
 }
 
@@ -31,8 +33,8 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
       home: Scaffold(
-        // body: RubricLessonEditorWidget(moduleID: "n9OQvN72csbuJnDA3HZB"),
-        body: RubricLessonReaderWidget(moduleID: "n9OQvN72csbuJnDA3HZB"),
+        body: RubricLessonEditorWidget(moduleID: "n9OQvN72csbuJnDA3HZB"),
+        // body: RubricLessonReaderWidget(moduleID: "n9OQvN72csbuJnDA3HZB"),
       ),
     );
   }
@@ -84,8 +86,16 @@ class _RubricLessonEditorWidgetState extends State<RubricLessonEditorWidget> {
             },
             onLogoPressed: () {},
             bytesToURL: (Uint8List bytes, {String? name, String? type}) async {
-              await Future.delayed(Duration(seconds: 2));
-              return "https://images.rawpixel.com/image_png_800/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvam9iNjc5LTEwMy1wLWwxNjd4ZGdvLnBuZw.png";
+              final storage = FirebaseStorage.instance;
+              // upload file to storage
+              final ref = storage.ref().child(
+                "lessons/${widget.moduleID}_${DateTime.now().millisecondsSinceEpoch}_$name",
+              );
+              // todo limit the size of files that can be uploaded!
+              final uploadTask = ref.putData(bytes);
+              final snapshot = await uploadTask.whenComplete(() {});
+              final url = await snapshot.ref.getDownloadURL();
+              return url;
             },
 
             style: RubricEditorStyle(

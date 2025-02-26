@@ -86,9 +86,6 @@ class RubricToolbarDropdownState<T> extends State<RubricToolbarDropdown<T>> {
 
   @override
   Widget build(BuildContext context) {
-    final editorState = RubricEditorState.of(context);
-    print(editorState.overlays.last.key);
-
     final style = RubricEditorStyle.of(context);
     return RubricButton(
       padding: EdgeInsets.symmetric(
