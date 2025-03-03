@@ -4,7 +4,7 @@ import 'package:rubric/src/components/shared.dart';
 import 'package:rubric/src/rubric_editor/models/preview.dart';
 
 class NavbarWidget extends StatelessWidget {
-  static const double navbarHeight = 64;
+  static const double navbarHeight = 56;
   const NavbarWidget({super.key});
 
   @override
@@ -23,7 +23,7 @@ class NavbarWidget extends StatelessWidget {
             width: NavbarWidget.navbarHeight,
             height: NavbarWidget.navbarHeight,
             onTap: () {
-              editorState.widget.onLogoPressed();
+              editorState.widget.onSave();
             },
             padding: EdgeInsets.all(5),
             child: Image.network(style.logoUrl),
@@ -116,7 +116,11 @@ class NavbarWidget extends StatelessWidget {
             style,
             width: NavbarWidget.navbarHeight * 2,
             height: NavbarWidget.navbarHeight,
-            child: RubricText("Save", textType: TextType.thick),
+            child: RubricText(
+              "Save & Exit",
+              textType: TextType.thick,
+              isDark: true,
+            ),
             onTap: () {
               editorState.edits.selectElement(null);
               editorState.save();

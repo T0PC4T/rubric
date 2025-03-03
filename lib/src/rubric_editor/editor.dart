@@ -17,15 +17,13 @@ import 'package:rubric/src/rubric_reader/size_block.dart';
 class RubricEditor extends StatefulWidget {
   final RubricEditorStyle style;
   final CanvasModel? canvas;
-  final Function(CanvasModel canvas) onSave;
-  final Function() onLogoPressed;
+  final Function([CanvasModel? canvas]) onSave;
   final Future<String> Function(Uint8List bytes, {String? name, String? type})
       bytesToURL;
   const RubricEditor({
     super.key,
     required this.style,
     required this.onSave,
-    required this.onLogoPressed,
     required this.bytesToURL,
     this.canvas,
   });

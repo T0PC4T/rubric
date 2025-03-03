@@ -23,8 +23,20 @@ class GridPainter extends CustomPainter {
       Rect.fromLTWH(0, 0, size.width, size.height),
       Paint()..color = canvasColor,
     );
+    Paint paint = Paint()
+      ..color = gridColor
+      ..strokeWidth = 2;
 
-    final paint = Paint()
+    canvas.drawLine(
+        Offset(offset.dx, 0), Offset(offset.dx, size.height), paint);
+    canvas.drawLine(Offset(0, offset.dy), Offset(size.width, offset.dy), paint);
+
+    canvas.drawLine(Offset(size.width - offset.dx, 0),
+        Offset(size.width - offset.dx, size.height), paint);
+    canvas.drawLine(Offset(0, size.height - offset.dy),
+        Offset(size.width, size.height - offset.dy), paint);
+
+    paint = Paint()
       ..color = gridColor.withAlpha(50)
       ..strokeWidth = 2;
 

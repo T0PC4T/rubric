@@ -37,22 +37,19 @@ class MyApp extends StatelessWidget {
       home: Scaffold(
         body: RubricEditor(
           canvas: CanvasModel(),
-          onSave: (canvas) {
-            print(canvas.toMap());
-            print(canvas.toJson());
+
+          onSave: ([canvas]) async {
+            print("hello");
           },
-          onLogoPressed: () {},
           bytesToURL: (Uint8List bytes, {String? name, String? type}) async {
             print(name);
             await Future.delayed(Duration(seconds: 2));
             return "https://images.rawpixel.com/image_png_800/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvam9iNjc5LTEwMy1wLWwxNjd4ZGdvLnBuZw.png";
           },
-          
-          
+
           style: RubricEditorStyle(
             logoUrl: "https://t0pc4t.github.io/public/bleep_logo.webp",
           ),
-          
         ),
       ),
     );
