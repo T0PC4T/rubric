@@ -8,7 +8,7 @@ class RubricVideoPlayer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final style = RubricEditorStyle.of(context);
+    final style = RubricEditorStyle();
 
     return Stack(
       alignment: Alignment.bottomCenter,

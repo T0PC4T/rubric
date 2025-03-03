@@ -20,7 +20,7 @@ class RubricEditorStyle {
   final List<Color> brandColors;
 
   const RubricEditorStyle({
-    required this.logoUrl,
+    this.logoUrl = "assets/logo.png",
     this.radius = 8,
     this.fontSize = 14,
     this.fontWeight = FontWeight.w500,

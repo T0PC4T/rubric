@@ -43,7 +43,7 @@ class RubricLessonReaderWidgetState extends State<RubricLessonReaderWidget> {
             ),
           );
         }
-        return SizedBox.shrink(child: Text("Loading..."));
+        return Center(child: CircularProgressIndicator());
       },
     );
   }
