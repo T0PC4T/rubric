@@ -60,6 +60,17 @@ class TextEditorElementState
   }
 
   @override
+  void didUpdateWidget(covariant TextEditorElement oldWidget) {
+    final properties = widget.element.getProperties<TextElementModel>();
+    final oldProperties = oldWidget.element.getProperties<TextElementModel>();
+    if (properties.document.toDelta() != oldProperties.document.toDelta()) {
+      controller.document = properties.document;
+    }
+
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
   onSelect(bool selected) {
     if (selected) {
       // ? this replaces the usual show toolbar because there is no tool bar on select.

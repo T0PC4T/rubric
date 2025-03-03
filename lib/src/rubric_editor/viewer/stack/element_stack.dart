@@ -8,28 +8,31 @@ import 'package:rubric/src/rubric_editor/viewer/items/focused.dart';
 import 'package:rubric/src/rubric_editor/viewer/items/scalar.dart';
 import 'package:rubric/src/rubric_editor/viewer/stack/parent_data.dart';
 
-typedef PointerUpElement =
-    void Function(PointerUpEvent event, StackEventResult result);
+typedef PointerUpElement = void Function(
+    PointerUpEvent event, StackEventResult result);
 
-typedef PointerDownElement =
-    void Function(PointerDownEvent event, StackEventResult result);
+typedef PointerDownElement = void Function(
+    PointerDownEvent event, StackEventResult result);
 
-typedef PointerMoveElement =
-    void Function(PointerMoveEvent event, StackEventResult result);
+typedef PointerMoveElement = void Function(
+    PointerMoveEvent event, StackEventResult result);
 
-typedef PointerHoverElement =
-    void Function(PointerHoverEvent event, StackEventResult result);
+typedef PointerHoverElement = void Function(
+    PointerHoverEvent event, StackEventResult result);
 
 // this widget manages stacking elements allowing for hittesting to be done at the level of Renderobject. Similar to Stack widget but more simple
 class RubricElementStack extends MultiChildRenderObjectWidget {
+  final Offset offset;
   final PointerSignalEventListener onPointerSignal;
   final PointerUpElement onPointerUp;
   final PointerDownElement onPointerDown;
   final PointerMoveElement onPointerMove;
   final PointerHoverElement onPointerHover;
+
   const RubricElementStack({
     super.key,
     super.children,
+    required this.offset,
     required this.onPointerSignal,
     required this.onPointerUp,
     required this.onPointerDown,
@@ -40,6 +43,7 @@ class RubricElementStack extends MultiChildRenderObjectWidget {
   @override
   RenderRubricElementStack createRenderObject(BuildContext context) {
     return RenderRubricElementStack(
+      offset: offset,
       onPointerSignal: onPointerSignal,
       onPointerUp: onPointerUp,
       onPointerDown: onPointerDown,
@@ -62,6 +66,7 @@ class RenderRubricElementStack extends RenderBox
     with
         ContainerRenderObjectMixin<RenderBox, RuPositionParentData>,
         RenderBoxContainerDefaultsMixin<RenderBox, RuPositionParentData> {
+  final Offset offset;
   final PointerSignalEventListener onPointerSignal;
   final PointerUpElement onPointerUp;
   final PointerDownElement onPointerDown;
@@ -70,6 +75,7 @@ class RenderRubricElementStack extends RenderBox
 
   RenderRubricElementStack({
     List<RenderBox>? children,
+    required this.offset,
     required this.onPointerSignal,
     required this.onPointerUp,
     required this.onPointerDown,
@@ -82,12 +88,12 @@ class RenderRubricElementStack extends RenderBox
   @override
   void setupParentData(RenderBox child) {
     if (child.parentData is! RuPositionParentData) {
-      child.parentData =
-          RuPositionParentData()
-            ..x = 0
-            ..y = 0
-            ..width = double.infinity
-            ..height = double.infinity;
+      child.parentData = RuPositionParentData(
+        0,
+        0,
+        double.infinity,
+        double.infinity,
+      );
     }
   }
 
@@ -101,14 +107,20 @@ class RenderRubricElementStack extends RenderBox
     RenderBox? child = firstChild;
     while (child != null) {
       if (child.parentData case RuPositionParentData childParentData) {
-        final BoxConstraints childConstraints = childParentData
-            .positionedChildConstraints(size);
+        final BoxConstraints childConstraints =
+            childParentData.positionedChildConstraints(size);
         child.layout(childConstraints, parentUsesSize: false);
 
-        childParentData.offset = Offset(
-          childParentData.x ?? 0,
-          childParentData.y ?? 0,
-        );
+        // If you are given infinite set offset at true zero so it covers the screen.
+        if (childParentData.width.isInfinite) {
+          childParentData.offset = Offset.zero;
+        } else {
+          // otherwise offset it correctly
+          childParentData.offset = Offset(
+            (childParentData.x + offset.dx),
+            (childParentData.y + offset.dy),
+          );
+        }
         child = childParentData.nextSibling;
       }
     }
@@ -121,7 +133,7 @@ class RenderRubricElementStack extends RenderBox
 
   StackEventResult getEventResult(PointerEvent event, HitTestEntry entry) {
     final localPosition = globalToLocal(event.position);
-    _stackHitOffset = localPosition;
+    _stackHitOffset = localPosition - offset;
     if (event is PointerDownEvent) {
       final BoxHitTestResult result = BoxHitTestResult();
       final hit = hitTest(result, position: localPosition);

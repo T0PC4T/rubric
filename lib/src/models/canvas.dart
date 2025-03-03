@@ -109,12 +109,14 @@ class CanvasModel {
   }
 
   double editorPageHeight() {
-    return elements.fold<double>(GridSizes.pageSize, (previousValue, element) {
+    final value =
+        elements.fold<double>(GridSizes.pageSize, (previousValue, element) {
       final newHeight = element.y + element.height + GridSizes.pageSize * 0.5;
       if (newHeight > previousValue) {
         return newHeight;
       }
       return previousValue;
     });
+    return value - value % GridSizes.medium.pixelsPerLine;
   }
 }

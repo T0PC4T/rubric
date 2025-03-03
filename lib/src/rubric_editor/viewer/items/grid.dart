@@ -2,35 +2,43 @@ import 'package:flutter/material.dart';
 
 class GridPainter extends CustomPainter {
   final double pixelsPerLine;
-  final Color backgroundColor;
+  final Color canvasColor;
   final Color gridColor;
+  final Offset offset;
 
   GridPainter({
-    required this.backgroundColor,
-    required this.pixelsPerLine,
+    required this.canvasColor,
     required this.gridColor,
+    required this.offset,
+    this.pixelsPerLine = 0,
   });
 
   @override
   void paint(Canvas canvas, Size size) {
-    canvas.drawRect(
-      Rect.fromLTWH(0, 0, size.width, size.height),
-      Paint()..color = backgroundColor,
-    );
-
     if (pixelsPerLine == 0) {
       return;
     }
-    final paint =
-        Paint()
-          ..color = gridColor
-          ..strokeWidth = 2;
 
-    for (double i = 0; i <= size.width; i += pixelsPerLine) {
-      canvas.drawLine(Offset(i, 0), Offset(i, size.height), paint);
+    canvas.drawRect(
+      Rect.fromLTWH(0, 0, size.width, size.height),
+      Paint()..color = canvasColor,
+    );
+
+    final paint = Paint()
+      ..color = gridColor.withAlpha(50)
+      ..strokeWidth = 2;
+
+    for (double i = offset.dx;
+        i <= size.width - offset.dx;
+        i += pixelsPerLine) {
+      canvas.drawLine(
+          Offset(i, offset.dy), Offset(i, size.height - offset.dy), paint);
     }
-    for (double i = 0; i <= size.height; i += pixelsPerLine) {
-      canvas.drawLine(Offset(0, i), Offset(size.width, i), paint);
+    for (double i = offset.dy;
+        i <= size.height - offset.dy;
+        i += pixelsPerLine) {
+      canvas.drawLine(
+          Offset(offset.dx, i), Offset(size.width - offset.dx, i), paint);
     }
   }
 

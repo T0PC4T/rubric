@@ -9,13 +9,13 @@ These models are dedicated to the editor state. This state does not affect the a
  */
 enum GridSizes {
   none("None", 0),
-  small("Small", 25),
-  medium("Medium", 50),
-  large("Large", 100);
+  small("Small", 40),
+  medium("Medium", 80),
+  large("Large", 160);
 
   static const double pageSize = 800;
-
-  double get pixelsPerLock => 10;
+  static const double padding = 40;
+  double get pixelsPerLock => 20;
   final double pixelsPerLine;
   final String pretty;
 
