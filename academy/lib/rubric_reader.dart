@@ -19,19 +19,19 @@ class RubricLessonReaderWidget extends StatefulWidget {
 }
 
 class RubricLessonReaderWidgetState extends State<RubricLessonReaderWidget> {
-  Future<DocumentSnapshot<Map<String, dynamic>>>? future;
+  late Stream<DocumentSnapshot<Map<String, dynamic>>> future;
 
   @override
   void initState() {
     final firestore = FirebaseFirestore.instance;
-    future = firestore.collection("modules").doc(widget.moduleID).get();
+    future = firestore.collection("modules").doc(widget.moduleID).snapshots();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: future,
+    return StreamBuilder(
+      stream: future,
       builder: (context, snapshot) {
         if (snapshot case AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>>(
           data: DocumentSnapshot<Map<String, dynamic>> data,

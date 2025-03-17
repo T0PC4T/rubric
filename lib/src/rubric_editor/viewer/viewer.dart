@@ -7,6 +7,7 @@ import 'package:rubric/src/elements/elements.dart';
 import 'package:rubric/src/models/editor_models.dart';
 import 'package:rubric/src/models/elements.dart';
 import 'package:rubric/src/rubric_editor/models/stack.dart';
+import 'package:rubric/src/rubric_editor/sidebar/sidebar.dart';
 import 'package:rubric/src/rubric_editor/viewer/items/element.dart';
 import 'package:rubric/src/rubric_editor/viewer/items/focused.dart';
 import 'package:rubric/src/rubric_editor/viewer/items/grid.dart';
@@ -279,8 +280,8 @@ class RubricEditorViewerState extends State<RubricEditorViewer> {
     // todo calculate the actual size
     final double pageHeight = editorState.canvas.value.editorPageHeight();
     return LayoutBuilder(builder: (context, constraints) {
-      stackOffset = Offset(
-          (constraints.maxWidth - GridSizes.pageSize) * 0.5, GridSizes.padding);
+      stackOffset = Offset((constraints.maxWidth - GridSizes.pageSize) * 0.5,
+          sidebarButtonHeight);
       return ValueListenableBuilder(
           valueListenable: editorState.canvas,
           builder: (context, canvas, _) {

@@ -18,16 +18,11 @@ class NavbarWidget extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          RubricButton.dark(
-            style,
-            width: NavbarWidget.navbarHeight,
-            height: NavbarWidget.navbarHeight,
-            onTap: () {
-              editorState.widget.onSave();
-            },
-            padding: EdgeInsets.all(5),
-            child: Image.network(style.logoUrl),
-          ),
+          Container(
+              padding: style.halfPadding,
+              width: navbarHeight,
+              height: navbarHeight,
+              child: Image.network(style.logoUrl)),
           Container(
             padding: style.padding,
             width: NavbarWidget.navbarHeight * 4,

@@ -56,6 +56,7 @@ class _RubricLessonEditorWidgetState extends State<RubricLessonEditorWidget> {
                   "lesson_data": canvas.toJson(),
                 });
               }
+              widget.onSaved();
             },
 
             bytesToURL: (Uint8List bytes, {String? name, String? type}) async {
@@ -71,7 +72,8 @@ class _RubricLessonEditorWidgetState extends State<RubricLessonEditorWidget> {
               return url;
             },
             style: RubricEditorStyle(
-              logoUrl: "https://t0pc4t.github.io/public/bleep_logo.webp",
+              logoUrl:
+                  "https://firebasestorage.googleapis.com/v0/b/academy-5q7q96.firebasestorage.app/o/static%2Fbleep_logo.webp?alt=media",
             ),
           );
         }

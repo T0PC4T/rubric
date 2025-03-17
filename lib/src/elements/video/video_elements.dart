@@ -1,8 +1,8 @@
+import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:rubric/src/components/shared.dart';
 import 'package:rubric/src/elements/base/states.dart';
 import 'package:rubric/src/elements/video/video_model.dart';
-import 'package:rubric/src/elements/video/video_rubric.dart';
 import 'package:rubric/src/elements/video/video_toolbar.dart';
 import 'package:rubric/src/models/elements.dart';
 import 'package:video_player/video_player.dart';
@@ -56,17 +56,6 @@ class VideoEditorElementState extends SelectableState<VideoEditorElement> {
   }
 }
 
-class VideoLayerElement extends StatelessWidget {
-  final ElementModel element;
-  const VideoLayerElement({super.key, required this.element});
-
-  @override
-  Widget build(BuildContext context) {
-    final imageProperties = element.getProperties<VideoElementModel>();
-    return Icon(Icons.video_file);
-  }
-}
-
 class VideoReaderElement extends StatefulWidget {
   final ElementModel element;
   const VideoReaderElement({super.key, required this.element});
@@ -76,13 +65,35 @@ class VideoReaderElement extends StatefulWidget {
 }
 
 class VideoReaderElementState extends State<VideoReaderElement> {
-  VideoPlayerController? controller;
+  late VideoPlayerController _videoPlayerController1;
+  ChewieController? _chewieController;
+  int? bufferDelay;
   YoutubePlayerController? utubeController;
 
   @override
   void initState() {
     setOrUpdateControllers();
     super.initState();
+  }
+
+  Future<void> initializeChewiePlayer(videoUrl) async {
+    _videoPlayerController1 =
+        VideoPlayerController.networkUrl(Uri.parse(videoUrl));
+    await _videoPlayerController1.initialize();
+    _createChewieController();
+
+    setState(() {});
+  }
+
+  void _createChewieController() {
+    _chewieController = ChewieController(
+      videoPlayerController: _videoPlayerController1,
+      autoPlay: true,
+      looping: true,
+      progressIndicatorDelay:
+          bufferDelay != null ? Duration(milliseconds: bufferDelay!) : null,
+      hideControlsTimer: const Duration(seconds: 1),
+    );
   }
 
   setOrUpdateControllers() {
@@ -99,14 +110,7 @@ class VideoReaderElementState extends State<VideoReaderElement> {
       );
       utubeController!.cueVideoById(videoId: youtubeID);
     } else {
-      controller ??= VideoPlayerController.networkUrl(
-        Uri.parse(properties.videoUrl),
-        videoPlayerOptions: VideoPlayerOptions(allowBackgroundPlayback: true),
-      )..initialize().then(
-          (_) {
-            setState(() {});
-          },
-        );
+      initializeChewiePlayer(properties.videoUrl);
     }
   }
 
@@ -118,19 +122,21 @@ class VideoReaderElementState extends State<VideoReaderElement> {
 
   @override
   void dispose() {
-    controller?.dispose();
+    _videoPlayerController1.dispose();
+    _chewieController?.dispose();
     utubeController?.close();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    // todo add youtube support to player
     final properties = widget.element.getProperties<VideoElementModel>();
-
-    if (controller case VideoPlayerController controller
-        when controller.value.isInitialized && properties.isYoutube == false) {
-      return RubricVideoPlayer(controller: controller);
+    if (_chewieController case ChewieController controller
+        when controller.videoPlayerController.value.isInitialized &&
+            properties.isYoutube == false) {
+      return Chewie(
+        controller: controller,
+      );
     }
     if (utubeController case YoutubePlayerController utubeController
         when properties.isYoutube == true) {

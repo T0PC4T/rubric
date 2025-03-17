@@ -184,17 +184,6 @@ class _GeneralSettingsPageWidgetState extends State<GeneralSettingsPageWidget> {
                   );
                 },
               ),
-              ColorPickerSettingsWidget(
-                title: "Background Color",
-                color: editorState!.canvas.value.settings.backgroundColor,
-                onUpdate: (color) {
-                  editorState!.canvas.updateSettings(
-                    editorState!.canvas.value.settings.copyWith(
-                      backgroundColor: color,
-                    ),
-                  );
-                },
-              ),
             ],
           );
         },

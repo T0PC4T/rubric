@@ -38,7 +38,7 @@ enum ElementTypes {
     "Video",
     Icons.ondemand_video_outlined,
     editorBuilder: VideoEditorElement.new,
-    layerBuilder: VideoLayerElement.new,
+    layerBuilder: VideoEditorElement.new,
     readerBuilder: VideoReaderElement.new,
     focusable: false,
   ),

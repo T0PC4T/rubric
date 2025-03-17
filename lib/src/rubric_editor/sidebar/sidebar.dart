@@ -21,6 +21,8 @@ class RubricSideBar extends StatefulWidget {
   State<RubricSideBar> createState() => RubricSideBarState();
 }
 
+const sidebarButtonHeight = 70.0;
+
 class RubricSideBarState extends State<RubricSideBar> {
   static const menusIcons = [
     Icons.widgets_rounded,
@@ -49,7 +51,7 @@ class RubricSideBarState extends State<RubricSideBar> {
                     hoverColor: style.light9,
                     backgroundColor:
                         i == pageIndex ? style.light95 : style.light,
-                    height: 70,
+                    height: sidebarButtonHeight,
                     onTap: () {
                       setState(() {
                         pageIndex = i;
