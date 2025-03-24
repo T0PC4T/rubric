@@ -1,3 +1,6 @@
+import 'dart:js_interop';
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rubric/rubric.dart';
@@ -13,6 +16,7 @@ import 'package:rubric/src/rubric_editor/sidebar/sidebar.dart';
 import 'package:rubric/src/rubric_editor/toolbar/element_toolbar.dart';
 import 'package:rubric/src/rubric_editor/viewer/viewer.dart';
 import 'package:rubric/src/rubric_reader/size_block.dart';
+import 'package:web/web.dart' as web;
 
 class RubricEditor extends StatefulWidget {
   final RubricEditorStyle style;
@@ -43,6 +47,12 @@ class RubricEditorState extends State<RubricEditor> {
 
   @override
   void initState() {
+    web.document.oncontextmenu = (JSAny e) {
+      if (e.isA<web.PointerEvent>()) {
+        (e as web.PointerEvent).preventDefault();
+        web.console.log("HELLO".toJS);
+      }
+    }.toJS;
     super.initState();
     canvas = CanvasNotifier(widget.canvas?.copyWith() ?? CanvasModel());
     canvas.addListener(_canvasListener);
@@ -100,7 +110,11 @@ class RubricEditorState extends State<RubricEditor> {
 
   pushOverlay(Widget child, {int? removeToLength}) {
     setState(() {
-      overlays = [...overlays.sublist(0, removeToLength), child];
+      overlays = [
+        ...overlays.sublist(
+            0, math.min(overlays.length, removeToLength ?? overlays.length)),
+        child
+      ];
     });
   }
 

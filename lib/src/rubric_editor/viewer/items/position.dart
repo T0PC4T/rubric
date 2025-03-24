@@ -75,3 +75,41 @@ class RubricPositioned extends ParentDataWidget<RuPositionParentData> {
     properties.add(DoubleProperty('height', height, defaultValue: null));
   }
 }
+
+class DeleteMenu extends StatelessWidget {
+  const DeleteMenu({
+    super.key,
+    required this.editorState,
+    required this.element,
+  });
+
+  final RubricEditorState editorState;
+  final ElementModel element;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+        width: 150,
+        height: 60,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(
+              color: editorState.style.light4,
+              width: 1,
+            ),
+          ),
+          child: RubricButton.light(
+            editorState.style,
+            child: Icon(
+              Icons.delete,
+            ),
+            onTap: () {
+              editorState.edits.selectElement(null);
+              editorState.canvas.deleteElement(element);
+            },
+          ),
+        ));
+  }
+}
