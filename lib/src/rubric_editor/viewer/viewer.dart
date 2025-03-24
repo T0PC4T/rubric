@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:rubric/rubric.dart';
-import 'package:rubric/src/components/shared.dart';
 import 'package:rubric/src/elements/elements.dart';
 import 'package:rubric/src/models/editor_models.dart';
 import 'package:rubric/src/models/elements.dart';
@@ -13,6 +12,7 @@ import 'package:rubric/src/rubric_editor/viewer/items/element.dart';
 import 'package:rubric/src/rubric_editor/viewer/items/focused.dart';
 import 'package:rubric/src/rubric_editor/viewer/items/grid.dart';
 import 'package:rubric/src/rubric_editor/viewer/items/handler.dart';
+import 'package:rubric/src/rubric_editor/viewer/items/menus.dart';
 import 'package:rubric/src/rubric_editor/viewer/items/position.dart';
 import 'package:rubric/src/rubric_editor/viewer/stack/element_stack.dart';
 import 'package:rubric/src/utilities/uuid.dart';
@@ -220,20 +220,15 @@ class RubricEditorViewerState extends State<RubricEditorViewer> {
 
   _handlePointerUp(PointerUpEvent event, StackEventResult result) async {
     if (_wasRightClick) {
-      await Future.delayed(Duration(milliseconds: 300));
+      await Future.delayed(Duration(milliseconds: 200));
       if (result.element case ElementModel element) {
         editorState.pushOverlay(
           Positioned(
-              top: event.position.dy + 15,
-              left: event.position.dx + 15,
-              child: GestureDetector(
-                onTap: () {
-                  result.element;
-                },
-                child: DeleteMenu(editorState: editorState, element: element),
-              )),
+              top: event.position.dy + 5,
+              left: event.position.dx + 5,
+              child: DeleteMenu(editorState: editorState, element: element)),
           removeToLength: 1,
-        )
+        );
       }
       return;
     }

@@ -68,15 +68,20 @@ class CanvasNotifier extends ValueNotifier<CanvasModel> {
     commit();
   }
 
+  moveItem(int oldIndex, int newIndex) {
+    final ElementModel item = value.elements.removeAt(oldIndex);
+    value.elements.insert(newIndex, item);
+    commit();
+  }
+
   changeProperties(ElementModel element, Map<String, dynamic> newPropeties) {
     element.properties = newPropeties;
   }
 
   deleteElement(ElementModel deleteElement) {
-    value.elements =
-        value.elements
-            .where((element) => deleteElement.id != element.id)
-            .toList();
+    value.elements = value.elements
+        .where((element) => deleteElement.id != element.id)
+        .toList();
     notifyListeners();
   }
 }

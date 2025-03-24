@@ -23,24 +23,27 @@ class BoxTooltipWidget extends StatelessWidget {
         return Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            RubricColorButton(
-              color: properties.color,
-              onTap: () async {
-                final newColor = await PopupWidget.showPopup<Color>(context, (
-                  closeWith,
-                ) {
-                  return RubricColorPicker(
-                    onComplete: closeWith,
-                    color: properties.color,
-                  );
-                });
-                if (newColor != null) {
-                  editorState.canvas.updateElement(
-                    element,
-                    properties.copyWith(color: newColor).toJson(),
-                  );
-                }
-              },
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: RubricColorButton(
+                color: properties.color,
+                onTap: () async {
+                  final newColor = await PopupWidget.showPopup<Color>(context, (
+                    closeWith,
+                  ) {
+                    return RubricColorPicker(
+                      onComplete: closeWith,
+                      color: properties.color,
+                    );
+                  });
+                  if (newColor != null) {
+                    editorState.canvas.updateElement(
+                      element,
+                      properties.copyWith(color: newColor).toJson(),
+                    );
+                  }
+                },
+              ),
             ),
             RubricVerticleDivider(),
             RubricBorderRadiusDropdown(

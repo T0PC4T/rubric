@@ -632,9 +632,11 @@ packages:
   rubric:
     dependency: "direct main"
     description:
-      path: ".."
-      relative: true
-    source: path
+      path: "."
+      ref: HEAD
+      resolved-ref: "36b1c24ed2dc5ae3b64f1bccbd9e4b333f60c5ec"
+      url: "https://github.com/T0PC4T/rubric.git"
+    source: git
     version: "0.0.1"
   sky_engine:
     dependency: transitive
