@@ -1,6 +1,6 @@
 name: rubric
 description: "A drag and drop editor built in flutter for creatings simple interactive lessons."
-version: 0.0.1
+version: 0.0.2
 homepage:
 
 environment:
