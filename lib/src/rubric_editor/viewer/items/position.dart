@@ -3,6 +3,7 @@ import 'package:flutter/rendering.dart';
 import 'package:rubric/src/models/elements.dart';
 import 'package:rubric/src/rubric_editor/viewer/stack/parent_data.dart';
 
+// Based on the position widget, but is able to be created from an element
 class RubricPositioned extends ParentDataWidget<RuPositionParentData> {
   const RubricPositioned({
     super.key,
