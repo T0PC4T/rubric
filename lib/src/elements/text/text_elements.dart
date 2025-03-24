@@ -30,6 +30,7 @@ class TextEditorElementState
       selection: TextSelection(baseOffset: 0, extentOffset: 0),
       readOnly: false,
       editorFocusNode: focusNode,
+      keepStyleOnNewLine: true,
       configurations: QuillControllerConfigurations(),
     );
     super.initState();
@@ -93,7 +94,19 @@ class TextEditorElementState
       scrollController: _scrollController,
       controller: controller,
       focusNode: focusNode,
-      configurations: QuillEditorConfigurations(),
+      configurations: QuillEditorConfigurations(
+        placeholder: "Add your text in here...",
+        customStyles: DefaultStyles(
+            paragraph: DefaultTextBlockStyle(
+                TextStyle(
+                  color: Colors.black,
+                  fontSize: RubricEditorStyle.minimumFontSize.toDouble(),
+                ),
+                HorizontalSpacing(0, 16),
+                VerticalSpacing(0, 16),
+                VerticalSpacing(16, 0),
+                null)),
+      ),
     );
   }
 }
